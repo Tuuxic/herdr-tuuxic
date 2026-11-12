@@ -40,8 +40,25 @@ Buttons that open another tuuxic mod open Herdr's own screen when that mod is mi
 | tuuxic-tabs | The tab strip |
 | tuuxic-themes | A full-screen theme switcher |
 
+## Before you install
+
+- **tuuxic-ai-usage** reads your local Claude, ChatGPT and Copilot login tokens to show their
+  usage limits, and calls those providers' usage endpoints with them. Leave the mod out if
+  you don't want that.
+- tuuxic-mod-manager and the git graph's update check call api.github.com; the browser pane
+  and notes talk to herdr-browser on 127.0.0.1.
+- The terminal font is CaskaydiaMono Nerd Font; install it or change `font` in the layout.
+
 ## Credits
 
 Tuuxic started as a fork of [herdr-omarchy](https://github.com/shafiqimtiaz/herdr-omarchy) by
 shafiqimtiaz, after [Omarchy](https://omarchy.org). The themes come from Omarchy, under the
-MIT license in `LICENSE-omarchy`.
+MIT license in `LICENSE-omarchy`. The git graph in tuuxic-changes is
+[herdr-git-graph](https://github.com/rabeeh-ta/herdr-git-graph) by Rabeeh T A (MIT, see
+`mods/tuuxic-changes/graph/LICENSE`). How it's built is described in `RECIPE.md`.
+
+## License
+
+Tuuxic's own changes and additions are MIT (`LICENSE`). The themes are MIT from Omarchy
+(`LICENSE-omarchy`), the git graph MIT from its author. herdr-omarchy, which tuuxic started
+from, states no license for its own code beyond Omarchy's; those parts remain its author's.
