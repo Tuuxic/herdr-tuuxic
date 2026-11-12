@@ -93,11 +93,15 @@ export default class WorkspaceChrome extends View {
         .when(canOpen("tuuxic-mod-manager"), el => el.child(row("mods", "layers", "Mods", false, () => openMod("tuuxic-mod-manager"))));
     }
     // The sidebar's brand row (Herdr's workspace-chrome header), with search opening tuuxic-picker.
-    return h_flex().size_full().bg(t.chrome).pl(collapsed ? 6 : 14).pr(10).gap(4).items_center().text_size(13.5)
-      .when(window()?.platform === "macos" && !window()?.fullscreen && !collapsed, el => el.pl(76))
+    // On the rail it's just the Herdr logo, centered, and a click on it unfolds the sidebar.
+    const mac = window()?.platform === "macos";
+    return h_flex().size_full().bg(t.chrome).pl(collapsed ? 0 : 14).pr(collapsed ? 0 : 10).gap(4).items_center().text_size(13.5)
+      .when(collapsed, el => el.justify_center())
+      .when(mac && !window()?.fullscreen && !collapsed, el => el.pl(76))
       .when(!collapsed, el => el.child(h_flex().flex_1().gap(8).items_center().child(image("frame/welcome/herdr.png").size(20).rounded(5)).child(div().font_semibold().text_color(t.foreground).child("Herdr"))))
       .when(!collapsed, el => el.child(this.button("search", svg("mods/tuuxic-icons/search.svg").size(15), () => openMod("tuuxic-picker"))))
+      .when(!collapsed, el => el.child(this.button("sidebar-toggle", svg("mods/tuuxic-icons/sidebar.svg").size(15), toggleSidebar)))
       // On the macOS rail the traffic lights fill the row; the agents list's » unfolds it.
-      .when(!(collapsed && window()?.platform === "macos"), el => el.child(this.button("sidebar-toggle", svg("mods/tuuxic-icons/sidebar.svg").size(15), toggleSidebar)));
+      .when(collapsed && !mac, el => el.child(this.button("sidebar-expand", image("frame/welcome/herdr.png").size(20).rounded(5), toggleSidebar).tooltip("Expand sidebar")));
   }
 }
