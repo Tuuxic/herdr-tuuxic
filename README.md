@@ -1,9 +1,13 @@
 # Tuuxic
 
-A layout and a set of mods for [Herdr](https://herdr.dev): a sidebar with spaces and agents,
-a tab strip, framed panes, Files and Changes side panels, a command palette and picker, and
-themes. Keyboard driving comes from [whistle](https://github.com/Tuuxic/herdr-whistle), a
-separate mod.
+A complete [Herdr](https://herdr.dev) workspace: spaces and agents at a glance, file and git
+panels beside your terminals, and 26 themes.
+
+The sidebar lists your spaces, each with its open tabs and how many of its agents are
+working, waiting on you, done or idle, and every agent with its title, tab and space. Next to
+the framed terminals, a side panel switches between a file browser and git changes with a
+graph. A command palette, a picker and a theme switcher round it off. Keyboard driving comes
+from [whistle](https://github.com/Tuuxic/herdr-whistle), a separate mod.
 
 ## Install
 
