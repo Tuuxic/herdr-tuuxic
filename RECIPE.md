@@ -38,7 +38,8 @@ Top to bottom, left to right (sizes in logical px):
 - **Side panel** (475, hidden until opened): a stack of Files (a tree of the focused pane's
   folder with read-only previews), Changes (changed files, diff, commit message, branch; a
   git graph view) and Browser notes.
-- **Status bar** (22): whistle's mode badge (TYPE or WHISTLE) and what has the keyboard.
+- **Status bar** (22): whistle. Shipped off, it shows only what has the keyboard
+  (`Terminal · <pane title>`); once turned on, a mode badge (TYPE or WHISTLE) on its left.
 
 Fonts: CaskaydiaMono Nerd Font in terminals, JetBrains Mono for the interface. Theme:
 tokyo-night by default; 26 themes ship in `themes/`.
@@ -60,7 +61,8 @@ tokyo-night by default; 26 themes ship in `themes/`.
   themes, `alt-1..9` tabs, `alt-left/right` and `ctrl-h/l` previous/next tab,
   `alt-up/down` spaces, `ctrl-arrows` panes, `alt-enter` / `alt-shift-enter` split,
   `super-w` close pane, `super-f` zoom, `super-shift-space` top bar, `ctrl-space` whistle.
-- **Keyboard mode** (needs the whistle mod): `ctrl-space` enters WHISTLE; `ctrl-h/j/k/l` move
+- **Keyboard mode** (whistle, off until Settings → Keyboard → Whistle → Open turns it on;
+  that writes `"enabled": true` to `~/.config/herdr-app/whistle.json`): `ctrl-space` enters WHISTLE; `ctrl-h/j/k/l` move
   between Spaces, Agents, the footer menu, Tabs, the terminal and the side panel (the field
   glows, its cursor item is outlined); `j/k` and Enter act inside; `i` back to typing. The
   layout's whistle block adds `s`/`a` (spaces, agents), `e`/`E` (files panel), `g`/`G`
@@ -76,8 +78,10 @@ tokyo-night by default; 26 themes ship in `themes/`.
   tab's panes, header tuuxic-pane) and hidden `panel` column → `panel-body` stack of `files`
   tuuxic-files, `changes` stack (`changes-view` tuuxic-changes `{graph}`, `git-graph`
   tuuxic-changes `{view: "graph"}`), `browser-notes` tuuxic-notes) → `statusbar` whistle
-  `{mappings}`.
-- **Mods**: the 17 `mods/tuuxic-*`; tuuxic-icons holds the shared SVGs (assets only).
+  `{enabled: false, mappings}`.
+- **Mods**: the 17 `mods/tuuxic-*` and `mods/whistle` (a copy of Tuuxic/herdr-whistle);
+  tuuxic-icons holds the shared SVGs (assets only). tuuxic-settings shows its Whistle row
+  only when `mods/whistle/main.js` exists.
   Dialogs: tuuxic-palette, tuuxic-picker, tuuxic-settings, tuuxic-keys, tuuxic-mod-manager,
   tuuxic-themes. Herdr's own mods used: new-menu, menu, prompt, picker (fallback).
 - **Herdr API**: spaces(), agents(), panes(), terminals(), focused(), layout(), shared /
@@ -99,8 +103,10 @@ tokyo-night by default; 26 themes ship in `themes/`.
 
 ## Watch out
 
-- Whistle is a separate mod (Tuuxic/herdr-whistle); without it the status bar block stays
-  empty and the keyboard mode is gone. The rest works.
+- Whistle ships switched off through the layout's `enabled: false` prop; the person's
+  `whistle.json` wins over it. Without the `mods/whistle` folder the status bar shows
+  "whistle did not load" and `herdr-app status` an error; the rest works. Update the copy
+  from Tuuxic/herdr-whistle, not by hand.
 - tuuxic-ai-usage reads credential files: tell the person before adding it.
 - Windows has no `find`/`ls` on PATH: tuuxic-mod-manager and tuuxic-changes use Git for
   Windows' tools (found through `git --exec-path`), and Changes runs them through `sh -c`.
@@ -121,6 +127,8 @@ tokyo-night by default; 26 themes ship in `themes/`.
 - An agent without a title shows ✦ New ✦; its second line reads `1 · <space>`.
 - `ctrl-shift-p` opens the palette, `ctrl-shift-k` the picker, `super-shift-space` shows the
   top bar with the logo on its left.
-- With whistle: `ctrl-space`, then `ctrl-h` makes the Spaces list glow, `j` moves its cursor,
+- The status bar shows `Terminal` with no badge; Settings → Keyboard has a Whistle row whose
+  Open shows whistle's settings, and turning Whistle mode on there brings the TYPE badge.
+- With whistle on: `ctrl-space`, then `ctrl-h` makes the Spaces list glow, `j` moves its cursor,
   `e` opens the files panel with its first row outlined.
 - With tuuxic-palette removed, the logo button opens Herdr's own palette instead.

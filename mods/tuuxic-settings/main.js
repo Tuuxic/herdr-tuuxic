@@ -11,7 +11,8 @@ const I = (name) => `mods/tuuxic-settings/${name}.svg`;
 
 const SECTIONS = [
   { id: "look", title: "Look", icon: "palette" },
-  ...(window()?.platform === "macos" ? [{ id: "keyboard", title: "Keyboard", icon: "keyboard" }] : []),
+  // Keyboard: the Option key on macOS, and whistle when it's installed.
+  { id: "keyboard", title: "Keyboard", icon: "keyboard" },
   { id: "machines", title: "Machines", icon: "server" },
   { id: "alerts", title: "Alerts", icon: "bell" },
   { id: "updates", title: "Updates", icon: "refresh" },
@@ -49,6 +50,8 @@ export default class Settings extends View {
     this.handle = cx.focus_handle();
     this.handle.focus();
     cx.spawn(async (cx) => {
+      // Whistle is a separate mod: its row shows only when it's installed.
+      this.hasWhistle = (await readTextFile(`${appHome()}/mods/whistle/main.js`)) != null;
       await this.load();
       if (this.section === "machines") await this.loadMachines();
       cx.notify();
@@ -121,7 +124,23 @@ export default class Settings extends View {
     closeOverlay(props().overlay);
   }
 
+  // The sections this machine has: Keyboard only on macOS or with whistle installed.
+  sections() {
+    return SECTIONS.filter((s) => s.id !== "keyboard" || window()?.platform === "macos" || this.hasWhistle);
+  }
+
   keyboard(t) {
+    return v_flex()
+      .w_full()
+      .when(window()?.platform === "macos", (el) => el.child(this.optionKey(t)))
+      .when(Boolean(this.hasWhistle), (el) => el.child(div().when(window()?.platform === "macos", (d) => d.pt(18))
+        .child(heading(t, "Whistle"))
+        .child(row(t, "Keyboard mode",
+          "A vim-like mode: switch out of typing to move between spaces, agents, tabs and panels and run commands with short key sequences. Turn it on and see its keys in whistle's settings.",
+          button(t, "st-whistle", "Open", () => { closeOverlay(props()?.overlay); run("whistle.settings"); })))));
+  }
+
+  optionKey(t) {
     const choices = [
       ["auto", "Automatic (Alt on US keyboards)"],
       ["on", "Alt"],
@@ -439,7 +458,7 @@ export default class Settings extends View {
       .border_color(t.border)
       .child(div().px(10).pt(6).pb(12).text_size(16).font_semibold().text_color(t.foreground).child("Settings"))
       .children(
-        SECTIONS.map((s) => {
+        this.sections().map((s) => {
           const on = s.id === this.section;
           return h_flex()
             .id(`st-s-${s.id}`)

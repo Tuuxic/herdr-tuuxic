@@ -6,22 +6,23 @@ panels beside your terminals, and 26 themes.
 The sidebar lists your spaces, each with its open tabs and how many of its agents are
 working, waiting on you, done or idle, and every agent with its title, tab and space. Next to
 the framed terminals, a side panel switches between a file browser and git changes with a
-graph. A command palette, a picker and a theme switcher round it off. Keyboard driving comes
-from [whistle](https://github.com/Tuuxic/herdr-whistle), a separate mod.
+graph. A command palette, a picker and a theme switcher round it off.
+
+It comes with [whistle](https://github.com/Tuuxic/herdr-whistle), a vim-inspired keyboard
+mode, switched off: the status bar then only shows what has the keyboard. To try it, open
+Settings → Keyboard → Whistle and turn it on.
 
 ## Install
 
-1. Install [herdr-whistle](https://github.com/Tuuxic/herdr-whistle) into
-   `~/.config/herdr-app/mods/whistle/`. The layout's status bar is whistle; without it that
-   bar stays empty.
-2. Copy `layouts/`, `mods/` and `themes/` into `~/.config/herdr-app/`.
-3. Merge `keys.json` (its `layout:tuuxic` section) into `~/.config/herdr-app/keys.json`.
-4. Switch to the layout: `herdr-app do layout.switch tuuxic`, or pick Tuuxic in Herdr.
+1. Copy `layouts/`, `mods/` and `themes/` into `~/.config/herdr-app/`.
+2. Merge `keys.json` into `~/.config/herdr-app/keys.json` (the `layout:tuuxic` section, and
+   whistle's `global`, `terminal` and `mod:whistle` keys).
+3. Switch to the layout: `herdr-app do layout.switch tuuxic`, or pick Tuuxic in Herdr.
 
 ## Mods
 
-Every mod works on its own. Keyboard selection (a glowing field, a cursor) turns on when a
-keynav driver such as whistle is installed; each mod carries a copy of `keynav.js` for that.
+Every mod works on its own. Keyboard selection (a glowing field, a cursor) turns on while a
+keynav driver such as whistle is on; each mod carries a copy of `keynav.js` for that.
 Buttons that open another tuuxic mod open Herdr's own screen when that mod is missing.
 
 | Mod | What it is |
@@ -39,10 +40,11 @@ Buttons that open another tuuxic mod open Herdr's own screen when that mod is mi
 | tuuxic-pane | The header on each framed pane |
 | tuuxic-palette | The command palette |
 | tuuxic-picker | Go to a tab or space |
-| tuuxic-settings | Look, machines, alerts and updates |
+| tuuxic-settings | Look, keyboard (whistle), machines, alerts and updates |
 | tuuxic-spaces | Spaces with colored avatars, agent states and worktrees |
 | tuuxic-tabs | The tab strip |
 | tuuxic-themes | A full-screen theme switcher |
+| whistle | The status bar and the keyboard mode; a copy of [herdr-whistle](https://github.com/Tuuxic/herdr-whistle), off until you turn it on |
 
 ## Before you install
 
@@ -55,7 +57,7 @@ Buttons that open another tuuxic mod open Herdr's own screen when that mod is mi
 
 ## License
 
-MIT (`LICENSE`). The themes in `themes/` and the git graph in tuuxic-changes
+MIT (`LICENSE`). Whistle, the themes in `themes/` and the git graph in tuuxic-changes
 ([herdr-git-graph](https://github.com/rabeeh-ta/herdr-git-graph)) come with their own MIT
-notices: `themes/LICENSE` and `mods/tuuxic-changes/graph/LICENSE`. How it's built is
+notices: `mods/whistle/LICENSE`, `themes/LICENSE` and `mods/tuuxic-changes/graph/LICENSE`. How it's built is
 described in `RECIPE.md`.
