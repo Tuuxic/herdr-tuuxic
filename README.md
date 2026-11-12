@@ -45,8 +45,8 @@ Buttons that open another tuuxic mod open Herdr's own screen when that mod is mi
 - **tuuxic-ai-usage** reads your local Claude, ChatGPT and Copilot login tokens to show their
   usage limits, and calls those providers' usage endpoints with them. Leave the mod out if
   you don't want that.
-- tuuxic-mod-manager and the git graph's update check call api.github.com; the browser pane
-  and notes talk to herdr-browser on 127.0.0.1.
+- tuuxic-mod-manager calls api.github.com; the browser pane and notes talk to herdr-browser
+  on 127.0.0.1.
 - The terminal font is CaskaydiaMono Nerd Font; install it or change `font` in the layout.
 
 ## License

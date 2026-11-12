@@ -90,9 +90,10 @@ tokyo-night by default; 26 themes ship in `themes/`.
 - **Programs and network**: git (spaces, files, changes), sh or PowerShell (files listing),
   python3 (tabs' reopen), hc (spaces, settings, picker), herdr-app (bar's zoom), gh
   (mod-manager). tuuxic-ai-usage reads your local Claude, ChatGPT and Copilot login tokens
-  and calls those providers' usage endpoints; tuuxic-mod-manager and the git graph's update
-  check call api.github.com; the panes' browser and notes talk to herdr-browser on
-  127.0.0.1.
+  and calls those providers' usage endpoints; tuuxic-mod-manager calls api.github.com; the
+  panes' browser and notes talk to herdr-browser on 127.0.0.1. The git graph's own update
+  check is off (`CHECK = false` in `graph/update.js`): it is a modified copy of
+  herdr-git-graph v0.3.0, so upstream releases aren't its updates.
 - **Art**: `mods/tuuxic-icons/*.svg`, `mods/tuuxic-bar/tuuxic.svg` (the logo), the files
   panel's file-type icons, `layouts/tuuxic.svg` (the layout's preview).
 
