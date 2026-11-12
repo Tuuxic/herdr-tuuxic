@@ -17,7 +17,7 @@ box listing what can follow.
   shows the keys typed so far in bold accent (`SPC a`) and the group's name (`App`). An error
   or "x is not mapped" shows in the `blocked` color in place of the label.
 - **Hints box** (only while a sequence is pending, if hints are on): a borderless window
-  overlay 8 px from the left edge, 6 px above the bar. Background `chrome`, 1 px `accent`
+  overlay 8 px in from the bar's left edge, 6 px (`hintsLift`) above it. Background `chrome`, 1 px `accent`
   border, 12 px side padding. A header row: the keys typed (bold accent), the group's name in
   capitals, and `Esc · ⌫` dim on the right. Below, the group's keys in columns of at most 8
   rows, 210 px wide, rows 18 px: the key in bold accent (`space` shows as `SPC`), a dim `→`,
@@ -25,7 +25,8 @@ box listing what can follow.
   key. At least 260 px wide; reopened at the new size when the group changes.
 - **Settings dialog** (640 px wide, 80 % of the window high): "Whistle" and "Esc closes";
   two rows with square toggles (36×20, accent when on): **Whistle mode** and **Show key
-  hints** (hidden while whistle is off); `MAPPINGS · n` and every mapping in effect, one row
+  hints** (hidden while whistle is off); **Bar position** when the layout has more than one
+  bar: a dropdown (190 px, ▾) whose list, under it, ticks the bar shown; `MAPPINGS · n` and every mapping in effect, one row
   each: the keys as small bordered chips joined by `›`, the label, the group name dim on the
   right; a note on where your own mappings go.
 - **Fields**: whistle draws nothing in other blocks. Each mod that takes part draws its own
@@ -65,7 +66,7 @@ box listing what can follow.
   (`place: bottom`, size 22, `focusable: true`).
 - **Mapping layers**, each over the one before; a key set to `null` removes it, groups merge
   key by key: `mappings.json` (Herdr's own commands only) < the whistle block's `mappings`
-  prop (and its `enabled` / `hints` props, so a layout can ship whistle off) < `~/.config/herdr-app/whistle.json` (`{ enabled, hints, map }`, read every 2 s since
+  prop (and its `enabled` / `hints` props, so a layout can ship whistle off) < `~/.config/herdr-app/whistle.json` (`{ enabled, hints, bar, map }`, read every 2 s since
   it's outside the mod's folder). An entry is `[label, command]`, `[label, command, args]` or
   `[label, command, args, "type"]`; `name:value` fills the command's first argument.
 - **Its own commands** (`whistle.<command>`, from keys.json): `whistle` (toggle), `enter`,
@@ -86,6 +87,15 @@ box listing what can follow.
   `"dialog"` for settings), `readTextFile`/`writeTextFile`, `exec("hc", ...)`; commands
   `pane.focus`, `pane.go`, `layout.show/hide/select`.
 - **Programs**: `hc` (only while whistle is off). No network.
+
+- **Several bars**: a layout can hold more than one whistle block, each named by a `bar`
+  prop (`"Full width"`, `"Under the terminals"`), all but one hidden. `bar` in whistle.json
+  (set from the settings dialog) names the one to show; whistle shows it with `layout.show`
+  and hides the rest. A hidden copy stays alive but does nothing. A bar without mappings
+  takes the props of the layout's first bar that has them, so they're written once. The
+  hints box goes 8 px in from the bar's left edge, worked out as the window's width less the
+  bar's (a bar always reaches the right edge), and `hintsLift` px (default 6) above the bar's
+  top: raise it for a bar with a border or padding below it.
 
 ## Watch out
 

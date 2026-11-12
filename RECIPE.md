@@ -38,8 +38,10 @@ Top to bottom, left to right (sizes in logical px):
 - **Side panel** (475, hidden until opened): a stack of Files (a tree of the focused pane's
   folder with read-only previews), Changes (changed files, diff, commit message, branch; a
   git graph view) and Browser notes.
-- **Status bar** (22): whistle. Shipped off, it shows only what has the keyboard
+- **Status bar** (26 with its 2 px border, under the terminals): whistle. Shipped off, it shows only what has the keyboard
   (`Terminal · <pane title>`); once turned on, a mode badge (TYPE or WHISTLE) on its left.
+  It sits under the terminals by default, so the sidebar reaches the window's bottom;
+  whistle's settings (Bar position) can make it a full-width 22 px bar instead.
 
 Fonts: CaskaydiaMono Nerd Font in terminals, JetBrains Mono for the interface. Theme:
 tokyo-night by default; 26 themes ship in `themes/`.
@@ -77,8 +79,9 @@ tokyo-night by default; 26 themes ship in `themes/`.
   `{footer: true}`) and `work` column (`tabs` tuuxic-tabs; `work-body` row with `main` (the
   tab's panes, header tuuxic-pane) and hidden `panel` column → `panel-body` stack of `files`
   tuuxic-files, `changes` stack (`changes-view` tuuxic-changes `{graph}`, `git-graph`
-  tuuxic-changes `{view: "graph"}`), `browser-notes` tuuxic-notes) → `statusbar` whistle
-  `{enabled: false, mappings}`.
+  tuuxic-changes `{view: "graph"}`), `browser-notes` tuuxic-notes; `statusbar-work`
+  whistle `{bar: "Under the terminals", hintsLift: 13}`, bordered) → hidden `statusbar` whistle
+  `{bar: "Full width", enabled: false, mappings}`.
 - **Mods**: the 17 `mods/tuuxic-*` and `mods/whistle` (a copy of Tuuxic/herdr-whistle);
   tuuxic-icons holds the shared SVGs (assets only). tuuxic-settings shows its Whistle row
   only when `mods/whistle/main.js` exists.

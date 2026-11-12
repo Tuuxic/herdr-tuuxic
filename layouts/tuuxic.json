@@ -276,6 +276,26 @@
                   }
                 }
               ]
+            },
+            {
+              "id": "statusbar-work",
+              "type": "block",
+              "size": {
+                "px": 26
+              },
+              "resizable": false,
+              "background": "chrome",
+              "border": {
+                "width": 2,
+                "color": "border"
+              },
+              "content": {
+                "mod": "whistle",
+                "props": {
+                  "bar": "Under the terminals",
+                  "hintsLift": 13
+                }
+              }
             }
           ]
         }
@@ -284,6 +304,7 @@
     {
       "id": "statusbar",
       "type": "block",
+      "hidden": true,
       "size": {
         "px": 22
       },
@@ -292,6 +313,7 @@
       "content": {
         "mod": "whistle",
         "props": {
+          "bar": "Full width",
           "enabled": false,
           "mappings": {
             "/": [
