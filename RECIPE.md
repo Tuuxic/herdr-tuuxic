@@ -61,8 +61,8 @@ tokyo-night by default; 26 themes ship in `themes/`.
   themes, `alt-1..9` tabs, `alt-left/right` and `ctrl-h/l` previous/next tab,
   `alt-up/down` spaces, `ctrl-arrows` panes, `alt-enter` / `alt-shift-enter` split,
   `super-w` close pane, `super-f` zoom, `super-shift-space` top bar, `ctrl-space` whistle.
-- **Keyboard mode** (whistle, off until Settings → Keyboard → Whistle → Open turns it on;
-  that writes `"enabled": true` to `~/.config/herdr-app/whistle.json`): `ctrl-space` enters WHISTLE; `ctrl-h/j/k/l` move
+- **Keyboard mode** (whistle, off until the Keyboard mode switch in Settings → Keyboard turns it
+  on, through `whistle.on`; that writes `"enabled": true` to `~/.config/herdr-app/whistle.json`): `ctrl-space` enters WHISTLE; `ctrl-h/j/k/l` move
   between Spaces, Agents, the footer menu, Tabs, the terminal and the side panel (the field
   glows, its cursor item is outlined); `j/k` and Enter act inside; `i` back to typing. The
   layout's whistle block adds `s`/`a` (spaces, agents), `e`/`E` (files panel), `g`/`G`
@@ -127,8 +127,9 @@ tokyo-night by default; 26 themes ship in `themes/`.
 - An agent without a title shows ✦ New ✦; its second line reads `1 · <space>`.
 - `ctrl-shift-p` opens the palette, `ctrl-shift-k` the picker, `super-shift-space` shows the
   top bar with the logo on its left.
-- The status bar shows `Terminal` with no badge; Settings → Keyboard has a Whistle row whose
-  Open shows whistle's settings, and turning Whistle mode on there brings the TYPE badge.
+- The status bar shows `Terminal` with no badge; Settings → Keyboard → Whistle has a Keyboard
+  mode switch, off; turning it on brings the TYPE badge, and Whistle settings' Open shows
+  whistle's own dialog.
 - With whistle on: `ctrl-space`, then `ctrl-h` makes the Spaces list glow, `j` moves its cursor,
   `e` opens the files panel with its first row outlined.
 - With tuuxic-palette removed, the logo button opens Herdr's own palette instead.

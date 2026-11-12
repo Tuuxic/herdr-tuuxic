@@ -2,7 +2,7 @@
 
 import { View, div, svg } from "gpui-kit";
 import { v_flex, h_flex, Scrollbar, InputState, Input } from "gpui-base";
-import { hc, run, theme, updates, telemetry, appHome, readTextFile, writeTextFile, playSound, props, closeOverlay, window } from "herdr";
+import { hc, run, theme, updates, telemetry, appHome, readTextFile, writeTextFile, playSound, props, closeOverlay, window, shared } from "herdr";
 
 import { heading, row, button, toggle } from "./controls.js";
 import { DEFAULT_FONT, look } from "./look.js";
@@ -136,8 +136,23 @@ export default class Settings extends View {
       .when(Boolean(this.hasWhistle), (el) => el.child(div().when(window()?.platform === "macos", (d) => d.pt(18))
         .child(heading(t, "Whistle"))
         .child(row(t, "Keyboard mode",
-          "A vim-like mode: switch out of typing to move between spaces, agents, tabs and panels and run commands with short key sequences. Turn it on and see its keys in whistle's settings.",
+          "A vim-like mode: Ctrl+Space switches out of typing to move between spaces, agents, tabs and panels and run commands with short key sequences.",
+          // Whistle says whether it's on in shared("whistle.enabled") and takes whistle.on / whistle.off.
+          toggle(t, "st-whistle-on", this.whistleOn(), (_e, cx) => {
+            const on = !this.whistleOn();
+            this.whistleWant = on;
+            run(on ? "whistle.on" : "whistle.off");
+            cx.notify();
+          })))
+        .child(row(t, "Whistle settings", "Key hints and every key mapping in effect.",
           button(t, "st-whistle", "Open", () => { closeOverlay(props()?.overlay); run("whistle.settings"); })))));
+  }
+
+  // What was just asked for until whistle reports it, then what whistle reports.
+  whistleOn() {
+    const now = shared("whistle.enabled") === true;
+    if (this.whistleWant === now) this.whistleWant = undefined;
+    return this.whistleWant ?? now;
   }
 
   optionKey(t) {
