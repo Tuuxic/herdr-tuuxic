@@ -80,7 +80,7 @@ tokyo-night by default; 26 themes ship in `themes/`.
   tab's panes, header tuuxic-pane) and hidden `panel` column → `panel-body` stack of `files`
   tuuxic-files, `changes` stack (`changes-view` tuuxic-changes `{graph}`, `git-graph`
   tuuxic-changes `{view: "graph"}`), `browser-notes` tuuxic-notes; `statusbar-work`
-  whistle `{bar: "Under the terminals", hintsLift: 13}`, bordered) → hidden `statusbar` whistle
+  whistle `{bar: "Under the terminals", hintsInset: 8, hintsBorder: 2, hintsLift: 15}`, bordered) → hidden `statusbar` whistle
   `{bar: "Full width", enabled: false, mappings}`.
 - **Mods**: the 17 `mods/tuuxic-*` and `mods/whistle` (a copy of Tuuxic/herdr-whistle);
   tuuxic-icons holds the shared SVGs (assets only). tuuxic-settings shows its Whistle row

@@ -293,7 +293,9 @@
                 "mod": "whistle",
                 "props": {
                   "bar": "Under the terminals",
-                  "hintsLift": 13
+                  "hintsLift": 15,
+                  "hintsInset": 8,
+                  "hintsBorder": 2
                 }
               }
             }
