@@ -17,6 +17,8 @@ thin bar at the bottom.
 
 ## Keys in WHISTLE
 
+Defaults; all of them can be changed (see Mappings).
+
 | Key | Does |
 |---|---|
 | Ctrl+H/J/K/L | the field in that direction |
@@ -24,6 +26,10 @@ thin bar at the bottom.
 | i, Enter on a terminal | back to TYPE in the selected pane |
 | p, `,`, ? | palette, settings, keys |
 | t, w, S | the Tabs, Panes and Spaces groups (w v splits right) |
+| Esc, Backspace | cancel a key sequence, go back one level |
+
+Entering and leaving are regular keys in `keys.json`: `whistle.whistle` switches (Ctrl+Space),
+`whistle.enter` only enters (Ctrl+[ in a terminal), `whistle.type` only leaves.
 
 ## Mappings
 
@@ -32,7 +38,18 @@ Three layers, each over the one before:
 1. `mods/whistle/mappings.json`: defaults, Herdr's own commands only (an update replaces it)
 2. the layout: the whistle block's `"mappings"` prop, and its `"enabled"` / `"hints"` props
    (a layout can ship whistle switched off)
-3. `~/.config/herdr-app/whistle.json`: yours, `{ "enabled", "hints", "bar", "map" }`
+3. `~/.config/herdr-app/whistle.json`: yours, `{ "enabled", "hints", "bar", "keys", "map" }`
+
+`"map"` holds the mappings, `"keys"` whistle's own keys (action → keys, e.g.
+`"type": ["i"]`; your list replaces the default one; `null` removes the action).
+
+**Whistle edits your `keys.json`.** Herdr runs `keys.json` before whistle sees a key, so a key
+another section binds (a layout's Ctrl+H) would never reach it. Whistle claims those keys in
+the `"mod:whistle"` section, as `"<key>": "whistle.key-<key>"`: every Ctrl/Alt/Super chord in
+its config, and any other of its keys a global or layout section binds. It writes only when
+those entries change, never touches your own entries there, leaves the file alone while
+`keys.error` reports a problem, and puts the old text back if Herdr rejects the new one.
+Herdr stops adding new default shortcuts to a `keys.json` that was edited.
 
 A layout can offer more than one spot for the bar: give each whistle block a `"bar"` prop
 with a name and hide all but one. Whistle's settings then let you pick where it goes.

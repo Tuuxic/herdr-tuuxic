@@ -3,13 +3,49 @@
 //      replaces this file, so don't edit it)
 //   2. the layout: the whistle block's "mappings" prop (keys for that layout's own mods), and
 //      its "enabled" and "hints" props (a layout can ship whistle switched off)
-//   3. ~/.config/herdr-app/whistle.json: yours, { enabled, hints, map }; nothing replaces it
+//   3. ~/.config/herdr-app/whistle.json: yours, { enabled, hints, bar, keys, map }; nothing
+//      replaces it
 // A key set to null in a later layer takes that key away; a group's map merges key by key.
+// "keys" (whistle's own keys in WHISTLE, action -> keys) merges action by action: a later
+// layer's list replaces the one before, null removes the action.
 
 import { readTextFile, writeTextFile, appHome } from "herdr";
 
 export const USER_FILE = () => `${appHome()}/whistle.json`;
 const DEFAULTS_FILE = () => `${appHome()}/mods/whistle/mappings.json`;
+
+// Whistle's own keys, in the order its settings list them: what each does (kind, and dir for
+// the moves) and its label.
+export const ACTIONS = {
+  "field-left": { kind: "field", dir: "left", label: "Field to the left" },
+  "field-down": { kind: "field", dir: "down", label: "Field below" },
+  "field-up": { kind: "field", dir: "up", label: "Field above" },
+  "field-right": { kind: "field", dir: "right", label: "Field to the right" },
+  left: { kind: "move", dir: "left", label: "Move left in the field" },
+  down: { kind: "move", dir: "down", label: "Move down in the field" },
+  up: { kind: "move", dir: "up", label: "Move up in the field" },
+  right: { kind: "move", dir: "right", label: "Move right in the field" },
+  open: { kind: "open", label: "Open (in a terminal: type there)" },
+  type: { kind: "type", label: "Back to TYPE" },
+  cancel: { kind: "cancel", label: "Cancel a key sequence" },
+  back: { kind: "back", label: "Back one level in a sequence" },
+};
+
+// The "keys" layers, action by action: a later layer's list replaces the one before, null
+// removes the action, unknown actions are dropped.
+function mergeKeys(...layers) {
+  const out = {};
+  for (const layer of layers) for (const [action, keys] of Object.entries(layer ?? {})) {
+    if (keys === null) delete out[action];
+    else if (Array.isArray(keys) && ACTIONS[action]) out[action] = keys.map(String);
+  }
+  return out;
+}
+
+// Each own key's action: key -> { action, kind, dir }.
+function ownIndex(keys) {
+  return new Map(Object.entries(keys).flatMap(([action, ks]) => ks.map((k) => [k, { action, ...ACTIONS[action] }])));
+}
 
 export const isGroup = (v) => Boolean(v) && !Array.isArray(v) && typeof v === "object" && Boolean(v.map);
 
@@ -23,7 +59,8 @@ export function merge(base, over) {
   return out;
 }
 
-// { map, enabled, hints, error, userText }; error names the first file that didn't parse.
+// { map, keys, own, enabled, hints, bar, error, userText }; error names the first file that
+// didn't parse.
 export async function load(layoutMap, layoutProps) {
   const errors = [];
   const parse = (text, name) => {
@@ -35,9 +72,12 @@ export async function load(layoutMap, layoutProps) {
   const base = parse(baseText, "mappings.json");
   const userText = await readTextFile(USER_FILE());
   const user = parse(userText, "whistle.json");
+  const keys = mergeKeys(base?.keys, layoutProps?.keys, user?.keys);
   const pick = (k) => (user && k in user ? user[k] : layoutProps?.[k] != null ? layoutProps[k] : base?.[k]);
   return {
     map: merge(merge(base?.map, layoutMap), user?.map),
+    keys,
+    own: ownIndex(keys),
     enabled: pick("enabled") !== false,
     hints: pick("hints") !== false,
     bar: typeof user?.bar === "string" ? user.bar : null,
