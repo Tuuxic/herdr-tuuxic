@@ -346,27 +346,22 @@
               "Toggle changes panel",
               "whistle.toggle:changes"
             ],
-            "space": {
-              "name": "Leader",
-              "map": {
-                "p": [
-                  "Command palette",
-                  "mod.open:tuuxic-palette"
-                ],
-                ",": [
-                  "Settings",
-                  "mod.open:tuuxic-settings"
-                ],
-                "?": [
-                  "Keybindings",
-                  "mod.open:tuuxic-keys"
-                ],
-                "m": [
-                  "Mods",
-                  "mod.open:tuuxic-mod-manager"
-                ]
-              }
-            }
+            "p": [
+              "Command palette",
+              "mod.open:tuuxic-palette"
+            ],
+            ",": [
+              "Settings",
+              "mod.open:tuuxic-settings"
+            ],
+            "?": [
+              "Keybindings",
+              "mod.open:tuuxic-keys"
+            ],
+            "m": [
+              "Mods",
+              "mod.open:tuuxic-mod-manager"
+            ]
           }
         }
       }

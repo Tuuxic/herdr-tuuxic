@@ -68,7 +68,7 @@ tokyo-night by default; 26 themes ship in `themes/`.
   between Spaces, Agents, the footer menu, Tabs, the terminal and the side panel (the field
   glows, its cursor item is outlined); `j/k` and Enter act inside; `i` back to typing. The
   layout's whistle block adds `s`/`a` (spaces, agents), `e`/`E` (files panel), `g`/`G`
-  (changes panel), `/` (picker) and Space p/,/?/m (palette, settings, keys, mods).
+  (changes panel), `/` (picker) and p/,/?/m (palette, settings, keys, mods).
 
 ## Built from
 
