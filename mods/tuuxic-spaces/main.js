@@ -446,7 +446,7 @@ export default class Spaces extends View {
           .when(!tree, el => el.child(div().w(16).flex_none()))
           .child(div().flex_shrink(0).max_w(room() * 7).truncate().text_color(t.foreground).child(w.name))
           .child(g ? this.gitTail(g, tree, w.name, t) : div().flex_1())
-          // A space with an agent working, waiting on you, or finished gets a square in that status color.
+          // A space with an agent working, blocked, or done gets a square in that status color.
           .when(!tree && ["working", "blocked", "done"].includes(w.status), el => el.child(div().size(6).flex_none().ml(6).bg(tone(t, w.status)))),
       )
       .when(!tree, el => el.child(div().pl(24).min_w(0).truncate().text_size(11).line_height("13px").text_color(t.dim)

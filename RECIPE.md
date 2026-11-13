@@ -2,7 +2,7 @@
 
 A dark, square-cornered workspace: a sidebar on the left with your spaces and agents, a tab
 strip across the top, one framed terminal area, a side panel on the right that switches
-between Files, Changes and browser notes, and a one-line status bar at the bottom that shows
+between Files, Changes and browser notes, and whistle's one-line bar at the bottom that shows
 the keyboard mode. Everything is drawn in the theme's colors, with no rounded corners.
 
 ![Tuuxic](preview.png)
@@ -23,7 +23,7 @@ Top to bottom, left to right (sizes in logical px):
     machine. Each space is two lines: a 16 px number badge centered on its left (accent
     filled when active, outlined otherwise), its name, branch on the right, a status square
     for working, blocked or done; below, dim: `[open tabs] · ` and its agents per state,
-    most urgent first (◆ waiting, ■ working, ✓ done, □ idle, each in its state's color,
+    most urgent first (◆ blocked, ■ working, ✓ done, □ idle, each in its state's color,
     states with none left out), or *no agents* in italics. Worktrees sit under their
     checkout on one line with a branch icon.
   - **Agents** (the other half): `AGENTS [n]` and a clock button for the sort; agents grouped
@@ -38,7 +38,7 @@ Top to bottom, left to right (sizes in logical px):
 - **Side panel** (475, hidden until opened): a stack of Files (a tree of the focused pane's
   folder with read-only previews), Changes (changed files, diff, commit message, branch; a
   git graph view) and Browser notes.
-- **Status bar** (26 with its 2 px border, under the terminals): whistle. Shipped off, it shows only what has the keyboard
+- **Whistle's bar** (26 with its 2 px border, under the terminals): whistle. Shipped off, it shows only what has the keyboard
   (`Terminal · <pane title>`); once turned on, a mode badge (TYPE or WHISTLE) on its left.
   It sits under the terminals by default, so the sidebar reaches the window's bottom;
   whistle's settings (Bar position) can make it a full-width 22 px bar instead.
@@ -63,7 +63,7 @@ tokyo-night by default; 26 themes ship in `themes/`.
   themes, `alt-1..9` tabs, `alt-left/right` and `ctrl-h/l` previous/next tab,
   `alt-up/down` spaces, `ctrl-arrows` panes, `alt-enter` / `alt-shift-enter` split,
   `super-w` close pane, `super-f` zoom, `super-shift-space` top bar, `ctrl-space` whistle.
-- **Keyboard mode** (whistle, off until the Keyboard mode switch in Settings → Keyboard turns it
+- **Keyboard mode** (whistle, off until the Whistle mode switch in Settings → Keyboard turns it
   on, through `whistle.on`; that writes `"enabled": true` to `~/.config/herdr-app/whistle.json`): `ctrl-space` enters WHISTLE; `ctrl-h/j/k/l` move
   between Spaces, Agents, the footer menu, Tabs, the terminal and the side panel (the field
   glows, its cursor item is outlined); `j/k` and Enter act inside; `i` back to typing. The
@@ -91,7 +91,7 @@ tokyo-night by default; 26 themes ship in `themes/`.
   setShared, keys(), commands(), openOverlay; commands like space.select, tab.select,
   agent.focus, pane.focus/go/split/zoom/close, layout.show/hide/select/resize, mod.open,
   app.palette/settings/help.
-- **Keyboard navigation**: each taking-part mod carries `keynav.js` (protocol v1), announces
+- **Keyboard navigation**: each keynav mod carries `keynav.js` (protocol v1), announces
   itself in `shared("keynav.fields")` and draws its own highlight while
   `shared("keynav").active` names it.
 - **Programs and network**: git (spaces, files, changes), sh or PowerShell (files listing),
@@ -107,7 +107,7 @@ tokyo-night by default; 26 themes ship in `themes/`.
 ## Watch out
 
 - Whistle ships switched off through the layout's `enabled: false` prop; the person's
-  `whistle.json` wins over it. Without the `mods/whistle` folder the status bar shows
+  `whistle.json` wins over it. Without the `mods/whistle` folder whistle's bar shows
   "whistle did not load" and `herdr-app status` an error; the rest works. Update the copy
   from Tuuxic/herdr-whistle, not by hand.
 - tuuxic-ai-usage reads credential files: tell the person before adding it.
@@ -117,20 +117,20 @@ tokyo-night by default; 26 themes ship in `themes/`.
   `mods/tuuxic-changes/graph/`).
 - `ctrl-h` / `ctrl-l` switch tabs in this layout but move between fields while whistle has
   the keyboard (its own section wins).
-- Copies of one file must stay the same: `keynav.js` in every taking-part mod and in whistle;
+- Copies of one file must stay the same: `keynav.js` in every keynav mod and in whistle;
   `browser/client.js` in tuuxic-pane and `client.js` in tuuxic-notes; `opens.js` in
   tuuxic-bar, tuuxic-chrome and tuuxic-palette.
 
 ## Done when
 
 - The window shows the sidebar (header, Spaces, Agents, footer), the tab strip, framed panes
-  with headers and the 22 px status bar; `herdr-app status` lists no errors.
+  with headers and whistle's bar under the terminals; `herdr-app status` lists no errors.
 - A space with a working agent shows `[1] · ■1` under its name; a space without agents
   shows `[1] · no agents`.
 - An agent without a title shows ✦ New ✦; its second line reads `1 · <space>`.
 - `ctrl-shift-p` opens the palette, `ctrl-shift-k` the picker, `super-shift-space` shows the
   top bar with the logo on its left.
-- The status bar shows `Terminal` with no badge; Settings → Keyboard → Whistle has a Keyboard
+- Whistle's bar shows `Terminal` with no badge; Settings → Keyboard → Whistle has a Whistle
   mode switch, off; turning it on brings the TYPE badge, and Whistle settings' Open shows
   whistle's own dialog.
 - With whistle on: `ctrl-space`, then `ctrl-h` makes the Spaces list glow, `j` moves its cursor,

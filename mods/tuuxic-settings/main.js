@@ -135,7 +135,7 @@ export default class Settings extends View {
       .when(window()?.platform === "macos", (el) => el.child(this.optionKey(t)))
       .when(Boolean(this.hasWhistle), (el) => el.child(div().when(window()?.platform === "macos", (d) => d.pt(18))
         .child(heading(t, "Whistle"))
-        .child(row(t, "Keyboard mode",
+        .child(row(t, "Whistle mode",
           "A vim-like mode: Ctrl+Space switches out of typing to move between spaces, agents, tabs and panels and run commands with short key sequences.",
           // Whistle says whether it's on in shared("whistle.enabled") and takes whistle.on / whistle.off.
           toggle(t, "st-whistle-on", this.whistleOn(), (_e, cx) => {

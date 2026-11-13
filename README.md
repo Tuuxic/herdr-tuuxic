@@ -4,12 +4,12 @@ A complete [Herdr](https://herdr.dev) workspace: spaces and agents at a glance, 
 panels beside your terminals, and 26 themes.
 
 The sidebar lists your spaces, each with its open tabs and how many of its agents are
-working, waiting on you, done or idle, and every agent with its title, tab and space. Next to
+working, blocked (needs you), done or idle, and every agent with its title, tab and space. Next to
 the framed terminals, a side panel switches between a file browser and git changes with a
 graph. A command palette, a picker and a theme switcher round it off.
 
 It comes with [whistle](https://github.com/Tuuxic/herdr-whistle), a vim-inspired keyboard
-mode, switched off: the status bar then only shows what has the keyboard. To try it, open
+mode, switched off: whistle's bar then only shows what has the keyboard. To try it, open
 Settings → Keyboard → Whistle and turn it on.
 
 ## Install
@@ -44,7 +44,7 @@ Buttons that open another tuuxic mod open Herdr's own screen when that mod is mi
 | tuuxic-spaces | Spaces with colored avatars, agent states and worktrees |
 | tuuxic-tabs | The tab strip |
 | tuuxic-themes | A full-screen theme switcher |
-| whistle | The status bar and the keyboard mode; a copy of [herdr-whistle](https://github.com/Tuuxic/herdr-whistle), off until you turn it on |
+| whistle | Whistle's bar and the keyboard mode; a copy of [herdr-whistle](https://github.com/Tuuxic/herdr-whistle), off until you turn it on |
 
 ## Before you install
 
