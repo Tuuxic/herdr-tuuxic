@@ -13,7 +13,7 @@ Top to bottom, left to right (sizes in logical px):
 
 - **Top bar** (30, hidden by default; `super-shift-space` shows it): the logo button (opens
   the palette), a sidebar toggle, one number per space (the active one underlined in the
-  accent, a space with an agent that needs you in the blocked color), a search button (the
+  accent, a space with a blocked agent in the blocked color), a search button (the
   picker), then the active space's name, its folder if the terminal moved away, branch and
   `@machine`. AI usage meters sit in the middle; minimize, maximize and close on the right.
   The middle and right shares change below 1024 px of window width.
@@ -49,7 +49,7 @@ tokyo-night by default; 26 themes ship in `themes/`.
 ## How it behaves
 
 - **Agent statuses**: working is a 7 px square pulsing in the working color; blocked shows a
-  "Needs you" badge (a "!" square on the narrow rail); done is a filled square; idle is an
+  "Blocked" badge (a "!" square on the narrow rail); done is a filled square; idle is an
   outlined square, its row's text muted. The spaces' second line counts the same four
   states. The agents list sorts by status groups, or by priority (most urgent first).
 - **Sidebar**: drag its edge; below 160 px it snaps to a 44 px rail (76 on macOS) of number

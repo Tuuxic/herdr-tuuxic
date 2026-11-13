@@ -325,11 +325,11 @@ export default class Settings extends View {
         row(
           t,
           "Play sounds",
-          "When an agent needs you, and when one finishes while you're not looking. A note shows in the corner either way.",
+          "When an agent is blocked, and when one finishes while you're not looking. A note shows in the corner either way.",
           toggle(t, "st-sounds", on, (_e, cx) => this.change((p) => (p.sounds = { ...(p.sounds ?? {}), enabled: !on }), cx)),
         ),
       )
-      .child(row(t, "An agent needs you", file(sounds.blocked), button(t, "st-play-blocked", "Play", () => playSound("blocked"))))
+      .child(row(t, "An agent is blocked", file(sounds.blocked), button(t, "st-play-blocked", "Play", () => playSound("blocked"))))
       .child(row(t, "An agent finished", file(sounds.done), button(t, "st-play-done", "Play", () => playSound("done"))))
       .child(div().pt(12).text_size(12.5).line_height("18px").text_color(t.dim).child("Want your own sounds? Ask your agent to set sounds.done and sounds.blocked in settings.json to an MP3."));
   }

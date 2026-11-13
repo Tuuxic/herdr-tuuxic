@@ -44,8 +44,8 @@ An agent busy on its task.
 _Avoid_: running, active
 
 **Blocked**:
-An agent that needs the person before it can go on; shown as "Needs you".
-_Avoid_: waiting, needs input, paused
+An agent that needs the person before it can go on.
+_Avoid_: waiting, needs you, needs input, paused
 
 **Done**:
 An agent that finished its task.

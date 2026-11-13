@@ -4,7 +4,7 @@ A complete [Herdr](https://herdr.dev) workspace: spaces and agents at a glance, 
 panels beside your terminals, and 26 themes.
 
 The sidebar lists your spaces, each with its open tabs and how many of its agents are
-working, blocked (needs you), done or idle, and every agent with its title, tab and space. Next to
+working, blocked, done or idle, and every agent with its title, tab and space. Next to
 the framed terminals, a side panel switches between a file browser and git changes with a
 graph. A command palette, a picker and a theme switcher round it off.
 

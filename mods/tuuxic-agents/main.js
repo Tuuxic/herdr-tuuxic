@@ -72,7 +72,7 @@ const SORTS = [
   { id: "grouped", label: "Grouped by space", icon: "layers" },
 ];
 const sortOf = () => SORTS.find((s) => s.id === shared("agents.sort")) ?? SORTS[0];
-const SECTION = { 4: "needs you", 3: "done", 2: "working", 1: "idle" };
+const SECTION = { 4: "blocked", 3: "done", 2: "working", 1: "idle" };
 const SECTION_STATUS = { 4: "blocked", 3: "done", 2: "working" };
 
 function duration(ms) {
@@ -226,12 +226,12 @@ export default class Agents extends View {
       .child(this.status(t, { status: st }, compact));
   }
 
-  // compact: a ! for blocked where a header already says "Needs you".
+  // compact: a ! for blocked where a header already says "blocked".
   status(t, a, compact = false) {
     const color = t[a.status] ?? t.dim;
     if (a.status === "working") return div().size(7).mx(3).flex_none().rounded(0).bg(t.working).loop("opacity", { from: 0.35, to: 1, period: 1200 });
     if (a.status === "blocked" && compact) return div().size(14).flex_none().rounded(0).bg(t.blocked + "26").text_size(10.5).font_bold().text_color(t.blocked).flex().items_center().justify_center().child("!");
-    if (a.status === "blocked") return div().flex_none().px(6).h(18).rounded(0).bg(t.blocked + "26").text_size(10.5).font_semibold().text_color(t.blocked).flex().items_center().child("Needs you");
+    if (a.status === "blocked") return div().flex_none().px(6).h(18).rounded(0).bg(t.blocked + "26").text_size(10.5).font_semibold().text_color(t.blocked).flex().items_center().child("Blocked");
     // Idle: a hollow square; done: a filled one.
     if (a.status === "idle") return div().size(7).mx(3).flex_none().rounded(0).border(1).border_color(t.idle ?? t.dim);
     return div().size(7).mx(3).flex_none().rounded(0).bg(a.status === "done" ? color : t.dim + "00");
@@ -340,7 +340,7 @@ export default class Agents extends View {
       const more = detail.get(a.address);
       // An agent on another machine (`vps/t7`) says which.
       const machine = a.address.includes("/") ? a.address.split("/")[0] : null;
-      // The 44px rail: the program's icon in a square, status as a corner square ("!" when it needs you).
+      // The 44px rail: the program's icon in a square, status as a corner square ("!" when it's blocked).
       if (collapsed) {
         const corner = a.status === "blocked" ? div().absolute().top(1).right(1).size(11).bg(t.blocked).text_size(8.5).font_bold().text_color(t.background).flex().items_center().justify_center().child("!")
           : ["working", "done", "idle"].includes(a.status) ? div().absolute().top(2).right(2).size(5).when(a.status === "idle", (d) => d.border(1).border_color(t.idle ?? t.dim)).when(a.status !== "idle", (d) => d.bg(t[a.status] ?? t.dim))

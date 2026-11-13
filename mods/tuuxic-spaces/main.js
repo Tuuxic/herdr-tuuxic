@@ -61,7 +61,7 @@ const base = (path) => path.replace(/\/+$/, "").split("/").pop();
 // for this often, in repos the list shows, while the window is in front.
 const FALLBACK = 60000;
 
-// A space speaks up only when something in it needs you.
+// A space speaks up only when something in it is blocked.
 export function tone(t, status) {
   return t[status] ?? t.unknown;
 }
