@@ -60,3 +60,19 @@ _Avoid_: inactive, stopped
 **Whistle mode**:
 The setting that turns whistle on or off; off, whistle's bar only shows what has the keyboard.
 _Avoid_: keyboard mode, whistle switch
+
+## Releases
+
+**Layout version**:
+Tuuxic's own version, the one each release is tagged and published under; a release names the
+mod versions and the whistle range it ships with.
+_Avoid_: tuuxic version, release number
+
+**Mod version**:
+One tuuxic-* mod's own version, which moves on its own because each mod can be installed alone.
+_Avoid_: package version
+
+**Whistle range**:
+The whistle versions a layout version allows; whistle outside it, or missing, leaves tuuxic
+working without whistle and saying why.
+_Avoid_: whistle dependency, pinned whistle
