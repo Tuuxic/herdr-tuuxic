@@ -68,6 +68,11 @@ Tuuxic's own version, the one each release is tagged and published under; a rele
 mod versions and the whistle range it ships with.
 _Avoid_: tuuxic version, release number
 
+**Layout mod**:
+The one mod that ships only with the layout, never alone; it carries the layout version, the
+whistle range and the minimum Herdr, and does what the layout needs a mod for.
+_Avoid_: core mod, release mod, manifest
+
 **Mod version**:
 One tuuxic-* mod's own version, which moves on its own because each mod can be installed alone.
 _Avoid_: package version
