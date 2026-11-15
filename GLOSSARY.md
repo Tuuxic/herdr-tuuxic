@@ -69,8 +69,13 @@ mod versions and the whistle range it ships with.
 _Avoid_: tuuxic version, release number
 
 **Mod version**:
-One tuuxic-* mod's own version, which moves on its own because each mod can be installed alone.
+One tuuxic-* mod's own version, kept because each mod can be installed alone; it changes only
+in a layout release, and can differ from the layout version and from other mods'.
 _Avoid_: package version
+
+**Minimum Herdr**:
+The oldest Herdr that the layout and all of its mods run on; one number for all of them.
+_Avoid_: Herdr floor, required Herdr
 
 **Whistle range**:
 The whistle versions a layout version allows; whistle outside it, or missing, leaves tuuxic
