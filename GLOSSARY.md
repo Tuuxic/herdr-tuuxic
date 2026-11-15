@@ -76,3 +76,8 @@ _Avoid_: package version
 The whistle versions a layout version allows; whistle outside it, or missing, leaves tuuxic
 working without whistle and saying why.
 _Avoid_: whistle dependency, pinned whistle
+
+**Listing**:
+An entry in herdr.dev's gallery: one folder of the repo that can be added on its own, either the
+layout with every mod or a single mod.
+_Avoid_: entry, package, gallery item
