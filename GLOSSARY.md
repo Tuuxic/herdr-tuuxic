@@ -91,5 +91,5 @@ the sidebar's spaces and agents.
 _Avoid_: preview, preview image, screenshot
 
 **Layout preview**:
-The small schematic of the layout's blocks that Herdr shows when picking a layout.
+The small schematic of the layout's blocks that the layout names as its own preview.
 _Avoid_: preview, thumbnail
