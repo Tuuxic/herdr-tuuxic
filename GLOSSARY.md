@@ -73,8 +73,8 @@ One tuuxic-* mod's own version, which moves on its own because each mod can be i
 _Avoid_: package version
 
 **Whistle range**:
-The whistle versions a layout version allows; whistle outside it, or missing, leaves tuuxic
-working without whistle and saying why.
+The whistle versions a layout version is tested with; outside it, tuuxic still uses whistle and
+says the version is untested.
 _Avoid_: whistle dependency, pinned whistle
 
 **Sandbox**:
