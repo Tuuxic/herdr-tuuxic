@@ -20,7 +20,9 @@ alone, and does whatever layout-specific work needs a mod:
   the same drift test.
 - **The release record doesn't list mod versions.** Each mod.json is the only source, and
   each CHANGELOG entry names the mod versions that release ships.
-- A Herdr home without `mods/tuuxic-layout/` holds a pre-1.0 tuuxic.
+- A Herdr home with `layouts/tuuxic.json` but no `mods/tuuxic-layout/` holds a pre-1.0
+  tuuxic. tuuxic-* mods without `layouts/tuuxic.json` are single mods, each at the version
+  in its own mod.json (amended by "Which mods the RECIPE's Single mods section offers").
 
 Rejected: props on a layout block (they disappear with the block and are copied into users'
 clones); a root `tuuxic.json` (nothing can read it at runtime); version.js in every mod
