@@ -33,9 +33,14 @@ until opened.
 _Avoid_: right panel, drawer, inspector
 
 **Whistle's bar**:
-Whistle's strip under the terminals, showing what has the keyboard and, with whistle mode on,
-the mode badge.
+The strip under the terminals, or across the full width, showing what has the keyboard and,
+with whistle mode on, the mode badge and the keys typed so far; tuuxic draws it, not whistle.
 _Avoid_: status bar, bottom bar, the bar
+
+**Hints box**:
+The box above whistle's bar listing the keys that can come next and what each does; with the
+bar hidden it sits in the bottom-right corner.
+_Avoid_: hints popup, cheat sheet, key overlay
 
 ## Agents
 
