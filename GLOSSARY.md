@@ -76,3 +76,11 @@ _Avoid_: package version
 The whistle versions a layout version allows; whistle outside it, or missing, leaves tuuxic
 working without whistle and saying why.
 _Avoid_: whistle dependency, pinned whistle
+
+**Sandbox**:
+A throwaway Herdr home in a window of its own, for trying a release without touching yours.
+_Avoid_: test home, dev home
+
+**Hand pass**:
+The checks a person walks through in the sandbox before a release, beyond what CI covers.
+_Avoid_: manual QA, smoke test
