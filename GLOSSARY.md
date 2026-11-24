@@ -84,3 +84,13 @@ _Avoid_: test home, dev home
 **Hand pass**:
 The checks a person walks through in the sandbox before a release, beyond what CI covers.
 _Avoid_: manual QA, smoke test
+
+## Install
+
+**Single mod**:
+A tuuxic-* mod added on its own to a layout that isn't tuuxic, together with its helpers.
+_Avoid_: standalone mod, loose mod
+
+**Helper**:
+A tuuxic-* mod that other mods read and that comes along with them, never offered on its own.
+_Avoid_: dependency, shared mod, library mod
