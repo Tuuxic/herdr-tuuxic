@@ -1,0 +1,284 @@
+<!doctype html><html><head><meta charset="utf-8"><title>PROTOTYPE: tuuxic 1.0 poster</title>
+<!-- PROTOTYPE, throwaway (wayfinder ticket "Poster composition for 1.0").
+     Three poster compositions + layout-preview candidates, switch with ?variant=A|B|C|L, or the bottom bar / arrow keys.
+     ?bare hides the switcher (for headless renders). Uses today's pre-1.0 shot.png as a stand-in for the 1.0 sandbox shot. -->
+<link rel="stylesheet" href="poster.css">
+<style>
+html{background:#000;overflow:hidden}
+:root{--accent:#b9a3e3;--accent-deep:#5e4b8b;--glow:rgba(185,163,227,.07)}
+.v{display:none;position:absolute;inset:0}
+.v.on{display:block}
+.zoom{border:3px solid var(--accent)!important;box-shadow:14px 14px 0 #0a0b0d,0 0 48px rgba(185,163,227,.22)!important}
+.label{position:absolute;font-size:15px;font-weight:700;letter-spacing:1.5px;padding:5px 10px;background:var(--accent);color:#101114}
+/* B: one-line title */
+.titleline{position:absolute;left:96px;top:56px;font-weight:800;letter-spacing:-2px;line-height:.9;white-space:nowrap}
+.titleline .plain{font-size:150px;display:inline-block;margin-right:36px}
+.titleline .box{display:inline-block;font-size:150px;padding:4px 22px 10px;background:var(--accent);color:#101114;box-shadow:16px 16px 0 var(--accent-deep)}
+/* C: full-bleed window with fades */
+.fade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(18,20,23,.55) 0,rgba(18,20,23,.55) 40%,rgba(18,20,23,.93) 52%,var(--bg) 100%)}
+.fadev{position:absolute;inset:0;background:linear-gradient(180deg,var(--bg) 0,transparent 16%,transparent 84%,var(--bg) 100%)}
+/* L: layout preview board */
+.board{position:absolute;inset:0;padding:60px 80px;font-size:18px;color:var(--muted)}
+.board h2{color:var(--fg);font-size:26px;margin-bottom:8px}
+.row{display:flex;gap:40px;margin-top:36px}
+.cell{display:flex;flex-direction:column;gap:12px}
+.cell b{color:var(--fg)}
+.cell img{background:#000;image-rendering:pixelated}
+.hero{border-width:3px!important}
+.blk{border:2px solid #4a4d55!important;box-shadow:8px 8px 0 #0a0b0d!important}
+.tag2{position:absolute;font-size:12px;font-weight:700;letter-spacing:1.2px;padding:2px 6px;background:var(--accent);color:#101114;z-index:2}
+.lead{position:absolute;height:2px;background:var(--accent);box-shadow:0 0 8px rgba(185,163,227,.5)}
+
+/* switcher */
+#sw{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);display:flex;align-items:center;gap:6px;
+  background:#fff;color:#000;border-radius:999px;padding:6px 8px;font:600 15px system-ui,sans-serif;box-shadow:0 6px 24px rgba(0,0,0,.6);z-index:99}
+#sw button{border:0;background:#eee;border-radius:999px;width:34px;height:34px;font-size:18px;cursor:pointer}
+#sw span{padding:0 12px;min-width:260px;text-align:center}
+.bare #sw{display:none}
+</style></head><body>
+
+<!-- ============ E6: Real layout, pulled apart, labelled, aligned to the text column ============ -->
+<div class="v" id="E6" data-name="Real layout, labelled, aligned">
+  <div class="titleline"><span class="plain">TUUXIC</span><span class="box">LAYOUT</span></div>
+  <div style="position:absolute;left:96px;top:250px;width:1100px">
+    <div class="head" style="margin-top:0">A TUI look, without the <em>TUI.</em></div>
+    <div class="body" style="max-width:1100px;margin-top:14px">The clean grid and <b>monospace</b> feel of a terminal app, with the comfort of a real window: mouse, popups and smooth panels where you want them.</div>
+  </div>
+  <div class="chips" style="position:absolute;right:64px;top:70px;margin:0;flex-direction:column;align-items:flex-end"><span class="chip solid">HERDR LAYOUT</span><span class="chip">v1.0</span></div>
+  <div class="url" style="left:auto;right:64px;bottom:auto;top:262px">github.com/<b>Tuuxic/herdr-tuuxic</b></div>
+  <div class="shot blk" style="left:96.0px;top:424.0px;width:285.7px;height:32.8px"><img src="shot.png" style="left:-5.5px;top:-34.6px;width:1747.2px"></div>
+  <div class="shot blk" style="left:96.0px;top:470.8px;width:285.7px;height:198.4px"><img src="shot.png" style="left:-5.5px;top:-72.8px;width:1747.2px"></div>
+  <span class="tag2" style="left:104px;top:457px">SPACES</span>
+  <div class="shot blk" style="left:96.0px;top:683.1px;width:285.7px;height:154.7px"><img src="shot.png" style="left:-5.5px;top:-455.0px;width:1747.2px"></div>
+  <span class="tag2" style="left:104px;top:669px">AGENTS</span>
+  <div class="shot blk" style="left:96.0px;top:851.8px;width:285.7px;height:96.5px"><img src="shot.png" style="left:-5.5px;top:-837.2px;width:1747.2px"></div>
+  <div class="shot blk" style="left:395.7px;top:424.0px;width:1140.3px;height:32.8px"><img src="shot.png" style="left:-294.8px;top:-34.6px;width:1747.2px"><img src="shot.png" style="left:-599.7px;top:-34.6px;width:1747.2px;clip-path:inset(0 0 0 1578.9px)"></div>
+  <span class="tag2" style="left:404px;top:410px">TABS</span>
+  <div class="shot blk" style="left:395.7px;top:470.8px;width:789.6px;height:136.5px"><img src="shot.png" style="left:-294.8px;top:-72.8px;width:1747.2px"></div>
+  <div class="shot blk" style="left:395.7px;top:621.3px;width:789.6px;height:287.6px"><img src="shot.png" style="left:-294.8px;top:-491.4px;width:1747.2px"></div>
+  <span class="tag2" style="left:404px;top:457px">TERMINAL PANES</span>
+  <div class="shot blk" style="left:1199.3px;top:470.8px;width:336.7px;height:438.1px"><img src="shot.png" style="left:-1405.0px;top:-72.8px;width:1747.2px"></div>
+  <span class="tag2" style="left:1207px;top:457px">FILES · CHANGES</span>
+  <div class="shot blk" style="left:395.7px;top:922.8px;width:1140.3px;height:25.5px"><img src="shot.png" style="left:-294.8px;top:-908.2px;width:1747.2px"></div>
+  <span class="tag2" style="left:404px;top:909px">WHISTLE BAR</span>
+</div>
+
+<!-- ============ E7: Real layout, tight, as it looks ============ -->
+<div class="v" id="E7" data-name="Real layout, tight, as it looks">
+  <div class="titleline"><span class="plain">TUUXIC</span><span class="box">LAYOUT</span></div>
+  <div style="position:absolute;left:96px;top:250px;width:1100px">
+    <div class="head" style="margin-top:0">A TUI look, without the <em>TUI.</em></div>
+    <div class="body" style="max-width:1100px;margin-top:14px">The clean grid and <b>monospace</b> feel of a terminal app, with the comfort of a real window: mouse, popups and smooth panels where you want them.</div>
+  </div>
+  <div class="chips" style="position:absolute;right:64px;top:70px;margin:0;flex-direction:column;align-items:flex-end"><span class="chip solid">HERDR LAYOUT</span><span class="chip">v1.0</span></div>
+  <div class="url" style="left:auto;right:64px;bottom:auto;top:262px">github.com/<b>Tuuxic/herdr-tuuxic</b></div>
+  <div style="position:absolute;left:64px;top:420px;width:1472px;height:517px;background:#0e0f12;border:2px solid #3a3d43;box-shadow:16px 16px 0 #0a0b0d"></div>
+  <div class="shot blk" style="left:72.0px;top:428.0px;width:286.2px;height:32.8px"><img src="shot.png" style="left:-5.5px;top:-34.6px;width:1750.3px"></div>
+  <div class="shot blk" style="left:72.0px;top:466.8px;width:286.2px;height:198.7px"><img src="shot.png" style="left:-5.5px;top:-72.9px;width:1750.3px"></div>
+  <div class="shot blk" style="left:72.0px;top:671.6px;width:286.2px;height:155.0px"><img src="shot.png" style="left:-5.5px;top:-455.8px;width:1750.3px"></div>
+  <div class="shot blk" style="left:72.0px;top:832.5px;width:286.2px;height:96.6px"><img src="shot.png" style="left:-5.5px;top:-838.7px;width:1750.3px"></div>
+  <div class="shot blk" style="left:364.2px;top:428.0px;width:1163.8px;height:32.8px"><img src="shot.png" style="left:-295.4px;top:-34.6px;width:1750.3px"><img src="shot.png" style="left:-579.3px;top:-34.6px;width:1750.3px;clip-path:inset(0 0 0 1581.7px)"></div>
+  <div class="shot blk" style="left:364.2px;top:466.8px;width:820.5px;height:136.7px"><img src="shot.png" style="left:-295.4px;top:-72.9px;width:1750.3px"></div>
+  <div class="shot blk" style="left:364.2px;top:609.6px;width:820.5px;height:288.1px"><img src="shot.png" style="left:-295.4px;top:-492.3px;width:1750.3px"></div>
+  <div class="shot blk" style="left:1190.7px;top:466.8px;width:337.3px;height:430.8px"><img src="shot.png" style="left:-1407.5px;top:-72.9px;width:1750.3px"></div>
+  <div class="shot blk" style="left:364.2px;top:903.6px;width:1163.8px;height:25.5px"><img src="shot.png" style="left:-295.4px;top:-909.8px;width:1750.3px"></div>
+</div>
+
+<!-- ============ E5: Strip, terminal 560 ============ -->
+<div class="v" id="E5" data-name="Strip, terminal 560">
+  <div class="titleline"><span class="plain">TUUXIC</span><span class="box">LAYOUT</span></div>
+  <div style="position:absolute;left:96px;top:250px;width:1100px">
+    <div class="head" style="margin-top:0">A TUI look, without the <em>TUI.</em></div>
+    <div class="body" style="max-width:1100px;margin-top:14px">The clean grid and <b>monospace</b> feel of a terminal app, with the comfort of a real window: mouse, popups and smooth panels where you want them.</div>
+  </div>
+  <div class="chips" style="position:absolute;right:64px;top:70px;margin:0;flex-direction:column;align-items:flex-end"><span class="chip solid">HERDR LAYOUT</span><span class="chip">v1.0</span></div>
+  <div class="url" style="left:auto;right:64px;bottom:auto;top:262px">github.com/<b>Tuuxic/herdr-tuuxic</b></div>
+  <div class="shot blk" style="left:64.0px;top:440.0px;width:287.0px;height:32.9px"><img src="shot.png" style="left:-5.5px;top:-34.7px;width:1754.9px"></div>
+  <div class="shot blk" style="left:670.0px;top:440.0px;width:866.0px;height:32.9px"><img src="shot.png" style="left:-296.1px;top:-34.7px;width:1754.9px"><img src="shot.png" style="left:-881.5px;top:-34.7px;width:1754.9px;clip-path:inset(0 0 0 1585.8px)"></div>
+  <span class="tag2" style="left:678px;top:426px">TABS</span>
+  <div class="shot blk" style="left:64.0px;top:488.9px;width:287.0px;height:380.2px"><img src="shot.png" style="left:-5.5px;top:-73.1px;width:1754.9px"></div>
+  <span class="tag2" style="left:72px;top:475px">SPACES</span>
+  <div class="shot blk" style="left:367.0px;top:488.9px;width:287.0px;height:380.2px"><img src="shot.png" style="left:-5.5px;top:-457.0px;width:1754.9px"></div>
+  <span class="tag2" style="left:375px;top:475px">AGENTS</span>
+  <div class="shot blk" style="left:670.0px;top:488.9px;width:511.8px;height:155.4px"><img src="shot.png" style="left:-296.1px;top:-73.1px;width:1754.9px"></div>
+  <span class="tag2" style="left:678px;top:475px">TERMINAL PANES</span>
+  <div class="shot blk" style="left:670.0px;top:660.3px;width:511.8px;height:228.5px"><img src="shot.png" style="left:-296.1px;top:-493.6px;width:1754.9px"></div>
+  <div class="shot blk" style="left:1197.8px;top:488.9px;width:338.2px;height:399.9px"><img src="shot.png" style="left:-1411.2px;top:-73.1px;width:1754.9px"></div>
+  <span class="tag2" style="left:1206px;top:475px">FILES · CHANGES</span>
+  <div class="shot blk" style="left:670.0px;top:904.8px;width:866.0px;height:25.6px"><img src="shot.png" style="left:-296.1px;top:-912.2px;width:1754.9px"></div>
+  <span class="tag2" style="left:678px;top:891px">WHISTLE BAR</span>
+</div>
+
+<!-- ============ D: Hero window, bleeds off the edge ============ -->
+<div class="v" id="D" data-name="Hero window, bleeds off the edge">
+  <div class="left" style="top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;width:640px">
+    <div class="title" style="margin-top:0"><span class="plain">TUUXIC</span><span class="box">LAYOUT</span></div>
+    <div class="head">A TUI look, without the <em>TUI.</em></div>
+    <div class="body" style="max-width:600px">The clean grid and <b>monospace</b> feel of a terminal app, with the comfort of a real window: mouse, popups and smooth panels where you want them.</div>
+    <div class="chips"><span class="chip solid">HERDR LAYOUT</span><span class="chip">v1.0</span></div>
+  </div>
+  <div class="url">github.com/<b>Tuuxic/herdr-tuuxic</b></div>
+  <div class="shot hero" style="left:800.0px;top:200.0px;width:1190.4px;height:639.8px"><img src="shot.png" style="left:0.0px;top:0.0px;width:1190.4px"></div>
+</div>
+
+<!-- ============ E: Exploded blocks ============ -->
+<div class="v" id="E" data-name="Exploded blocks">
+  <div class="titleline"><span class="plain">TUUXIC</span><span class="box">LAYOUT</span></div>
+  <div style="position:absolute;left:96px;top:250px;width:1100px"><div class="head" style="margin-top:0">A TUI look, without the <em>TUI.</em></div></div>
+  <div class="chips" style="position:absolute;right:64px;top:70px;margin:0;flex-direction:column;align-items:flex-end"><span class="chip solid">HERDR LAYOUT</span><span class="chip">v1.0</span></div>
+  <div class="url" style="left:auto;right:64px;bottom:auto;top:262px">github.com/<b>Tuuxic/herdr-tuuxic</b></div>
+  <div class="shot blk" style="left:260.3px;top:350.0px;width:172.7px;height:19.8px"><img src="shot.png" style="left:-3.3px;top:-20.9px;width:1056.0px"></div>
+  <div class="shot blk" style="left:260.3px;top:389.1px;width:172.7px;height:228.8px"><img src="shot.png" style="left:-3.3px;top:-44.0px;width:1056.0px"></div>
+  <span class="tag2" style="left:268px;top:379px">SPACES</span>
+  <div class="shot blk" style="left:260.3px;top:636.1px;width:172.7px;height:228.8px"><img src="shot.png" style="left:-3.3px;top:-275.0px;width:1056.0px"></div>
+  <span class="tag2" style="left:268px;top:626px">AGENTS</span>
+  <div class="shot blk" style="left:260.3px;top:883.1px;width:172.7px;height:58.3px"><img src="shot.png" style="left:-3.3px;top:-506.0px;width:1056.0px"></div>
+  <div class="shot blk" style="left:451.2px;top:350.0px;width:874.5px;height:19.8px"><img src="shot.png" style="left:-178.2px;top:-20.9px;width:1056.0px"></div>
+  <span class="tag2" style="left:459px;top:336px">TABS</span>
+  <div class="shot blk" style="left:451.2px;top:389.1px;width:668.8px;height:503.8px"><img src="shot.png" style="left:-178.2px;top:-44.0px;width:1056.0px"></div>
+  <span class="tag2" style="left:459px;top:379px">TERMINAL PANES</span>
+  <div class="shot blk" style="left:1138.2px;top:389.1px;width:203.5px;height:503.8px"><img src="shot.png" style="left:-849.2px;top:-44.0px;width:1056.0px"></div>
+  <span class="tag2" style="left:1146px;top:379px">FILES · CHANGES</span>
+  <div class="shot blk" style="left:451.2px;top:926.0px;width:874.5px;height:15.4px"><img src="shot.png" style="left:-178.2px;top:-548.9px;width:1056.0px"></div>
+  <span class="tag2" style="left:459px;top:912px">WHISTLE BAR</span>
+</div>
+
+<!-- ============ E2: Exploded, terminal cropped to 760 ============ -->
+<div class="v" id="E2" data-name="Exploded, terminal cropped to 760">
+  <div class="titleline"><span class="plain">TUUXIC</span><span class="box">LAYOUT</span></div>
+  <div style="position:absolute;left:96px;top:250px;width:1100px"><div class="head" style="margin-top:0">A TUI look, without the <em>TUI.</em></div></div>
+  <div class="chips" style="position:absolute;right:64px;top:70px;margin:0;flex-direction:column;align-items:flex-end"><span class="chip solid">HERDR LAYOUT</span><span class="chip">v1.0</span></div>
+  <div class="url" style="left:auto;right:64px;bottom:auto;top:262px">github.com/<b>Tuuxic/herdr-tuuxic</b></div>
+  <div class="shot blk" style="left:352.4px;top:340.0px;width:188.4px;height:21.6px"><img src="shot.png" style="left:-3.6px;top:-22.8px;width:1152.0px"></div>
+  <div class="shot blk" style="left:352.4px;top:377.2px;width:188.4px;height:249.6px"><img src="shot.png" style="left:-3.6px;top:-48.0px;width:1152.0px"></div>
+  <span class="tag2" style="left:360px;top:363px">SPACES</span>
+  <div class="shot blk" style="left:352.4px;top:641.2px;width:188.4px;height:249.6px"><img src="shot.png" style="left:-3.6px;top:-300.0px;width:1152.0px"></div>
+  <span class="tag2" style="left:360px;top:627px">AGENTS</span>
+  <div class="shot blk" style="left:352.4px;top:905.2px;width:188.4px;height:63.6px"><img src="shot.png" style="left:-3.6px;top:-552.0px;width:1152.0px"></div>
+  <div class="shot blk" style="left:555.2px;top:340.0px;width:692.4px;height:21.6px"><img src="shot.png" style="left:-194.4px;top:-22.8px;width:1152.0px"><img src="shot.png" style="left:-454.8px;top:-22.8px;width:1152.0px;clip-path:inset(0 0 0 1041.0px)"></div>
+  <span class="tag2" style="left:563px;top:326px">TABS</span>
+  <div class="shot blk" style="left:555.2px;top:377.2px;width:456.0px;height:549.6px"><img src="shot.png" style="left:-194.4px;top:-48.0px;width:1152.0px"></div>
+  <span class="tag2" style="left:563px;top:363px">TERMINAL PANES</span>
+  <div class="shot blk" style="left:1025.6px;top:377.2px;width:222.0px;height:549.6px"><img src="shot.png" style="left:-926.4px;top:-48.0px;width:1152.0px"></div>
+  <span class="tag2" style="left:1034px;top:363px">FILES · CHANGES</span>
+  <div class="shot blk" style="left:555.2px;top:952.0px;width:692.4px;height:16.8px"><img src="shot.png" style="left:-194.4px;top:-598.8px;width:1152.0px"></div>
+  <span class="tag2" style="left:563px;top:938px">WHISTLE BAR</span>
+</div>
+
+<!-- ============ E3: Exploded, terminal cropped to 520 ============ -->
+<div class="v" id="E3" data-name="Exploded, terminal cropped to 520">
+  <div class="titleline"><span class="plain">TUUXIC</span><span class="box">LAYOUT</span></div>
+  <div style="position:absolute;left:96px;top:250px;width:1100px"><div class="head" style="margin-top:0">A TUI look, without the <em>TUI.</em></div></div>
+  <div class="chips" style="position:absolute;right:64px;top:70px;margin:0;flex-direction:column;align-items:flex-end"><span class="chip solid">HERDR LAYOUT</span><span class="chip">v1.0</span></div>
+  <div class="url" style="left:auto;right:64px;bottom:auto;top:262px">github.com/<b>Tuuxic/herdr-tuuxic</b></div>
+  <div class="shot blk" style="left:424.4px;top:340.0px;width:188.4px;height:21.6px"><img src="shot.png" style="left:-3.6px;top:-22.8px;width:1152.0px"></div>
+  <div class="shot blk" style="left:424.4px;top:377.2px;width:188.4px;height:249.6px"><img src="shot.png" style="left:-3.6px;top:-48.0px;width:1152.0px"></div>
+  <span class="tag2" style="left:432px;top:363px">SPACES</span>
+  <div class="shot blk" style="left:424.4px;top:641.2px;width:188.4px;height:249.6px"><img src="shot.png" style="left:-3.6px;top:-300.0px;width:1152.0px"></div>
+  <span class="tag2" style="left:432px;top:627px">AGENTS</span>
+  <div class="shot blk" style="left:424.4px;top:905.2px;width:188.4px;height:63.6px"><img src="shot.png" style="left:-3.6px;top:-552.0px;width:1152.0px"></div>
+  <div class="shot blk" style="left:627.2px;top:340.0px;width:548.4px;height:21.6px"><img src="shot.png" style="left:-194.4px;top:-22.8px;width:1152.0px"><img src="shot.png" style="left:-598.8px;top:-22.8px;width:1152.0px;clip-path:inset(0 0 0 1041.0px)"></div>
+  <span class="tag2" style="left:635px;top:326px">TABS</span>
+  <div class="shot blk" style="left:627.2px;top:377.2px;width:312.0px;height:549.6px"><img src="shot.png" style="left:-194.4px;top:-48.0px;width:1152.0px"></div>
+  <span class="tag2" style="left:635px;top:363px">TERMINAL PANES</span>
+  <div class="shot blk" style="left:953.6px;top:377.2px;width:222.0px;height:549.6px"><img src="shot.png" style="left:-926.4px;top:-48.0px;width:1152.0px"></div>
+  <span class="tag2" style="left:962px;top:363px">FILES · CHANGES</span>
+  <div class="shot blk" style="left:627.2px;top:952.0px;width:548.4px;height:16.8px"><img src="shot.png" style="left:-194.4px;top:-598.8px;width:1152.0px"></div>
+  <span class="tag2" style="left:635px;top:938px">WHISTLE BAR</span>
+</div>
+
+<!-- ============ F: Whole window + callouts ============ -->
+<div class="v" id="F" data-name="Whole window + callouts">
+  <div class="titleline"><span class="plain">TUUXIC</span><span class="box">LAYOUT</span></div>
+  <div style="position:absolute;left:96px;top:250px;width:1100px"><div class="head" style="margin-top:0">A TUI look, without the <em>TUI.</em></div></div>
+  <div class="chips" style="position:absolute;right:64px;top:70px;margin:0;flex-direction:column;align-items:flex-end"><span class="chip solid">HERDR LAYOUT</span><span class="chip">v1.0</span></div>
+  <div class="url" style="left:auto;right:64px;bottom:auto;top:262px">github.com/<b>Tuuxic/herdr-tuuxic</b></div>
+  <div class="shot" style="left:272.0px;top:360.0px;width:1056.0px;height:567.6px"><img src="shot.png" style="left:0.0px;top:0.0px;width:1056.0px"></div>
+  <div class="lead" style="left:190px;top:470px;width:82px"></div><span class="label" style="left:40px;top:455px;width:150px;text-align:center">SPACES</span>
+  <div class="lead" style="left:190px;top:684px;width:82px"></div><span class="label" style="left:40px;top:670px;width:150px;text-align:center">AGENTS</span>
+  <div class="lead" style="left:1328px;top:391px;width:92px"></div><span class="label" style="left:1420px;top:376px;width:150px;text-align:center">TABS</span>
+  <div class="lead" style="left:1328px;top:525px;width:92px"></div><span class="label" style="left:1420px;top:510px;width:150px;text-align:center">CHANGES</span>
+  <div class="lead" style="left:1328px;top:917px;width:92px"></div><span class="label" style="left:1420px;top:902px;width:150px;text-align:center">WHISTLE</span>
+</div>
+
+<!-- ============ A: Stacked zooms (today's poster, zooms grown to ~2x and stacked) ============ -->
+<div class="v" id="A" data-name="Stacked zooms">
+  <div class="left" style="top:0;bottom:0;display:flex;flex-direction:column;justify-content:center">
+    <div class="title" style="margin-top:0"><span class="plain">TUUXIC</span><span class="box">LAYOUT</span></div>
+    <div class="head">A TUI look, without the <em>TUI.</em></div>
+    <div class="body" style="max-width:640px">The clean grid and <b>monospace</b> feel of a terminal app, with the comfort of a real window: mouse, popups and smooth panels where you want them.</div>
+    <div class="chips"><span class="chip solid">HERDR LAYOUT</span><span class="chip">v1.0</span></div>
+  </div>
+  <div class="url">github.com/<b>Tuuxic/herdr-tuuxic</b></div>
+  <!-- backdrop: whole window at .396 -->
+  <div class="shot" style="left:790px;top:250px;width:760px;height:409px;opacity:.85"><img src="shot.png" style="left:0;top:0;width:760px"></div>
+  <!-- Spaces 2x: crop x10 y84 306x216 -->
+  <div class="shot zoom" style="left:900px;top:56px;width:612px;height:432px"><img src="shot.png" style="left:-20px;top:-168px;width:3840px"></div>
+  <!-- Agents 2x: crop x10 y505 306x170 -->
+  <div class="shot zoom" style="left:840px;top:560px;width:612px;height:340px"><img src="shot.png" style="left:-20px;top:-1010px;width:3840px"></div>
+</div>
+
+<!-- ============ B: Title band + gallery (title on one line, three pictures in a row below) ============ -->
+<div class="v" id="B" data-name="Title band + gallery">
+  <div class="titleline"><span class="plain">TUUXIC</span><span class="box">LAYOUT</span></div>
+  <div style="position:absolute;left:96px;top:262px;width:1400px">
+    <div class="head" style="margin-top:0">A TUI look, without the <em>TUI.</em></div>
+    <div class="body" style="max-width:1200px;margin-top:14px">The clean grid and <b>monospace</b> feel of a terminal app, with the comfort of a real window: mouse, popups and smooth panels where you want them.</div>
+  </div>
+  <div class="chips" style="position:absolute;right:64px;top:70px;margin:0;flex-direction:column;align-items:flex-end"><span class="chip solid">HERDR LAYOUT</span><span class="chip">v1.0</span></div>
+  <div class="url" style="left:auto;right:64px;bottom:auto;top:290px">github.com/<b>Tuuxic/herdr-tuuxic</b></div>
+  <div class="shot" style="left:440px;top:430px;width:720px;height:387px;opacity:.85"><img src="shot.png" style="left:0;top:0;width:720px"></div>
+  <div class="shot zoom" style="left:64px;top:470px;width:612px;height:432px"><img src="shot.png" style="left:-20px;top:-168px;width:3840px"></div>
+  <div class="shot zoom" style="left:924px;top:520px;width:612px;height:340px"><img src="shot.png" style="left:-20px;top:-1010px;width:3840px"></div>
+</div>
+
+<!-- ============ C: Magnifier (window fills the poster, zooms sit over their own panels, copy moves right) ============ -->
+<div class="v" id="C" data-name="Magnifier, copy right">
+  <!-- whole window at .833, full bleed -->
+  <div class="shot" style="left:0;top:70px;width:1600px;height:860px;border:0;box-shadow:none"><img src="shot.png" style="left:0;top:0;width:1600px"></div>
+  <div class="fade"></div><div class="fadev"></div>
+  <!-- Spaces source in backdrop ~ (7,140)-(265,480); Agents source ~ (7,490)-(265,830) -->
+  <div class="shot zoom" style="left:40px;top:110px;width:612px;height:432px"><img src="shot.png" style="left:-20px;top:-168px;width:3840px"></div>
+  <span class="label" style="left:40px;top:76px">SPACES</span>
+  <div class="shot zoom" style="left:40px;top:600px;width:612px;height:340px"><img src="shot.png" style="left:-20px;top:-1010px;width:3840px"></div>
+  <span class="label" style="left:40px;top:566px">AGENTS</span>
+  <div style="position:absolute;left:800px;top:0;bottom:0;width:760px;display:flex;flex-direction:column;justify-content:center">
+    <div class="title" style="margin-top:0"><span class="plain">TUUXIC</span><span class="box">LAYOUT</span></div>
+    <div class="head">A TUI look, without the <em>TUI.</em></div>
+    <div class="body" style="max-width:700px">The clean grid and <b>monospace</b> feel of a terminal app, with the comfort of a real window: mouse, popups and smooth panels where you want them.</div>
+    <div class="chips"><span class="chip solid">HERDR LAYOUT</span><span class="chip">v1.0</span></div>
+    <div class="url" style="position:static;margin-top:40px">github.com/<b>Tuuxic/herdr-tuuxic</b></div>
+  </div>
+</div>
+
+<!-- ============ L: layout preview candidates ============ -->
+<div class="v" id="L" data-name="Layout preview (tuuxic.svg)">
+  <div class="board">
+    <h2>Layout preview: layouts/tuuxic.svg</h2>
+    <div>Today's has no Files/Changes panel, and draws whistle's bar full width; 1.0's tuuxic-whistle bar sits under the terminals (statusbar-work).</div>
+    <div class="row">
+      <div class="cell"><b>Today</b><img src="../layouts/tuuxic.svg" width="320" height="200"><img src="../layouts/tuuxic.svg" width="440" height="275"></div>
+      <div class="cell"><b>L1: panel closed (default)</b><img src="prototype-layout-closed.svg" width="320" height="200"><img src="prototype-layout-closed.svg" width="440" height="275"></div>
+      <div class="cell"><b>L2: panel open (as in the poster)</b><img src="prototype-layout-open.svg" width="320" height="200"><img src="prototype-layout-open.svg" width="440" height="275"></div>
+    </div>
+  </div>
+</div>
+
+<div id="sw"><button id="prev">&larr;</button><span id="lab"></span><button id="next">&rarr;</button></div>
+<script>
+const keys=['E6','E7','E5','E4','E','E2','E3','D','F','A','B','C','L'];const p=new URLSearchParams(location.search);
+if(p.has('bare'))document.body.classList.add('bare');
+let cur=keys.includes(p.get('variant'))?p.get('variant'):'E6';
+function show(k){cur=k;document.querySelectorAll('.v').forEach(e=>e.classList.toggle('on',e.id===k));
+  document.getElementById('lab').textContent=k+' ('+document.getElementById(k).dataset.name+')';
+  p.set('variant',k);history.replaceState(null,'','?'+p.toString());}
+function step(d){show(keys[(keys.indexOf(cur)+d+keys.length)%keys.length]);}
+document.getElementById('prev').onclick=()=>step(-1);document.getElementById('next').onclick=()=>step(1);
+addEventListener('keydown',e=>{if(e.target.closest('input,textarea,[contenteditable]'))return;
+  if(e.key==='ArrowLeft')step(-1);if(e.key==='ArrowRight')step(1);});
+show(cur);
+// fit the 1600x1000 poster into any window (not in ?bare renders)
+function fit(){if(p.has('bare'))return;document.body.style.zoom=Math.min(innerWidth/1600,innerHeight/1000);}
+addEventListener('resize',fit);fit();
+</script>
+</body></html>
