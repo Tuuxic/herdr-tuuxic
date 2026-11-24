@@ -84,3 +84,12 @@ _Avoid_: test home, dev home
 **Hand pass**:
 The checks a person walks through in the sandbox before a release, beyond what CI covers.
 _Avoid_: manual QA, smoke test
+
+**Poster**:
+The picture herdr.dev shows for tuuxic: the title and pitch beside a screenshot, with zooms on
+the sidebar's spaces and agents.
+_Avoid_: preview, preview image, screenshot
+
+**Layout preview**:
+The small schematic of the layout's blocks that Herdr shows when picking a layout.
+_Avoid_: preview, thumbnail
