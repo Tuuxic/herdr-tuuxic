@@ -68,7 +68,7 @@ export function hintsOff(live, savedText) {
 // WHISTLE with hints to show and tuuxic's hints switch is on (world.hintsOff false).
 // world also takes props (this block's), size (its drawn size) and viewport.
 export function hintsSpec(published, world) {
-  if (world.installed === false || world.hintsOff || world.props?.hints === false) return null;
+  if (world.installed === false || world.hintsOff) return null;
   const state = readState(published.whistle);
   if (!state || state.inert || state.mode !== "whistle" || !leads(world)) return null;
   const h = v1(published.hints) && Array.isArray(published.hints.items) ? published.hints : null;
