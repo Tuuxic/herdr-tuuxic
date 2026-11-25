@@ -7,8 +7,9 @@
 
 import { View, div, svg } from "gpui-kit";
 import { v_flex, h_flex, InputState, Input } from "gpui-base";
-import { commands, layouts, keys, run, theme, props, closeOverlay, openOverlay, shared, window as win } from "herdr";
+import { commands, layouts, keys, run, theme, props, closeOverlay, openOverlay, shared, window as win, layout } from "herdr";
 import { lookFor, openMod } from "./opens.js";
+import { barChoice, barSteps } from "./bar-control.js";
 
 // The list keeps one height while you move: rows and group titles have fixed
 // heights, and the window shows as many as fit in LIST_H.
@@ -88,6 +89,12 @@ function entries() {
     const t = { main: "Herdr", terminals: "Terminals", win98: "Herdr 98" }[l] ?? l.charAt(0).toUpperCase() + l.slice(1);
     list.push({ name: "layout.switch", args: { name: l }, group: "Layout", title: `Layout: ${t}`, words: `look ${l}` });
   }
+  // The whistle bar control (as in Settings → Keyboard), when the layout has tuuxic-whistle bars.
+  if (barChoice(layout()) != null) {
+    for (const [bar, title] of [["under", "under the terminals"], ["full", "full width"], ["hidden", "hidden"]]) {
+      list.push({ name: "layout.show", args: { bar }, steps: barSteps(bar), group: "Layout", title: `Whistle bar: ${title}`, words: "whistle bar hints status" });
+    }
+  }
   // Anything new in the app shows up too, until it gets a better name here.
   const named = new Set(NAMED.map(([n]) => n));
   for (const c of commands()) {
@@ -159,6 +166,8 @@ export default class Palette extends View {
         title: "Duplicate mod", hint: "Mod to copy; creates <name>-copy",
         command: { name: "mod.clone", args: {} },
       } });
+    } else if (e.steps) {
+      for (const [command, args] of e.steps) run(command, args);
     } else if (e.name === "mod.open" && e.args?.name?.startsWith("tuuxic-")) {
       openMod(e.args.name);
     } else {
