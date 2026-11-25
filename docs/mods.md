@@ -154,13 +154,13 @@ The keybindings sheet: every key Herdr has, grouped by where it works. The shown
 
 ## tuuxic-layout
 
-The layout mod: it carries tuuxic's release record (ADR 0003). It has no block and no running code, ships only with the layout, and is never offered alone.
+The layout mod: it carries tuuxic's release record (ADR 0003). It has no block (its view draws nothing and never shows, `"place": "none"`), ships only with the layout, and is never offered alone.
 
 | File | Holds |
 |---|---|
 | `mod.json` | `version`: the layout version; `herdr`: the minimum Herdr; `whistle`: the whistle range, `">=2.0.0 <3.0.0"` |
 | `release.js` | the same three values, for code |
-| range compare module | a dependency-free check of a whistle version against the range |
+| `range.js` | a dependency-free check of a whistle version against the range |
 
 The installing agent reads `mod.json`; other mods read it with `readTextFile`. Its presence also marks a 1.0 or later install: `layouts/tuuxic.json` without `mods/tuuxic-layout/` is pre-1.0.
 

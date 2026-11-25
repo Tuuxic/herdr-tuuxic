@@ -60,7 +60,7 @@ bar and hints.
 - tuuxic-mod-manager calls api.github.com; the browser pane and notes talk to herdr-browser
   on 127.0.0.1.
 - Tuuxic runs git, sh or PowerShell, python3, hc, herdr-app and gh.
-- It needs Herdr TODO(minimum Herdr: set from `"herdr"` in `mods/tuuxic-layout/mod.json` before v1.0.0) or newer.
+- It needs Herdr 0.1.15 or newer (`"herdr"` in `mods/tuuxic-layout/mod.json`). **TODO (before v1.0.0):** confirm the minimum Herdr after running `herdr-app check` and RECIPE's Done when on that release.
 - The terminal font is CaskaydiaMono Nerd Font; install it or change `font` in the layout.
 
 ## Docs

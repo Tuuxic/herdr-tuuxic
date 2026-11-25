@@ -13,7 +13,7 @@ with the `layout:tuuxic` section the install adds. The rest stays outside what s
 the tests in `tests/` and the scripts in `scripts/`.
 
 - **`mods/tuuxic-layout/`** is the layout mod ([ADR 0003](docs/adr/0003-a-layout-mod-carries-the-release-record.md)):
-  no block and no running code. Its `mod.json` is the release record (`version`, `herdr`,
+  no block (its view draws nothing, `"place": "none"`). Its `mod.json` is the release record (`version`, `herdr`,
   `whistle`) and `release.js` exports the same values, with a small whistle range compare
   that needs no library.
 - **Every other mod.json** has exactly `title`, `description`, `version`, `herdr`, Herdr's
@@ -92,7 +92,7 @@ From [ADR 0002](docs/adr/0002-the-layout-version-covers-every-mod-it-ships.md):
   whistle range or the minimum Herdr is a layout minor; widening the range is a patch.
 - **One minimum Herdr** covers the layout and every mod; raising it bumps only the layout.
   It is `"herdr"` in `mods/tuuxic-layout/mod.json`, copied into every mod.json.
-  **TODO (before v1.0.0):** set it after running `herdr-app check` and RECIPE's Done when on
+  It is 0.1.15 for now. **TODO (before v1.0.0):** confirm it after running `herdr-app check` and RECIPE's Done when on
   that Herdr release; the floor is at least 0.1.12 by API use and 0.1.15 for whistle 2.0.0.
 
 ## Release checklist
