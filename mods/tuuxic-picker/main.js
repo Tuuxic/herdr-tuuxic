@@ -221,7 +221,7 @@ export default class Picker extends View {
         .child(this.glyph(t, r.ctx.status))
         .child(div().flex_1().truncate().text_color(t.foreground).when(here, (d) => d.font_semibold()).child(r.ctx.name))
         .when(r.ctx.status === "blocked", (el) => el.child(div().text_size(11).text_color(t.blocked).child("blocked")))
-        .when(r.ctx.status === "done", (el) => el.child(div().text_size(11).text_color(t.done).child("finished")))
+        .when(r.ctx.status === "done", (el) => el.child(div().text_size(11).text_color(t.done).child("done")))
         .child(div().text_size(11).text_color(t.dim).child(who + (r.team ? `  +${r.team}` : "")));
     };
 
