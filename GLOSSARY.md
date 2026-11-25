@@ -109,3 +109,8 @@ _Avoid_: preview, preview image, screenshot
 **Layout preview**:
 The small schematic of the layout's blocks that the layout names as its own preview.
 _Avoid_: preview, thumbnail
+
+**Listing**:
+An entry in herdr.dev's gallery: one folder of the repo that can be added on its own, either the
+layout with every mod or a single mod.
+_Avoid_: entry, package, gallery item
