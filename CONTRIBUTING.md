@@ -111,6 +111,7 @@ From [ADR 0002](docs/adr/0002-the-layout-version-covers-every-mod-it-ships.md):
    [Done when](RECIPE.md#done-when). Also ask: is the poster still true?
 5. **A pull request `next` → `main`**. Merging it is the release:
    `.github/workflows/release.yml` reads the version from `mods/tuuxic-layout/mod.json` and,
-   if the tag `v<version>` doesn't exist yet, tags the merge and makes a GitHub Release whose
-   notes are that version's CHANGELOG entry (`scripts/release.sh` does both reads). When the
-   tag exists it does nothing.
+   if `v<version>` isn't released yet, tags the merge (unless the tag exists) and makes a
+   GitHub Release whose notes are that version's CHANGELOG entry (`scripts/release.sh` does
+   both reads). When the release exists it does nothing; a run that failed after tagging
+   finishes the release when run again.

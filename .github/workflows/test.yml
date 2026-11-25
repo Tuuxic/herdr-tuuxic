@@ -30,7 +30,7 @@ jobs:
           # The bump checks compare against the last v* tag.
           fetch-depth: 0
 
-      # Herdr's window libraries, and xvfb for when `check` won't run headless.
+      # Herdr's window libraries, and xvfb for the display `check` runs on.
       - name: Linux libraries
         if: runner.os == 'Linux'
         run: |
@@ -44,8 +44,8 @@ jobs:
           echo "HERDR_APP=$app" >> "$GITHUB_ENV"
           "$app" --version
 
-      # On Linux `check` falls back to headless without a display; xvfb-run is the fallback's fallback.
+      # On Linux the suite runs once under xvfb, so `check` has a display; a failure isn't retried.
       - name: Tests
         run: |
-          if [ "$RUNNER_OS" = Linux ]; then bash tests/run.sh || xvfb-run -a bash tests/run.sh
+          if [ "$RUNNER_OS" = Linux ]; then xvfb-run -a bash tests/run.sh
           else bash tests/run.sh; fi

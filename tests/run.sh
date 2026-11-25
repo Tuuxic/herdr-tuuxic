@@ -64,7 +64,9 @@ literal() { sed -e 's/\\/\\\\/g' -e 's/`/\\`/g' -e 's/\$/\\$/g' "$1"; }
   printf '%s\n' "$list" | sed 's/.*/  "&",/'
   echo '];'
   # What changed since the last v* tag (none: since.tag is null and the bump checks are skipped).
-  tag="$(git describe --tags --abbrev=0 --match 'v*' 2>/dev/null || true)"
+  # The highest by version, not the nearest ancestor: the release tags main's merge commit,
+  # which next never contains.
+  tag="$(git tag --list 'v*' --sort=-v:refname 2>/dev/null | head -n 1)"
   if [ -z "$tag" ]; then echo 'export const since = { tag: null };'; exit 0; fi
   printf 'export const since = { tag: "%s", keysChanged: %s, mods: {\n' "$tag" \
     "$(git diff --quiet "$tag" -- keys.json && echo false || echo true)"
