@@ -1,0 +1,4 @@
+mods/tuuxic-pane contains code adapted from Herdr's built-in mods, shipped by
+https://github.com/herdrdev/herdr-app under the Apache License, Version 2.0.
+See LICENSE-APACHE (browser/LICENSE is the same licence for browser/client.js).
+Herdr's built-in mods are unchanged.
