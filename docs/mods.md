@@ -77,8 +77,8 @@ The bars: the top bar's left and right parts, and whistle's bar and hints box (A
 | Helpers | none |
 | Block props | `part: "left" \| "right"` (top bar); `whistle: "under" \| "full"` (whistle's bar under the terminals or full width); `corner: true` (hints box bottom right when no whistle bar shows); hints props `hintsAlignRight`, `hintsAlignBorder`, `hintsGap` |
 | Commands | none of its own; runs `space.select`, `layout.resize`, `whistle-ui.settings` |
-| Shared keys | reads `whistle`, `whistle.hints`, `whistle.events`, `whistle.config`, `keynav` and keynav field entries; reads/writes `sidebar.width`, `sidebar.collapsed` |
-| Saved settings | none |
+| Shared keys | reads `whistle`, `whistle.hints`, `whistle.events`, `whistle.config`, `keynav` and keynav field entries, `tuuxic.whistle-hints`; reads/writes `sidebar.width`, `sidebar.collapsed` |
+| Saved settings | reads `whistleHints` in `<appHome>/tuuxic.json` (the hints box switch) |
 | Keynav field | no |
 
 Whistle's bar shows the TYPE/WHISTLE badge (filled green TYPE), "Whistle off", `Terminal` / `Terminal · <title>`, the active field's label, the running key sequence and group title, `⚠ N` config problems, and the hints box. The badge opens `whistle-ui.settings`, or Settings → Keyboard when whistle-ui is missing. Without whistle, `whistle` bars show one muted line ("Whistle isn't installed — hide this bar in Settings → Keyboard", or `inert.problem` / "Whistle isn't running") and the corner draws nothing. Out of the whistle range it draws normally.
@@ -244,7 +244,7 @@ Herdr's settings in one dialog: Look, Keyboard, Machines, Alerts, Updates, Priva
 | Block props | `section` (which section to open on) |
 | Commands | none of its own; runs `whistle.on` / `whistle.off`, `whistle-ui.settings`, `layout.show` / `layout.hide` |
 | Shared keys | reads `whistle` (via its copy of whistle's `whistle.js`: `readWhistle()?.enabled`, `inert`) |
-| Saved settings | writes Herdr's `settings.json`; stores the whistle hints on/off switch |
+| Saved settings | writes Herdr's `settings.json`; stores the hints box on/off switch as `whistleHints` in `<appHome>/tuuxic.json` |
 | Keynav field | no |
 
 **Settings → Keyboard** holds the Whistle mode switch, whose row says what state whistle is in (running, out of range, inert, not running, not in this layout, a pre-1.0 copy, not installed); **Open**, which runs `whistle-ui.settings` and shows only when `mods/whistle-ui/mod.json` exists; the hints on/off switch, offered when whistle is installed; and the whistle bar control (Under the terminals / Full width / Hidden), which shows or hides the `tuuxic-whistle` / `tuuxic-whistle-full` blocks and is also offered as command palette entries. Installed alone, the row leaves out the range note, the pre-1.0 line and the layout check.

@@ -3,9 +3,10 @@
 // never shows ("place": "none").
 
 import { View, div } from "gpui-kit";
+import { VERSION } from "./release.js";
 
 export default class Layout extends View {
   render() {
-    return div();
+    return div().id(`tuuxic-layout-${VERSION}`);
   }
 }

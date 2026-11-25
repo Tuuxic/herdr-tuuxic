@@ -14,8 +14,8 @@ the tests in `tests/` and the scripts in `scripts/`.
 
 - **`mods/tuuxic-layout/`** is the layout mod ([ADR 0003](docs/adr/0003-a-layout-mod-carries-the-release-record.md)):
   no block (its view draws nothing, `"place": "none"`). Its `mod.json` is the release record (`version`, `herdr`,
-  `whistle`) and `release.js` exports the same values, with a small whistle range compare
-  that needs no library.
+  `whistle`) and `release.js` exports the same values; `range.js` holds a small whistle range
+  compare that needs no library.
 - **Every other mod.json** has exactly `title`, `description`, `version`, `herdr`, Herdr's
   `place`/`size`/`focusable`/`overlay` as needed, and `cloned_from`.
 - **Whistle is not in the repo.** Tuuxic supports it without depending on it
@@ -24,7 +24,9 @@ the tests in `tests/` and the scripts in `scripts/`.
   ([ADR 0004](docs/adr/0004-tuuxic-draws-whistles-bar-and-hints.md)).
 - **Plain copies**, kept by hand with no match check: whistle v2.0.0's `keynav.js` in the six
   keynav mods, whistle's `whistle.js` in tuuxic-settings and tuuxic-pane, `opens.js` in
-  tuuxic-bar, tuuxic-chrome and tuuxic-palette, `browser/client.js` in tuuxic-pane and
+  tuuxic-bar, tuuxic-chrome and tuuxic-palette, `bar-control.js` in tuuxic-palette and
+  tuuxic-settings, the whistle range compare as tuuxic-layout's `range.js` and
+  tuuxic-settings' `whistle-range.js`, `browser/client.js` in tuuxic-pane and
   `client.js` in tuuxic-notes. Imports stay inside each mod's folder.
 - **Licence notices** sit in the mod that carries the code; the README lists them all.
 

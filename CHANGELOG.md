@@ -7,10 +7,10 @@ and follow each entry's **Upgrading** notes in order.
 
 ## v1.0.0 (2026-11-25)
 
+### Upgrading
+
 The first versioned release. Whistle is no longer bundled: tuuxic targets whistle
 `>=2.0.0 <3.0.0`, installed from [Tuuxic/herdr-whistle](https://github.com/Tuuxic/herdr-whistle).
-
-### Upgrading
 
 From a pre-1.0 tuuxic (`layouts/tuuxic.json` present, `mods/tuuxic-layout/` absent), in this
 order:
@@ -32,9 +32,8 @@ order:
    `tuuxic-whistle-full`) and every `whistle.*` binding in keys.json.
 5. In `whistle-integration.md`, delete the clones and rows that cover tuuxic's layout or
    mods: tuuxic's layout is already integrated.
-6. **Saved settings** under renamed keys move by themselves: each mod reads the old key once
-   when the new one is missing, writes the new key and drops the old. This migration code is
-   removed in 2.0.0.
+6. **Saved settings**: no saved key is renamed in 1.0, so nothing moves. tuuxic-settings
+   carries an empty rename step for later releases; it is removed in 2.0.0.
 
 ### Mods
 

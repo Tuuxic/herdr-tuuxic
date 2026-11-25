@@ -294,7 +294,8 @@ A pre-1.0 tuuxic is taken to 1.0 by this section: the v1.0.0 entry's Upgrading n
    uses.
 4. In keys.json, remove the `layout:tuuxic` section and the `global` lines Single mods added.
 5. Ask before deleting tuuxic's themes, by name; switch away from the one in use first.
-6. Ask before deleting tuuxic's saved settings.
+6. Ask before deleting tuuxic's saved settings, `<appHome>/tuuxic.json` (the hints box
+   switch) among them.
 7. Ask about whistle, default keep. On yes, run whistle's Uninstall: it removes
    `whistle-anchor` and `whistle-corner` and leaves the tuuxic-whistle blocks, which go with
    the layout anyway.
