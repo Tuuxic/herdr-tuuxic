@@ -88,9 +88,9 @@ The oldest Herdr that the layout and all of its mods run on; one number for all 
 _Avoid_: Herdr floor, required Herdr
 
 **Whistle range**:
-The whistle versions a layout version allows; whistle outside it, or missing, leaves tuuxic
-working without whistle and saying why. Only the layout has one: a mod installed alone uses
-whistle when it finds what it needs and otherwise goes without, with no range of its own.
+The whistle versions a layout version is tested with; outside it, tuuxic still uses whistle and
+says the version is untested. Only the layout has one: a mod installed alone uses whistle when it
+finds what it needs and otherwise goes without, with no range of its own.
 _Avoid_: whistle dependency, pinned whistle
 
 **Sandbox**:
