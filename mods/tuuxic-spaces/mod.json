@@ -1,6 +1,9 @@
 {
-  "place": "none",
   "title": "Spaces",
+  "description": "Spaces with colored avatars, agent states and worktrees",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
+  "place": "none",
   "cloned_from": {
     "name": "spaces",
     "version": "0.1.13"

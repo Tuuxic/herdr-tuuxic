@@ -1,0 +1,1 @@
+{ "place": "none", "title": "Tuuxic layout", "description": "Tuuxic's release record: the layout version, minimum Herdr and whistle range. Ships only with the layout.", "version": "1.0.0", "herdr": "0.1.15", "whistle": ">=2.0.0 <3.0.0" }

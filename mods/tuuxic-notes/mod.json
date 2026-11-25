@@ -1,1 +1,7 @@
-{ "place": "none", "title": "Browser notes" }
+{
+  "title": "Browser notes",
+  "description": "Notes for the herdr-browser page being annotated",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
+  "place": "none"
+}
