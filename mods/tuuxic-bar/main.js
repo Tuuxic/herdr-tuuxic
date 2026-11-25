@@ -3,6 +3,8 @@ import { h_flex } from "gpui-base";
 import { spaces, agents, theme, run, window, props, layout, shared, setShared, focused, home } from "herdr";
 import { setZoomBorder, ZOOM_BORDER } from "./zoom.js";
 import { lookFor, openMod } from "./opens.js";
+import { WhistleBlock, renderHints } from "./whistleview.js";
+import { isWhistleBlock } from "./whistlebar.js";
 
 const own = (el) => el.on_mouse_down("left", (_e, cx) => cx.stop_propagation());
 
@@ -26,11 +28,18 @@ function toggleSidebar() {
 
 export default class TuuxicBar extends View {
   init(_props, cx) {
+    let p = {};
+    try { p = props() ?? {}; } catch { /* no props in init on this Herdr */ }
+    if (p.part === "hints") { this.hints = true; return; }
+    // The whistle bar blocks: whistle's bar and hints, drawn from whistle's public keys.
+    if (isWhistleBlock(p)) { this.whistle = new WhistleBlock(p, cx); return; }
     lookFor(["tuuxic-palette", "tuuxic-picker"], cx);
   }
 
   render() {
     const t = theme();
+    if (this.hints) return renderHints(shared("whistle.hints"), Number(props()?.width ?? 480), t);
+    if (this.whistle) return this.whistle.render(t);
     const part = props()?.part;
     const row = h_flex().id(`tuuxic-${part}`).size_full().items_center().bg(t.chrome).text_size(12).text_color(t.muted).overflow_hidden();
     if (part === "right") return this.right(row, t);
