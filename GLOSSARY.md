@@ -114,3 +114,13 @@ _Avoid_: preview, thumbnail
 An entry in herdr.dev's gallery: one folder of the repo that can be added on its own, either the
 layout with every mod or a single mod.
 _Avoid_: entry, package, gallery item
+
+## Install
+
+**Single mod**:
+A tuuxic-* mod added on its own to a layout that isn't tuuxic, together with its helpers.
+_Avoid_: standalone mod, loose mod
+
+**Helper**:
+A tuuxic-* mod that other mods read and that comes along with them, never offered on its own.
+_Avoid_: dependency, shared mod, library mod
