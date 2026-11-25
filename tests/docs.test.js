@@ -1,7 +1,9 @@
 // The docs (spec sections 7 and 8):
 //   - every link in the repo's Markdown resolves to a file or folder and, with a #fragment, to a
 //     heading in that file (GitHub's anchors). Links to other sites aren't followed;
-//   - every shipped mod but tuuxic-layout has a docs/mods.md section.
+//   - every shipped mod but tuuxic-layout has a docs/mods.md section;
+//   - RECIPE.md opens with the banner (title, intro, the Agents note), then its ## sections run
+//     in the spec's order: the look and build sections, then Install, Single mods, Update, Uninstall.
 
 import { suite, text, files, shipped, LAYOUT_MOD } from "./harness.js";
 
@@ -60,5 +62,19 @@ export default suite("docs", (t) => {
     const headings = [...mods.matchAll(/^#{2,3}[ \t]+(.+)$/gm)].map((m) => m[1]);
     t.check("every shipped mod has a docs/mods.md section",
       shipped().filter((n) => n !== LAYOUT_MOD && !headings.some((h) => new RegExp(`\\b${n}\\b`).test(h))), []);
+  }
+
+  const recipe = text("RECIPE.md");
+  t.ok("RECIPE.md exists", recipe != null);
+  if (recipe != null) {
+    const body = recipe.replace(/^(```|~~~)[^\n]*\n[\s\S]*?^\1[^\n]*$/gm, "");
+    const first = body.search(/^## /m);
+    const banner = first < 0 ? body : body.slice(0, first);
+    t.ok("RECIPE.md opens with the banner", /^# \S/.test(banner) && /^> \*\*Agents:\*\*/m.test(banner),
+      "a # title and the > **Agents:** note before the first ## section");
+    t.check("RECIPE.md section order", [...body.matchAll(/^##[ \t]+(.+?)[ \t]*$/gm)].map((m) => m[1]), [
+      "Talking to the person", "What you see", "How it behaves", "Built from", "Watch out", "Done when",
+      "Install", "Single mods", "Update", "Uninstall",
+    ]);
   }
 });
