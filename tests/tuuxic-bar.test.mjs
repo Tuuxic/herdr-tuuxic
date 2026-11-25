@@ -1,7 +1,7 @@
 // tuuxic-bar's whistle bar model (mods/tuuxic-bar/whistlebar.js): run with `node --test tests/`.
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { barModel } from "../mods/tuuxic-bar/whistlebar.js";
+import { barModel, hintsSpec } from "../mods/tuuxic-bar/whistlebar.js";
 
 const state = (over = {}) => ({ v: 1, mode: "type", enabled: true, sequence: null, pane: null, onTerminal: false, field: null, inert: null, ...over });
 const world = (over = {}) => ({ installed: true, layout: null, focused: { pane: "p1" }, panes: [{ pane: "p1", title: "vim" }], shared: {}, flash: null, ...over });
@@ -66,6 +66,32 @@ test("a problem event flashes and stays until the next key", () => {
   assert.equal(later.bar.label, "No key w");
   const keyed = barModel({ whistle: state({ mode: "type" }), events }, world({ last: later.last, flash: later.flash }));
   assert.equal(keyed.bar.label, "Terminal");
+});
+
+const bars = (fullHidden, underHidden) => ({ id: "root", children: [
+  { id: "tuuxic-whistle", hidden: underHidden, content: { mod: "tuuxic-bar", props: { whistle: "under" } } },
+  { id: "tuuxic-whistle-full", hidden: fullHidden, content: { mod: "tuuxic-bar", props: { whistle: "full" } } },
+  { id: "tuuxic-whistle-corner", content: { mod: "tuuxic-bar", props: { corner: true } } },
+] });
+const hints = { v: 1, keys: "w", title: "Panes", items: [{ key: "h", label: "Left" }], exit: "esc" };
+
+test("the shown bar opens the hints box in WHISTLE; other copies don't", () => {
+  const p = { whistle: state({ mode: "whistle" }), hints };
+  const spec = hintsSpec(p, world({ layout: bars(true, false), props: { whistle: "under" } }));
+  assert.equal(spec.props.part, "hints");
+  assert.equal(hintsSpec(p, world({ layout: bars(true, false), props: { corner: true } })), null);
+});
+
+test("with every bar hidden the corner opens the hints box", () => {
+  const p = { whistle: state({ mode: "whistle" }), hints };
+  assert.ok(hintsSpec(p, world({ layout: bars(true, true), props: { corner: true } })));
+});
+
+test("no hints box in TYPE, with hints switched off, or without whistle", () => {
+  const w = world({ layout: bars(true, false), props: { whistle: "under" } });
+  assert.equal(hintsSpec({ whistle: state(), hints }, w), null);
+  assert.equal(hintsSpec({ whistle: state({ mode: "whistle" }), hints }, { ...w, hintsOff: true }), null);
+  assert.equal(hintsSpec({ hints }, { ...w, installed: false }), null);
 });
 
 test("a new copy doesn't flash events already in the feed", () => {

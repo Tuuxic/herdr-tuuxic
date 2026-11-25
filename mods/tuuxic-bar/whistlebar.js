@@ -9,6 +9,8 @@
 //          last: seq of the last event handled (null: none read yet), flash: the kept flash }
 // Returns { bar: { badge, label, marker, problem?, sequence?, muted? }, last, flash }.
 
+import { hintsBox } from "./box.js";
+
 const v1 = (value) => Boolean(value) && typeof value === "object" && value.v === 1;
 
 // whistle.js's readWhistle(), without the Herdr call.
@@ -23,15 +25,50 @@ export const NOT_RUNNING = "Whistle isn't running";
 
 const STOCK = { spaces: "Spaces", tabs: "Tabs", agents: "Agents" };
 
+const isObject = (v) => Boolean(v) && typeof v === "object" && !Array.isArray(v);
+
+// The layout's mod blocks, in layout order: [{ id, mod, props, shown }].
 function blocks(layout) {
   const out = [];
-  const walk = (n) => {
+  const walk = (n, hidden) => {
     if (!n) return;
-    if (n.content?.mod) out.push({ id: n.id, mod: n.content.mod });
-    for (const c of n.children ?? []) walk(c);
+    const h = hidden || Boolean(n.hidden);
+    if (n.content?.mod) out.push({ id: n.id, mod: n.content.mod, props: isObject(n.content.props) ? n.content.props : {}, shown: !h });
+    for (const c of n.children ?? []) walk(c, h);
   };
-  walk(layout);
+  walk(layout, false);
   return out;
+}
+
+export const isCorner = (props) => isObject(props) && props.corner === true;
+export const isWhistleBlock = (props) => isObject(props) && (props.corner === true || typeof props.whistle === "string");
+
+// Props as text, keys sorted: copies know their block only by its props.
+const stable = (v) => {
+  if (Array.isArray(v)) return `[${v.map(stable).join(",")}]`;
+  if (isObject(v)) return `{${Object.keys(v).sort().map((k) => `${JSON.stringify(k)}:${stable(v[k])}`).join(",")}}`;
+  return JSON.stringify(v ?? null);
+};
+
+// The tuuxic-bar block that shows the hints: the first whistle bar shown, else the corner.
+function leads(world) {
+  const all = blocks(world.layout).filter((b) => b.mod === "tuuxic-bar" && b.shown && isWhistleBlock(b.props));
+  const l = all.find((b) => !isCorner(b.props)) ?? all.find((b) => isCorner(b.props));
+  return Boolean(l) && stable(l.props) === stable(world.props ?? {});
+}
+
+// The hints overlay this copy should have open, or null: the lead's, while whistle runs in
+// WHISTLE with hints to show and tuuxic's hints switch is on (world.hintsOff false).
+// world also takes props (this block's), size (its drawn size) and viewport.
+export function hintsSpec(published, world) {
+  if (world.installed === false || world.hintsOff || world.props?.hints === false) return null;
+  const state = readState(published.whistle);
+  if (!state || state.inert || state.mode !== "whistle" || !leads(world)) return null;
+  const h = v1(published.hints) && Array.isArray(published.hints.items) ? published.hints : null;
+  if (!h) return null;
+  const b = hintsBox(h.items, world.viewport ?? null, isCorner(world.props) ? null : { place: world.props ?? {}, size: world.size ?? null });
+  return { mod: "tuuxic-bar", kind: "window", frame: "none", width: b.width, height: b.height, ...(b.at ? { at: b.at } : {}),
+    props: { part: "hints", width: b.width } };
 }
 
 // Where the keyboard is, as whistle-ui 2.0.0 says it.
