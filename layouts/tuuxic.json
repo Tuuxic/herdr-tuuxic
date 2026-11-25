@@ -298,87 +298,6 @@
                   "hintsGap": 11
                 }
               }
-            },
-            {
-              "id": "whistle-anchor",
-              "type": "block",
-              "size": {
-                "px": 0
-              },
-              "resizable": false,
-              "content": {
-                "mod": "whistle",
-                "props": {
-                  "enabled": false,
-                  "mappings": {
-                    "/": [
-                      "Go to tab or space",
-                      "mod.open:tuuxic-picker"
-                    ],
-                    "c": [
-                      "Changes",
-                      "whistle.focus:changes"
-                    ],
-                    "C": [
-                      "Show or hide Changes",
-                      "whistle.toggle:changes"
-                    ],
-                    "e": [
-                      "Files",
-                      "whistle.focus:files"
-                    ],
-                    "E": [
-                      "Show or hide Files",
-                      "whistle.toggle:files"
-                    ],
-                    "p": [
-                      "Command palette",
-                      "mod.open:tuuxic-palette"
-                    ],
-                    ",": [
-                      "Settings",
-                      "mod.open:tuuxic-settings"
-                    ],
-                    "?": [
-                      "Keybindings",
-                      "mod.open:tuuxic-keys"
-                    ],
-                    "m": [
-                      "Mods",
-                      "mod.open:tuuxic-mod-manager"
-                    ]
-                  }
-                }
-              }
-            },
-            {
-              "id": "tuuxic-whistle-corner",
-              "type": "block",
-              "size": {
-                "px": 0
-              },
-              "resizable": false,
-              "content": {
-                "mod": "tuuxic-bar",
-                "props": {
-                  "corner": true
-                }
-              }
-            },
-            {
-              "id": "whistle-corner",
-              "type": "block",
-              "size": {
-                "px": 0
-              },
-              "resizable": false,
-              "content": {
-                "mod": "whistle-ui",
-                "props": {
-                  "corner": true,
-                  "hints": false
-                }
-              }
             }
           ]
         }
@@ -400,6 +319,87 @@
           "hintsAlignRight": 6,
           "hintsAlignBorder": 0,
           "hintsGap": 6
+        }
+      }
+    },
+    {
+      "id": "whistle-anchor",
+      "type": "block",
+      "size": {
+        "px": 0
+      },
+      "resizable": false,
+      "content": {
+        "mod": "whistle",
+        "props": {
+          "enabled": false,
+          "mappings": {
+            "/": [
+              "Go to tab or space",
+              "mod.open:tuuxic-picker"
+            ],
+            "c": [
+              "Changes",
+              "whistle.focus:changes"
+            ],
+            "C": [
+              "Show or hide Changes",
+              "whistle.toggle:changes"
+            ],
+            "e": [
+              "Files",
+              "whistle.focus:files"
+            ],
+            "E": [
+              "Show or hide Files",
+              "whistle.toggle:files"
+            ],
+            "p": [
+              "Command palette",
+              "mod.open:tuuxic-palette"
+            ],
+            ",": [
+              "Settings",
+              "mod.open:tuuxic-settings"
+            ],
+            "?": [
+              "Keybindings",
+              "mod.open:tuuxic-keys"
+            ],
+            "m": [
+              "Mods",
+              "mod.open:tuuxic-mod-manager"
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "tuuxic-whistle-corner",
+      "type": "block",
+      "size": {
+        "px": 0
+      },
+      "resizable": false,
+      "content": {
+        "mod": "tuuxic-bar",
+        "props": {
+          "corner": true
+        }
+      }
+    },
+    {
+      "id": "whistle-corner",
+      "type": "block",
+      "size": {
+        "px": 0
+      },
+      "resizable": false,
+      "content": {
+        "mod": "whistle-ui",
+        "props": {
+          "corner": true,
+          "hints": false
         }
       }
     }
