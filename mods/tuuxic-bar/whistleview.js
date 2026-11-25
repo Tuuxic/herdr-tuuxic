@@ -43,7 +43,11 @@ export class WhistleBlock {
   // The badge: whistle-ui's settings, or Settings → Keyboard without whistle-ui.
   openSettings() {
     if (this.ui !== false) run("whistle-ui.settings");
-    else run("mod.open", { name: "tuuxic-settings", props: { section: "keyboard" } });
+    // mod.open takes no props, so open the dialog on its Keyboard section directly (sized as
+    // tuuxic-settings' mod.json says); Settings' own page if that fails.
+    else if (!call(() => openOverlay({ mod: "tuuxic-settings", kind: "dialog", frame: "none", width: 970, height: 690, props: { section: "keyboard" } }))) {
+      run("mod.open", { name: "tuuxic-settings" });
+    }
   }
 
   // Opens, replaces or closes the hints overlay after the drawing.
