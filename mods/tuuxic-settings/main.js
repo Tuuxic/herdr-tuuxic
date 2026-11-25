@@ -2,10 +2,27 @@
 
 import { View, div, svg } from "gpui-kit";
 import { v_flex, h_flex, Scrollbar, InputState, Input } from "gpui-base";
-import { hc, run, theme, updates, telemetry, appHome, readTextFile, writeTextFile, playSound, props, closeOverlay, window, shared } from "herdr";
+import { hc, run, theme, updates, telemetry, appHome, readTextFile, writeTextFile, playSound, props, closeOverlay, window, shared, setShared, layout } from "herdr";
 
 import { heading, row, button, toggle } from "./controls.js";
 import { DEFAULT_FONT, look } from "./look.js";
+import { readWhistle } from "./whistle.js";
+import { whistleRow } from "./whistle-row.js";
+import { barChoice, barSteps, hasWhistleBlock } from "./bar-control.js";
+import { migrateKeys } from "./saved-keys.js";
+
+const readJson = async (path) => {
+  try {
+    const text = await readTextFile(path);
+    return text == null ? null : JSON.parse(text);
+  } catch {
+    return null;
+  }
+};
+
+// tuuxic's own saved choices that aren't Herdr settings: { whistleHints }. tuuxic-bar reads
+// shared("tuuxic.whistleHints"), which this mod publishes from the file.
+const tuuxicFile = () => `${appHome()}/tuuxic.json`;
 
 const I = (name) => `mods/tuuxic-settings/${name}.svg`;
 
@@ -50,9 +67,22 @@ export default class Settings extends View {
     this.handle = cx.focus_handle();
     this.handle.focus();
     cx.spawn(async (cx) => {
-      // Whistle is a separate mod: its row shows only when it's installed.
-      this.hasWhistle = (await readTextFile(`${appHome()}/mods/whistle/main.js`)) != null;
+      // Whistle is a separate mod (ADR 0001): what's installed comes from the mods' mod.json
+      // files, the tested range from tuuxic-layout's (absent when this mod is installed alone).
+      this.whistleManifest = await readJson(`${appHome()}/mods/whistle/mod.json`);
+      this.hasWhistle = this.whistleManifest != null;
+      this.hasWhistleUi = (await readTextFile(`${appHome()}/mods/whistle-ui/mod.json`)) != null;
+      this.whistleRange = (await readJson(`${appHome()}/mods/tuuxic-layout/mod.json`))?.whistle ?? null;
+      this.tuuxic = (await readJson(tuuxicFile())) ?? {};
+      setShared("tuuxic.whistleHints", this.tuuxic.whistleHints !== false);
       await this.load();
+      if (migrateKeys(this.person).changed) {
+        this.change((next) => {
+          const { saved } = migrateKeys(next);
+          for (const key of Object.keys(next)) delete next[key];
+          Object.assign(next, saved);
+        }, cx);
+      }
       if (this.section === "machines") await this.loadMachines();
       cx.notify();
     });
@@ -124,33 +154,73 @@ export default class Settings extends View {
     closeOverlay(props().overlay);
   }
 
-  // The sections this machine has: Keyboard only on macOS or with whistle installed.
+  // The sections this machine has: Keyboard on macOS, with whistle installed, or when the layout
+  // has tuuxic-whistle bars to control.
   sections() {
-    return SECTIONS.filter((s) => s.id !== "keyboard" || window()?.platform === "macos" || this.hasWhistle);
+    return SECTIONS.filter((s) => s.id !== "keyboard" || window()?.platform === "macos" || this.hasWhistle || barChoice(layout()) != null);
+  }
+
+  // The Whistle mode row (whistle-row.js) from what's installed and what whistle publishes.
+  whistleRow() {
+    const tree = layout();
+    return whistleRow({
+      manifest: this.whistleManifest ?? null,
+      state: readWhistle(),
+      range: this.whistleRange,
+      hasBlock: this.whistleRange == null ? null : hasWhistleBlock(tree),
+      hasUi: this.hasWhistleUi,
+    });
+  }
+
+  setWhistleHints(on, cx) {
+    this.tuuxic = { ...this.tuuxic, whistleHints: on };
+    setShared("tuuxic.whistleHints", on);
+    cx.spawn(async () => {
+      try { await writeTextFile(tuuxicFile(), JSON.stringify(this.tuuxic, null, 2) + "\n"); } catch {}
+    });
+    cx.notify();
+  }
+
+  whistleSection(t) {
+    const w = this.whistleRow();
+    const choice = barChoice(layout());
+    const note = (text) => div().py(6).text_size(12.5).text_color(t.dim).child(text);
+    const BARS = [["under", "Under the terminals"], ["full", "Full width"], ["hidden", "Hidden"]];
+    return div().when(window()?.platform === "macos", (d) => d.pt(18))
+      .child(heading(t, "Whistle"))
+      .child(row(t, "Whistle mode",
+        "A vim-like mode: Ctrl+Space switches out of typing to move between spaces, agents, tabs and panels and run commands with short key sequences.",
+        w.switch
+          // Whistle says whether it's on in readWhistle().enabled and takes whistle.on / whistle.off.
+          ? toggle(t, "st-whistle-on", this.whistleOn(), (_e, cx) => {
+            const on = !this.whistleOn();
+            this.whistleWant = on;
+            run(on ? "whistle.on" : "whistle.off");
+            cx.notify();
+          })
+          : div()))
+      .when(Boolean(w.text), (el) => el.child(note(w.fix ? `${w.text} ${w.fix}` : w.text)))
+      .when(w.open, (el) => el.child(row(t, "Whistle settings", "Key hints and every key mapping in effect.",
+        button(t, "st-whistle", "Open", () => { closeOverlay(props()?.overlay); run("whistle-ui.settings"); }))))
+      .when(Boolean(this.hasWhistle), (el) => el.child(row(t, "Key hints", "The box of next keys while a whistle sequence runs.",
+        toggle(t, "st-whistle-hints", this.tuuxic?.whistleHints !== false, (_e, cx) => this.setWhistleHints(this.tuuxic?.whistleHints === false, cx)))))
+      .when(choice != null, (el) => el.child(row(t, "Whistle bar", "Where tuuxic draws whistle's bar.",
+        h_flex().gap_1().children(BARS.map(([value, label]) =>
+          button(t, `st-whistle-bar-${value}`, choice === value ? `• ${label}` : label, () => {
+            for (const [command, args] of barSteps(value)) run(command, args);
+          }))))));
   }
 
   keyboard(t) {
     return v_flex()
       .w_full()
       .when(window()?.platform === "macos", (el) => el.child(this.optionKey(t)))
-      .when(Boolean(this.hasWhistle), (el) => el.child(div().when(window()?.platform === "macos", (d) => d.pt(18))
-        .child(heading(t, "Whistle"))
-        .child(row(t, "Whistle mode",
-          "A vim-like mode: Ctrl+Space switches out of typing to move between spaces, agents, tabs and panels and run commands with short key sequences.",
-          // Whistle says whether it's on in shared("whistle.enabled") and takes whistle.on / whistle.off.
-          toggle(t, "st-whistle-on", this.whistleOn(), (_e, cx) => {
-            const on = !this.whistleOn();
-            this.whistleWant = on;
-            run(on ? "whistle.on" : "whistle.off");
-            cx.notify();
-          })))
-        .child(row(t, "Whistle settings", "Key hints and every key mapping in effect.",
-          button(t, "st-whistle", "Open", () => { closeOverlay(props()?.overlay); run("whistle.settings"); })))));
+      .when(Boolean(this.hasWhistle) || barChoice(layout()) != null, (el) => el.child(this.whistleSection(t)));
   }
 
   // What was just asked for until whistle reports it, then what whistle reports.
   whistleOn() {
-    const now = shared("whistle.enabled") === true;
+    const now = readWhistle()?.enabled === true;
     if (this.whistleWant === now) this.whistleWant = undefined;
     return this.whistleWant ?? now;
   }

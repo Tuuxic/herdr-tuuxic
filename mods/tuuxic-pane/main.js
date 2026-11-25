@@ -13,10 +13,11 @@ import { View, div, svg, image } from "gpui-kit";
 import { h_flex, InputState, Input } from "gpui-base";
 import { panes, props, run, theme, home, exec, layout, shared, setShared, window } from "herdr";
 import { act, readLive, watchLive, touches } from "./browser/client.js";
+import { readWhistle } from "./whistle.js";
 
-// Keyboard navigation (keynav protocol, as in the other tuuxic mods' keynav.js): while a driver
-// such as whistle has the terminal field selected, the pane it points at lights up its header.
-const keyPane = () => { const v = shared("keynav"); return v?.active === "terminal" ? v.pane : null; };
+// While whistle is in WHISTLE with the terminal field selected, the pane it points at lights up
+// its header (whistle's state, read with the copied whistle.js).
+const keyPane = () => { const w = readWhistle(); return w?.mode === "whistle" && w.onTerminal ? w.pane : null; };
 const keyGlow = (t) => t.foreground + "b3";
 
 function icon(p, size, color) {
