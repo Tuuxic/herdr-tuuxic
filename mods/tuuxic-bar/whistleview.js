@@ -20,6 +20,8 @@ export class WhistleBlock {
     this.props = props ?? {};
     this.kept = { last: Number.isInteger(shared(SEEN)) ? shared(SEEN) : null, flash: null };
     this.box = undefined;
+    this.opened = null; // the hints overlay this copy opened
+    this.pending = false; // an open or close is queued for after the drawing
     this.size = null;
     this.installed = undefined;
     this.ui = undefined;
@@ -55,15 +57,29 @@ export class WhistleBlock {
   // Opens, replaces or closes the hints overlay after the drawing.
   sync(spec) {
     const sent = spec ? JSON.stringify(spec) : null;
-    if (sent === this.box) return;
+    // A hidden block's copy keeps its state but doesn't draw, so another copy may have closed
+    // its box meanwhile: a lead whose box isn't the open one anymore opens it again.
+    const lost = spec && !this.pending && this.opened && shared(OVERLAY) !== this.opened;
+    if (sent === this.box && !lost) return;
     const isLead = Boolean(spec);
     const wasLead = this.box !== undefined && this.box !== null;
     this.box = sent;
     if (!isLead && !wasLead) return;
+    // A copy closes only its own box, or as the lead one a replaced copy left behind: when the
+    // lead moves to another copy, the old lead must not close the new lead's box.
+    this.pending = true;
     Promise.resolve().then(() => {
+      this.pending = false;
       const id = shared(OVERLAY) ?? null;
-      if (id) { call(() => closeOverlay(id)); setShared(OVERLAY, null); }
-      if (spec) { const nid = call(() => openOverlay(spec)); if (nid) setShared(OVERLAY, nid); }
+      if (this.opened) call(() => closeOverlay(this.opened));
+      if (spec) {
+        if (id && id !== this.opened) call(() => closeOverlay(id));
+        this.opened = call(() => openOverlay(spec)) ?? null;
+        setShared(OVERLAY, this.opened);
+      } else {
+        if (id && id === this.opened) setShared(OVERLAY, null);
+        this.opened = null;
+      }
     });
   }
 
