@@ -41,7 +41,7 @@ const Tabs = (await import("../mods/tuuxic-tabs/main.js")).default;
 
 test("spaces: pick goes to the space and switches whistle to TYPE", () => {
   fresh({ spaces: [{ id: "s1" }, { id: "s2" }] });
-  const f = field("s2"); world.shared.whistle = { mode: "whistle" };
+  const f = field("s2", { order: ["s1", "s2"] }); world.shared.whistle = { mode: "whistle" };
   Spaces.prototype.keynav.call(f, "keynav-pick");
   assert.deepEqual(world.runs, [["space.select", { id: "s2" }], ["whistle.mode:type"]]);
   assert.deepEqual(after(), ["hold"]);
@@ -49,13 +49,13 @@ test("spaces: pick goes to the space and switches whistle to TYPE", () => {
 
 test("spaces: pick without whistle runs no whistle command", () => {
   fresh({ spaces: [{ id: "s1" }] });
-  Spaces.prototype.keynav.call(field("s1"), "keynav-pick");
+  Spaces.prototype.keynav.call(field("s1", { order: ["s1"] }), "keynav-pick");
   assert.deepEqual(world.runs, [["space.select", { id: "s1" }]]);
 });
 
 test("spaces: Space shows the space and stays in WHISTLE", () => {
   fresh({ spaces: [{ id: "s1" }] });
-  const f = field("s1"); world.shared.whistle = { mode: "whistle" };
+  const f = field("s1", { order: ["s1"] }); world.shared.whistle = { mode: "whistle" };
   Spaces.prototype.keynav.call(f, "keynav-key-space");
   assert.deepEqual(world.runs, [["space.select", { id: "s1" }]]);
   assert.deepEqual(after(), ["hold"]);
@@ -63,9 +63,34 @@ test("spaces: Space shows the space and stays in WHISTLE", () => {
 
 test("spaces: the old open move does nothing", () => {
   fresh({ spaces: [{ id: "s1" }] });
-  Spaces.prototype.keynav.call(field("s1"), "keynav-open");
+  Spaces.prototype.keynav.call(field("s1", { order: ["s1"] }), "keynav-open");
   assert.deepEqual(world.runs, []);
 });
+
+// `order` is what the list drew last: a folded machine's or group's rows aren't in it.
+for (const [name, List, live, run] of [
+  ["spaces", Spaces, (ids) => ({ spaces: ids.map((id) => ({ id })) }), "space.select"],
+  ["agents", Agents, (ids) => ({ agents: ids.map((address) => ({ address })) }), "agent.focus"],
+]) {
+  test(`${name}: j/k step over the rows drawn, skipping a folded group's`, () => {
+    fresh(live(["x1", "x2", "x3"]));
+    const f = field("x1", { order: ["x1", "x3"] });
+    List.prototype.keynav.call(f, "keynav-down");
+    assert.equal(f.cursor, "x3");
+    List.prototype.keynav.call(f, "keynav-up");
+    assert.equal(f.cursor, "x1");
+  });
+
+  test(`${name}: pick and Show do nothing once the cursor's item is gone or folded away`, () => {
+    fresh(live(["x1", "x2"]));
+    world.shared.whistle = { mode: "whistle" };
+    List.prototype.keynav.call(field("gone", { order: ["x1", "x2"] }), "keynav-pick");
+    List.prototype.keynav.call(field("gone", { order: ["x1", "x2"] }), "keynav-key-space");
+    List.prototype.keynav.call(field("x2", { order: ["x1"] }), "keynav-pick");
+    List.prototype.keynav.call(field("x1", { order: ["x1", "x2"] }), "keynav-key-space");
+    assert.deepEqual(world.runs.map(([c]) => c), [run]);
+  });
+}
 
 test("agents: pick focuses the agent, asks for the terminal, then TYPE", () => {
   fresh({ agents: [{ address: "a1" }, { address: "a2" }] });

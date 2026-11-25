@@ -329,7 +329,10 @@ export default class Spaces extends View {
         || spaces().some(s => (s.machine ?? null) === m && !this.shown.has(s.id));
     };
     const loadingRow = m => div().id(`machine-loading-${m ?? "local"}`).h(26).flex_none().px(8).text_size(12).text_color(t.dim).child(collapsed ? "…" : "Loading…");
-    if (!remote.length) return loading(null) && !rows.length ? [loadingRow(null)] : rows.map(draw);
+    // The keyboard cursor moves over the space rows drawn here, in this order; a folded machine's are skipped.
+    this.order = [];
+    const drawn = (rs) => { this.order.push(...rs.map((r) => r.w.id)); return rs.map(draw); };
+    if (!remote.length) return loading(null) && !rows.length ? [loadingRow(null)] : drawn(rows);
     const machineNames = [null, ...remote];
     return machineNames.flatMap((m) => {
       const mine = rows.filter((r) => (r.w.machine ?? null) === m);
@@ -364,7 +367,7 @@ export default class Spaces extends View {
         .on_click(() => run("space.new", { machine: m ?? "" }))
         .child(svg("mods/tuuxic-icons/plus.svg").size(12)).when(!collapsed, el => el.child("New space there"));
       if (!collapsed && rebuilt) return [head];
-      return [head, ...(folded ? [] : mine.length ? mine.map(draw) : [loading(m) ? loadingRow(m) : empty])];
+      return [head, ...(folded ? [] : mine.length ? drawn(mine) : [loading(m) ? loadingRow(m) : empty])];
     });
   }
 
@@ -488,20 +491,26 @@ export default class Spaces extends View {
   keynav(c) {
     const m = move(c), k = declared(c);
     if ((!m && !k) || !isActive(this.key)) return;
-    const ids = spaces().map((s) => s.id);
+    const live = new Set(spaces().map((s) => s.id));
+    const ids = (this.order ?? []).filter((id) => live.has(id));
     if (m === "down" || m === "up") this.cursor = step(ids, this.cursor, m === "down" ? 1 : -1);
+    // A cursor whose space closed or is folded away picks nothing.
+    else if (!ids.includes(this.cursor)) return;
     // Pick goes to the space and types there; Show (Space) shows it and keeps whistle moving.
-    else if ((m === "pick" || m === "right") && this.cursor) {
+    else if (m === "pick" || m === "right") {
       run("space.select", { id: this.cursor });
       keepKeys(this.key);
       if (shared("whistle")) run("whistle.mode:type");
-    } else if (k === "space" && this.cursor) { run("space.select", { id: this.cursor }); keepKeys(this.key); }
+    } else if (k === "space") { run("space.select", { id: this.cursor }); keepKeys(this.key); }
   }
 
   render() {
     this.key = announce(MOD, props(), "Spaces", { space: "Show" });
-    // Selected just now: the cursor starts on the space you're in.
-    if (entered(this, this.key)) this.cursor = spaces().find((s) => s.active)?.id ?? null;
+    // Selected just now: the cursor starts on the space you're in, else the first shown.
+    if (entered(this, this.key)) {
+      const active = spaces().find((s) => s.active)?.id;
+      this.cursor = (this.order?.includes(active) ? active : this.order?.[0]) ?? null;
+    }
     this.keyOn = isActive(this.key);
     const t = theme();
     const collapsed = narrow();

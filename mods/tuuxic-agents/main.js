@@ -245,19 +245,24 @@ export default class Agents extends View {
     const live = new Set(agents().map((a) => a.address));
     const ids = (this.order ?? []).filter((a) => live.has(a));
     if (m === "down" || m === "up") this.cursor = step(ids, this.cursor, m === "down" ? 1 : -1);
+    // A cursor whose agent exited or is folded away picks nothing.
+    else if (!ids.includes(this.cursor)) return;
     // Pick goes to the agent and types there; Show (Space) shows it and keeps whistle moving.
-    else if ((m === "pick" || m === "right") && this.cursor) {
+    else if (m === "pick" || m === "right") {
       run("agent.focus", { terminal: this.cursor });
       toTerminal(this.key);
       if (shared("whistle")) run("whistle.mode:type");
-    } else if (k === "space" && this.cursor) { run("agent.focus", { terminal: this.cursor }); keepKeys(this.key); }
+    } else if (k === "space") { run("agent.focus", { terminal: this.cursor }); keepKeys(this.key); }
   }
 
   render(cx) {
     if (!props()?.overlay) {
       this.key = announce(MOD, props(), "Agents", { space: "Show" });
       // Selected just now: the cursor starts on the focused agent, else the first.
-      if (entered(this, this.key)) this.cursor = agents().find((a) => a.focused)?.address ?? this.order?.[0] ?? null;
+      if (entered(this, this.key)) {
+        const focus = agents().find((a) => a.focused)?.address;
+        this.cursor = (this.order?.includes(focus) ? focus : this.order?.[0]) ?? null;
+      }
       this.keyOn = isActive(this.key);
     }
     const t = theme();
@@ -280,8 +285,6 @@ export default class Agents extends View {
     const rest = list.filter((a) => !a.pinned);
     list = [...pinned, ...rest];
     setAgentOrder(list.map((a) => a.address));
-    // The keyboard cursor moves in the order shown here.
-    this.order = list.map((a) => a.address);
 
     const withKids = (a, i) => {
       const subs = collapsed ? [] : this.tree(all, a.address);
@@ -476,6 +479,8 @@ export default class Agents extends View {
     const rows = collapsed
       ? list.flatMap(withKids)
       : groups.flatMap((g) => [header(g), ...(this.folded.has(g.id) ? [] : g.members.flatMap(withKids))]);
+    // The keyboard cursor moves over the agent rows shown here, in this order; a folded group's are skipped.
+    this.order = (collapsed ? list : groups.flatMap((g) => (this.folded.has(g.id) ? [] : g.members))).map((a) => a.address);
 
     return v_flex()
       .relative()
