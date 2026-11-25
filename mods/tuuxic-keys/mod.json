@@ -1,1 +1,13 @@
-{ "place": "none", "title": "Keybindings", "overlay": {"kind": "dialog", "width": 640, "height": 0.8, "frame": "none"} }
+{
+  "title": "Keybindings",
+  "description": "Every key binding, grouped by where it works",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
+  "place": "none",
+  "overlay": {
+    "kind": "dialog",
+    "width": 640,
+    "height": 0.8,
+    "frame": "none"
+  }
+}

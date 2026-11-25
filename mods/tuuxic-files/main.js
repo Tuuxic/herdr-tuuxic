@@ -52,7 +52,7 @@ export default class Files extends View {
     const at = this.flat[this.cursorAt];
     if (m === "down") this.cursorAt = Math.min(this.cursorAt + 1, Math.max(0, this.flat.length - 1));
     else if (m === "up") this.cursorAt = Math.max(0, this.cursorAt - 1);
-    else if ((m === "open" || m === "right") && at && !this.file) at.dir ? this.toggle(at.path, cx) : this.show(at.path, cx);
+    else if ((m === "pick" || m === "right") && at && !this.file) at.dir ? this.toggle(at.path, cx) : this.show(at.path, cx);
     else if (m === "left") {
       if (this.file) this.show(null);
       else if (at?.dir && this.folders.has(at.path)) this.toggle(at.path, cx);

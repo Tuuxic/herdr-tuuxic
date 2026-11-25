@@ -1,1 +1,7 @@
-{"place":"none","title":"AI usage"}
+{
+  "title": "AI usage",
+  "description": "AI usage meters for the top bar",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
+  "place": "none"
+}
