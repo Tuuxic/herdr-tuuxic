@@ -34,7 +34,7 @@ order:
    mods: tuuxic's layout is already integrated.
 6. **Saved settings** under renamed keys move by themselves: each mod reads the old key once
    when the new one is missing, writes the new key and drops the old. This migration code is
-   removed in 2.0.0, so a person on a pre-1.0 tuuxic must pass through a 1.x release first.
+   removed in 2.0.0.
 
 ### Mods
 
