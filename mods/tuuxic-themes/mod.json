@@ -1,1 +1,13 @@
-{ "place": "none", "title": "Themes", "overlay": {"kind": "dialog", "width": 1, "height": 1, "frame": "none"} }
+{
+  "title": "Themes",
+  "description": "A full-screen theme switcher",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
+  "place": "none",
+  "overlay": {
+    "kind": "dialog",
+    "width": 1,
+    "height": 1,
+    "frame": "none"
+  }
+}

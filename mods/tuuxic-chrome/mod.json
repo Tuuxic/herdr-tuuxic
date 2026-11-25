@@ -1,4 +1,8 @@
 {
+  "title": "Sidebar chrome",
+  "description": "The sidebar's header and its footer menu (Settings, Keybindings, Mods)",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
   "place": "none",
   "cloned_from": {
     "name": "workspace-chrome",

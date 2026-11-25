@@ -51,7 +51,7 @@ export default class WorkspaceChrome extends View {
     const rows = FOOTER.filter(([, mod]) => canOpen(mod));
     const ids = rows.map(([id]) => id);
     if (m === "down" || m === "up") this.cursor = step(ids, this.cursor, m === "down" ? 1 : -1);
-    else if ((m === "open" || m === "right") && this.cursor) openMod(rows.find(([id]) => id === this.cursor)[1]);
+    else if ((m === "pick" || m === "right") && this.cursor) openMod(rows.find(([id]) => id === this.cursor)[1]);
   }
   button(id, label, action) {
     const t = theme();
