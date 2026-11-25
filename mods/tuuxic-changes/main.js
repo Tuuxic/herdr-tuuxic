@@ -68,7 +68,7 @@ export default class Changes extends View {
           const n = this.files.length;
           if (m === "down") this.cursorAt = Math.min(this.cursorAt + 1, Math.max(0, n - 1));
           else if (m === "up") this.cursorAt = Math.max(0, this.cursorAt - 1);
-          else if ((m === "open" || m === "right") && this.files[this.cursorAt]) this.pick(this.files[this.cursorAt].path, cx);
+          else if ((m === "pick" || m === "right") && this.files[this.cursorAt]) this.pick(this.files[this.cursorAt].path, cx);
         }
         cx.notify();
       }
