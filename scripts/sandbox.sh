@@ -36,8 +36,16 @@ app_pids() {
   else pgrep -x herdr-app || true; fi
 }
 
+# The window's socket is <home>/herdr-app.sock; a path of 108 bytes or more (SUN_LEN) fails, and
+# the window then opens but never answers status, so check before opening one.
+short_enough() {
+  sock="$(native "$box")/herdr-app.sock"
+  [ "${#sock}" -lt 108 ] || die "$sock is ${#sock} characters; the socket path must be under 108. Set TUUXIC_SANDBOX to a shorter folder."
+}
+
 open_window() {
   [ -f "$mark" ] || die "no sandbox at $box; run: $0 reset"
+  short_enough
   if running; then echo "The sandbox window is already open."; return; fi
   home_env
   before=" $(app_pids | tr '\n' ' ') "
@@ -110,6 +118,7 @@ merge_keys() {
 
 case "${1:-}" in
   reset)
+    short_enough
     real="$(cd "$HOME/.config/herdr-app" 2>/dev/null && pwd || true)"
     [ "$(cd "$box" 2>/dev/null && pwd || true)" != "$real" ] || die "$box is your own Herdr home"
     if [ -e "$box" ]; then
