@@ -208,7 +208,7 @@ export default class Tabs extends View {
       const report = Object.values(terminal?.records ?? {}).find(r => r.state === c.status && r.title);
       const liveTitle = terminal?.report?.title || report?.title || lead?.title;
       const title = (liveTitle === program?.name ? lead?.branch || liveTitle : liveTitle || "").replace(/^\[[^\]]*\]\s*[^|]*\|\s*/, "").replace(/^[^\p{L}\p{N}]+/u, "").trim();
-      const status = { working: "Working", blocked: "Needs input", done: "Done", idle: "Idle" }[c.status];
+      const status = { working: "Working", blocked: "Blocked", done: "Done", idle: "Idle" }[c.status];
       // A tab with several agents shows their icons; the person's own tab name wins (names.js records its own names).
       const agentPanes = tabPanes.filter(p => p.program?.agent);
       const programs = [...new Map(agentPanes.map(p => [p.program.name, p.program])).values()];
@@ -220,7 +220,7 @@ export default class Tabs extends View {
       const work = [title, folder, lead?.branch].find(n => !isProgram(n)) ?? (isProgram(c.name) ? "" : c.name);
       const name = personNamed && !isProgram(c.name) ? c.name : work;
       const detail = multi
-        ? agentPanes.map(p => `${p.program.name}: ${({ working: "working", blocked: "needs input", done: "done" })[p.status] ?? "idle"}`).join("\n")
+        ? agentPanes.map(p => `${p.program.name}: ${({ working: "working", blocked: "blocked", done: "done" })[p.status] ?? "idle"}`).join("\n")
         : [status, c.named && title && title !== c.name ? title : program?.name].filter(Boolean).join(" · ");
       const icons = (multi ? programs.slice(0, 3) : [program]).filter(p => p?.icon);
       // Compact: the tab's number only; the name and status are in the tooltip.
