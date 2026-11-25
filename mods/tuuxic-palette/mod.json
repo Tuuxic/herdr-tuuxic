@@ -1,1 +1,12 @@
-{ "place": "none", "title": "Command palette", "overlay": {"width": 660, "height": 450, "frame": "none"} }
+{
+  "title": "Command palette",
+  "description": "The command palette",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
+  "place": "none",
+  "overlay": {
+    "width": 660,
+    "height": 450,
+    "frame": "none"
+  }
+}

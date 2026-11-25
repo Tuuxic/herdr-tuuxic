@@ -5,7 +5,7 @@ import { syncNames } from "./names.js";
 import { renderPaneHeader } from "./pane.js";
 import { spaces, panes, terminals, props, run, openOverlay, theme, shared, setShared, layout, exec, readTextFile, home, appHome, nextCommand, notify } from "herdr";
 import { resumeCommand, argvOf } from "./reopen.js";
-import { announce, isActive, entered, move, keepKeys } from "./keynav.js";
+import { announce, isActive, entered, move, declared, keepKeys } from "./keynav.js";
 
 // The last closed tabs (newest last), kept across restarts for ctrl-alt-shift-t.
 const CLOSED = "tuuxic-tabs.closed";
@@ -56,7 +56,7 @@ export default class Tabs extends View {
       for (;;) {
         const c = await nextCommand();
         if (c === "reopen") this.reopen(cx);
-        else this.keynav(move(c));
+        else this.keynav(c);
         cx.notify();
       }
     });
@@ -171,23 +171,24 @@ export default class Tabs extends View {
     localStorage.setItem("panels", JSON.stringify(this.panels));
   }
 
-  // A keynav move while the strip is the active field.
-  keynav(m) {
-    if (!m || !isActive(this.key)) return;
+  // A keynav command (a move or a declared key) while the strip is the active field.
+  keynav(c) {
+    const m = move(c), k = declared(c);
+    if ((!m && !k) || !isActive(this.key)) return;
     const ids = spaces().find((s) => s.active)?.tabs.map((c) => c.id) ?? [];
     if (m === "left" || m === "right") this.cursor = step(ids, this.cursor, m === "right" ? 1 : -1);
-    else if (m === "open" && this.cursor) { run("tab.select", { id: this.cursor }); keepKeys(); }
-    else if (m === "key-x" && this.cursor) {
+    else if (m === "pick" && this.cursor) { run("tab.select", { id: this.cursor }); keepKeys(this.key); }
+    else if (k === "x" && this.cursor) {
       const id = this.cursor;
       this.cursor = step(ids, id, ids.indexOf(id) === ids.length - 1 ? -1 : 1);
       run("tab.close", { id });
-      keepKeys();
+      keepKeys(this.key);
     }
   }
 
   render(cx) {
     if (props()?.pane) return renderPaneHeader(this);
-    this.key = announce(MOD, props(), "Tabs");
+    this.key = announce(MOD, props(), "Tabs", { x: "Close tab" });
     // Selected just now: the cursor starts on the tab you're in.
     if (entered(this, this.key)) this.cursor = spaces().find((s) => s.active)?.tabs.find((c) => c.active)?.id ?? null;
     this.keyOn = isActive(this.key);

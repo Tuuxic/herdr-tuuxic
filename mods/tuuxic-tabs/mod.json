@@ -1,6 +1,9 @@
 {
-  "place": "none",
   "title": "Auto tabs",
+  "description": "The tab strip",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
+  "place": "none",
   "cloned_from": {
     "name": "tabs",
     "version": "0.1.9"

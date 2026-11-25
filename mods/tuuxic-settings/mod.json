@@ -1,1 +1,12 @@
-{ "place": "none", "title": "Settings", "overlay": {"width": 970, "height": 690, "frame": "none"} }
+{
+  "title": "Settings",
+  "description": "Look, keyboard (whistle), machines, alerts and updates",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
+  "place": "none",
+  "overlay": {
+    "width": 970,
+    "height": 690,
+    "frame": "none"
+  }
+}

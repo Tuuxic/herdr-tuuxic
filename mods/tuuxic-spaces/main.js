@@ -6,10 +6,11 @@
 import { View, div, svg } from "gpui-kit";
 import { v_flex, h_flex } from "gpui-base";
 import { spaces, machines, panes, agents, run, openOverlay, exec, hc, theme, shared, setShared, watchFolder, window, layout, home, props, nextCommand } from "herdr";
-import { announce, isActive, entered, move, keepKeys } from "./keynav.js";
+import { announce, isActive, entered, move, declared, keepKeys } from "./keynav.js";
 
 // Keyboard navigation (keynav.js): while a driver such as whistle selects this list, it glows
-// and j/k move a cursor over the spaces; enter or l goes to the one under it.
+// and j/k move a cursor over the spaces; enter or l goes to the one under it and types there
+// (whistle.mode:type), space shows it and keeps the list selected.
 const MOD = "tuuxic-spaces";
 // How this mod shows its keynav field: the field glows, its cursor item gets an outline.
 const glow = (t) => t.foreground + "b3";
@@ -68,7 +69,7 @@ export function tone(t, status) {
 
 export default class Spaces extends View {
   init(_props, cx) {
-    cx.spawn(async (cx) => { for (;;) { this.keynav(move(await nextCommand())); cx.notify(); } });
+    cx.spawn(async (cx) => { for (;;) { this.keynav(await nextCommand()); cx.notify(); } });
     this.git = {}; // where() -> { name, branch, ahead, behind, repo, linked }, null: not a repo
     this.checked = {}; // where() -> when it was last looked at
     this.unsure = new Set(); // where()s git couldn't answer for (a machine away)
@@ -483,16 +484,22 @@ export default class Spaces extends View {
         .when(w.status === "working", (d) => d.loop("opacity", { from: 0.35, to: 1, period: 1200 }))));
   }
 
-  // A keynav move while this list is the active field.
-  keynav(m) {
-    if (!m || !isActive(this.key)) return;
+  // A keynav command (a move or a declared key) while this list is the active field.
+  keynav(c) {
+    const m = move(c), k = declared(c);
+    if ((!m && !k) || !isActive(this.key)) return;
     const ids = spaces().map((s) => s.id);
     if (m === "down" || m === "up") this.cursor = step(ids, this.cursor, m === "down" ? 1 : -1);
-    else if ((m === "open" || m === "right") && this.cursor) { run("space.select", { id: this.cursor }); keepKeys(); }
+    // Pick goes to the space and types there; Show (Space) shows it and keeps whistle moving.
+    else if ((m === "pick" || m === "right") && this.cursor) {
+      run("space.select", { id: this.cursor });
+      keepKeys(this.key);
+      if (shared("whistle")) run("whistle.mode:type");
+    } else if (k === "space" && this.cursor) { run("space.select", { id: this.cursor }); keepKeys(this.key); }
   }
 
   render() {
-    this.key = announce(MOD, props(), "Spaces");
+    this.key = announce(MOD, props(), "Spaces", { space: "Show" });
     // Selected just now: the cursor starts on the space you're in.
     if (entered(this, this.key)) this.cursor = spaces().find((s) => s.active)?.id ?? null;
     this.keyOn = isActive(this.key);
