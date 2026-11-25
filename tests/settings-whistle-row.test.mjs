@@ -46,17 +46,24 @@ test("installed, no whistle block in the layout", () => {
   assert.equal(row.text, "Not in this layout — add whistle-anchor (see RECIPE)");
 });
 
-test("a pre-1.0 copy (no version in its mod.json)", () => {
-  const row = whistleRow({ ...LAYOUT, manifest: {}, state: RUNNING });
-  assert.equal(row.kind, "pre-1.0");
-  assert.equal(row.text, "This whistle came with an older tuuxic — update whistle (see RECIPE)");
+test("a version the range compare can't read says so, not that it's in range", () => {
+  const text = (version) => whistleRow({ ...LAYOUT, manifest: { version }, state: RUNNING }).text;
+  assert.equal(text("2.0"), "Can't read whistle's version 2.0 — tuuxic is tested with 2.x");
+  assert.equal(text("2.0.0+abc"), "Can't read whistle's version 2.0.0+abc — tuuxic is tested with 2.x");
+  assert.equal(text(undefined), "Whistle's mod.json has no version — tuuxic is tested with 2.x");
+  assert.equal(whistleRow({ ...LAYOUT, manifest: {}, state: RUNNING }).kind, "out-of-range");
+});
+
+test("not running: no Herdr claim when either version can't be read", () => {
+  assert.equal(whistleRow({ ...LAYOUT, manifest: W2, state: null, herdrVersion: "0.1.19-dev" }).text, "Not running");
+  assert.equal(whistleRow({ ...LAYOUT, manifest: { ...W2, herdr: ">=0.1.18" }, state: null, herdrVersion: "0.1.9" }).text, "Not running");
 });
 
 test("not installed", () => {
   assert.equal(whistleRow({ ...LAYOUT, manifest: null, state: null }).text, "Not installed — see RECIPE");
 });
 
-test("tuuxic-settings alone: no range note, no pre-1.0 line, no layout check", () => {
+test("tuuxic-settings alone: no range note, no layout check", () => {
   const alone = { range: null, hasBlock: null };
   assert.equal(whistleRow({ ...alone, manifest: { version: "3.1.0" }, state: RUNNING, hasUi: true }).kind, "running");
   assert.equal(whistleRow({ ...alone, manifest: {}, state: RUNNING }).kind, "running");

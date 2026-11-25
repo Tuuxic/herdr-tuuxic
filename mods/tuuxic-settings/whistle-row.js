@@ -25,19 +25,28 @@ function tested(range) {
   return m ? `${m[1]}.x` : range;
 }
 
+// Whether a version is a plain x.y.z the range compare can read.
+const readable = (v) => inRange(v, ">=0.0.0");
+
+// "Whistle 3.1.0", or what's wrong with a version the range compare can't read.
+function named(version) {
+  if (version == null || version === "") return "Whistle's mod.json has no version";
+  return readable(version) ? `Whistle ${version}` : `Can't read whistle's version ${version}`;
+}
+
 export function whistleRow({ manifest, state, range = null, hasBlock = null, hasUi = false, herdrVersion = null }) {
   const alone = range == null;
   if (!manifest) return row("not-installed", "Not installed — see RECIPE");
-  if (!alone && !manifest.version) return row("pre-1.0", "This whistle came with an older tuuxic — update whistle (see RECIPE)");
   if (state?.inert) return row("inert", state.inert.problem ?? null, { fix: state.inert.fix ?? null });
   if (state) {
     if (!alone && !inRange(manifest.version, range)) {
-      return row("out-of-range", `Whistle ${manifest.version} — tuuxic is tested with ${tested(range)}`, { switch: true });
+      return row("out-of-range", `${named(manifest.version)} — tuuxic is tested with ${tested(range)}`, { switch: true });
     }
     return row("running", null, { switch: true, open: Boolean(hasUi) });
   }
   if (hasBlock === false) return row("no-block", "Not in this layout — add whistle-anchor (see RECIPE)");
   const need = manifest.herdr;
-  const old = need && herdrVersion && !inRange(herdrVersion, `>=${need}`);
+  // Only when both versions read: an unreadable one says nothing about which is older.
+  const old = readable(need) && readable(herdrVersion) && !inRange(herdrVersion, `>=${need}`);
   return row("not-running", old ? `Not running — needs Herdr ≥ ${need} (this is ${herdrVersion})` : "Not running");
 }

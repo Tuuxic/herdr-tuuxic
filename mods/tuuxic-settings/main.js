@@ -6,7 +6,7 @@ import { hc, run, theme, updates, telemetry, appHome, readTextFile, writeTextFil
 
 import { heading, row, button, toggle } from "./controls.js";
 import { DEFAULT_FONT, look } from "./look.js";
-import { readWhistle } from "./whistle.js";
+import { readWhistle, readEvents } from "./whistle.js";
 import { whistleRow, herdrVersionOf } from "./whistle-row.js";
 import { BAR_LABELS, barChoice, barSteps, hasWhistleBlock } from "./bar-control.js";
 import { migrateKeys } from "./saved-keys.js";
@@ -24,6 +24,10 @@ const readJson = async (path) => {
 // shared(HINTS_KEY), which this mod publishes from the file, and the file itself at start.
 const HINTS_KEY = "tuuxic.whistle-hints";
 const tuuxicFile = () => `${appHome()}/tuuxic.json`;
+// Whistle's events for a whistle.on / whistle.off it couldn't save, and how long the Whistle
+// mode switch shows what was asked before going back to what whistle reports.
+const REFUSED = ["settings-unread", "settings-broken", "settings-write-failed"];
+const WANT_WAIT = 3000;
 // Whether the layout has whistle's bar for the bar control to pick.
 const hasBarControl = () => barChoice(layout()) != null;
 
@@ -92,6 +96,7 @@ export default class Settings extends View {
     // After "Check now": follow the look (the answer comes from the app), then
     // "Up to date" for a moment.
     cx.timer.every(300, (cx) => {
+      if (this.whistleWant) cx.notify(); // until whistle answers the Whistle mode switch
       if (!this.asked) return;
       if (updates().checking) this.asked = Date.now();
       else if (Date.now() - this.asked >= 3000) this.asked = null;
@@ -197,7 +202,7 @@ export default class Settings extends View {
           // Whistle says whether it's on in readWhistle().enabled and takes whistle.on / whistle.off.
           ? toggle(t, "st-whistle-on", this.whistleOn(), (_e, cx) => {
             const on = !this.whistleOn();
-            this.whistleWant = on;
+            this.whistleWant = { on, last: readEvents().last, at: Date.now() };
             run(on ? "whistle.on" : "whistle.off");
             cx.notify();
           })
@@ -221,11 +226,15 @@ export default class Settings extends View {
       .when(Boolean(this.hasWhistle) || hasBarControl(), (el) => el.child(this.whistleSection(t)));
   }
 
-  // What was just asked for until whistle reports it, then what whistle reports.
+  // What was just asked for until whistle reports it, then what whistle reports. Whistle can
+  // refuse (whistle.json unread or broken, or its write failed: it raises an event) or never
+  // answer; either way the switch goes back to what whistle reports.
   whistleOn() {
     const now = readWhistle()?.enabled === true;
-    if (this.whistleWant === now) this.whistleWant = undefined;
-    return this.whistleWant ?? now;
+    const want = this.whistleWant;
+    if (want && (want.on === now || Date.now() - want.at > WANT_WAIT
+      || readEvents(want.last, { kinds: REFUSED }).events.length)) this.whistleWant = undefined;
+    return this.whistleWant?.on ?? now;
   }
 
   optionKey(t) {
