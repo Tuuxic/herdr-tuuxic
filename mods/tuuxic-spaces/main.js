@@ -9,7 +9,8 @@ import { spaces, machines, panes, agents, run, openOverlay, exec, hc, theme, sha
 import { announce, isActive, entered, move, declared, keepKeys } from "./keynav.js";
 
 // Keyboard navigation (keynav.js): while a driver such as whistle selects this list, it glows
-// and j/k move a cursor over the spaces; enter or l goes to the one under it.
+// and j/k move a cursor over the spaces; enter or l goes to the one under it and types there
+// (whistle.mode:type), space shows it and keeps the list selected.
 const MOD = "tuuxic-spaces";
 // How this mod shows its keynav field: the field glows, its cursor item gets an outline.
 const glow = (t) => t.foreground + "b3";

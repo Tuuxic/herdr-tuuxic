@@ -7,7 +7,8 @@ import { agents, terminals, panes, focused, spaces, run, theme, shared, setShare
 import { announce, isActive, entered, move, declared, toTerminal, keepKeys } from "./keynav.js";
 
 // Keyboard navigation (keynav.js): while a driver such as whistle selects this list, it glows
-// and j/k move a cursor over the agents in the order shown; enter or l focuses the one under it.
+// and j/k move a cursor over the agents in the order shown; enter or l focuses the one under it
+// and types there (whistle.mode:type), space shows it and keeps the list selected.
 const MOD = "tuuxic-agents";
 // How this mod shows its keynav field: the field glows, its cursor item gets an outline.
 const glow = (t) => t.foreground + "b3";
