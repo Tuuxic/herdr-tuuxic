@@ -81,7 +81,7 @@ The bars: the top bar's left and right parts, and whistle's bar and hints box (A
 | Saved settings | reads `whistleHints` in `<appHome>/tuuxic.json` (the hints box switch) |
 | Keynav field | no |
 
-Whistle's bar shows the TYPE/WHISTLE badge (filled green TYPE), "Whistle off", `Terminal` / `Terminal · <title>`, the active field's label, the running key sequence and group title, `⚠ N` config problems, and the hints box. The badge opens `whistle-ui.settings`, or Settings → Keyboard when whistle-ui is missing. Without whistle, `whistle` bars show one muted line ("Whistle isn't installed — hide this bar in Settings → Keyboard", or `inert.problem` / "Whistle isn't running") and the corner draws nothing. Out of the whistle range it draws normally.
+Whistle's bar shows the TYPE/WHISTLE badge (filled green TYPE), "Whistle off", `Terminal` / `Terminal · <title>`, the active field's label, the running key sequence and group title, `⚠ N` config problems, and the hints box. The badge opens `whistle-ui.settings`, or Settings → Keyboard when whistle-ui is missing. Without whistle, `whistle` bars show one muted line ("Whistle isn't installed — hide whistle's bar in Settings → Keyboard", or `inert.problem` / "Whistle isn't running") and the corner draws nothing. Out of the whistle range it draws normally.
 
 ## tuuxic-changes
 
