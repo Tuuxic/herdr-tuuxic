@@ -1,1 +1,8 @@
-{"place":"right","size":368}
+{
+  "title": "Files",
+  "description": "A file browser for the focused pane's folder, with read-only previews",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
+  "place": "right",
+  "size": 368
+}
