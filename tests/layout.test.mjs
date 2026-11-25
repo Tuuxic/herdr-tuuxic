@@ -24,3 +24,42 @@ test("the only whistle block is a 0 px anchor in the work column, off by default
   assert.equal(byId("statusbar"), undefined);
   assert.equal(byId("statusbar-work"), undefined);
 });
+
+test("the anchor carries tuuxic's mappings, with whistle 2.0 command names", () => {
+  const m = byId("whistle-anchor").content.props.mappings;
+  assert.deepEqual(Object.keys(m).sort(), [",", "/", "?", "C", "E", "c", "e", "m", "p"]);
+  assert.deepEqual(m.c, ["Changes", "whistle.focus:changes"]);
+  assert.deepEqual(m.C, ["Show or hide Changes", "whistle.toggle:changes"]);
+  assert.deepEqual(m.e, ["Files", "whistle.focus:files"]);
+  assert.deepEqual(m.E, ["Show or hide Files", "whistle.toggle:files"]);
+  const text = JSON.stringify(layout);
+  for (const gone of ["whistle.whistle\"", "whistle.type\"", "whistle.enter", "hintsInset", "hintsBorder", "hintsLift", "whistle.settings"])
+    assert.ok(!text.includes(gone), gone);
+});
+
+test("tuuxic-bar draws whistle's bar under the terminals, full width (hidden) and at the corner", () => {
+  assert.deepEqual(byId("tuuxic-whistle").content, { mod: "tuuxic-bar", props: { whistle: "under", hintsAlignRight: 6, hintsAlignBorder: 2, hintsGap: 11 } });
+  const full = byId("tuuxic-whistle-full");
+  assert.equal(full.hidden, true);
+  assert.equal(full.content.props.whistle, "full");
+  assert.deepEqual(byId("tuuxic-whistle-corner").content, { mod: "tuuxic-bar", props: { corner: true } });
+  assert.deepEqual(byId("tuuxic-whistle-corner").size, { px: 0 });
+});
+
+test("whistle-ui is only a 0 px corner block that draws no hints", () => {
+  const ui = blocks(layout).filter((b) => b.content?.mod === "whistle-ui");
+  assert.deepEqual(ui.map((b) => b.id), ["whistle-corner"]);
+  assert.deepEqual(ui[0].size, { px: 0 });
+  assert.deepEqual(ui[0].content.props, { corner: true, hints: false });
+});
+
+test("keys.json ships no whistle keys", () => {
+  const keys = json("keys.json");
+  assert.equal(keys["mod:whistle"], undefined);
+  assert.ok(!/"whistle(-ui)?\./.test(JSON.stringify(keys)));
+  assert.ok(keys["layout:tuuxic"]["ctrl-shift-p"], "tuuxic's own keys stay");
+});
+
+test("the repo no longer bundles whistle", () => {
+  assert.equal(existsSync(new URL("mods/whistle", root)), false);
+});
