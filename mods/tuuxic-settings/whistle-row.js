@@ -26,7 +26,7 @@ export function whistleRow({ manifest, state, range = null, hasBlock = null, has
   if (state?.inert) return row("inert", state.inert.problem ?? null, { fix: state.inert.fix ?? null });
   if (state) {
     if (!alone && !inRange(manifest.version, range)) {
-      return row("out-of-range", `Whistle ${manifest.version} — tuuxic 1.0 is tested with ${tested(range)}`, { switch: true });
+      return row("out-of-range", `Whistle ${manifest.version} — tuuxic is tested with ${tested(range)}`, { switch: true });
     }
     return row("running", null, { switch: true, open: Boolean(hasUi) });
   }

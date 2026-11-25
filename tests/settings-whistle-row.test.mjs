@@ -19,7 +19,7 @@ test("running but out of range: switch and the tested range", () => {
   assert.equal(row.kind, "out-of-range");
   assert.equal(row.switch, true);
   assert.equal(row.open, false);
-  assert.equal(row.text, "Whistle 3.1.0 — tuuxic 1.0 is tested with 2.x");
+  assert.equal(row.text, "Whistle 3.1.0 — tuuxic is tested with 2.x");
 });
 
 test("inert: whistle's own problem and fix", () => {

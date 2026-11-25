@@ -43,7 +43,7 @@ test("installed but not running says Whistle isn't running", () => {
 
 test("not installed shows one muted line pointing at Settings → Keyboard", () => {
   const m = barModel({}, world({ installed: false })).bar;
-  assert.equal(m.label, "Whistle isn't installed — hide this bar in Settings → Keyboard");
+  assert.equal(m.label, "Whistle isn't installed — hide whistle's bar in Settings → Keyboard");
   assert.equal(m.muted, true);
 });
 

@@ -21,7 +21,8 @@ const readJson = async (path) => {
 };
 
 // tuuxic's own saved choices that aren't Herdr settings: { whistleHints }. tuuxic-bar reads
-// shared("tuuxic.whistle-hints"), which this mod publishes from the file.
+// shared(HINTS_KEY), which this mod publishes from the file, and the file itself at start.
+const HINTS_KEY = "tuuxic.whistle-hints";
 const tuuxicFile = () => `${appHome()}/tuuxic.json`;
 
 const I = (name) => `mods/tuuxic-settings/${name}.svg`;
@@ -74,7 +75,7 @@ export default class Settings extends View {
       this.hasWhistleUi = (await readTextFile(`${appHome()}/mods/whistle-ui/mod.json`)) != null;
       this.whistleRange = (await readJson(`${appHome()}/mods/tuuxic-layout/mod.json`))?.whistle ?? null;
       this.tuuxic = (await readJson(tuuxicFile())) ?? {};
-      setShared("tuuxic.whistle-hints", this.tuuxic.whistleHints !== false);
+      setShared(HINTS_KEY, this.tuuxic.whistleHints !== false);
       await this.load();
       if (migrateKeys(this.person).changed) {
         this.change((next) => {
@@ -174,7 +175,7 @@ export default class Settings extends View {
 
   setWhistleHints(on, cx) {
     this.tuuxic = { ...this.tuuxic, whistleHints: on };
-    setShared("tuuxic.whistle-hints", on);
+    setShared(HINTS_KEY, on);
     cx.spawn(async () => {
       try { await writeTextFile(tuuxicFile(), JSON.stringify(this.tuuxic, null, 2) + "\n"); } catch {}
     });
@@ -202,9 +203,9 @@ export default class Settings extends View {
       .when(Boolean(w.text), (el) => el.child(note(w.fix ? `${w.text} ${w.fix}` : w.text)))
       .when(w.open, (el) => el.child(row(t, "Whistle settings", "Key hints and every key mapping in effect.",
         button(t, "st-whistle", "Open", () => { closeOverlay(props()?.overlay); run("whistle-ui.settings"); }))))
-      .when(Boolean(this.hasWhistle), (el) => el.child(row(t, "Key hints", "The box of next keys while a whistle sequence runs.",
+      .when(Boolean(this.hasWhistle), (el) => el.child(row(t, "Hints box", "The box of next keys while a whistle sequence runs.",
         toggle(t, "st-whistle-hints", this.tuuxic?.whistleHints !== false, (_e, cx) => this.setWhistleHints(this.tuuxic?.whistleHints === false, cx)))))
-      .when(choice != null, (el) => el.child(row(t, "Whistle bar", "Where tuuxic draws whistle's bar.",
+      .when(choice != null, (el) => el.child(row(t, "Whistle's bar", "Where tuuxic draws whistle's bar.",
         h_flex().gap_1().children(BARS.map(([value, label]) =>
           button(t, `st-whistle-bar-${value}`, choice === value ? `• ${label}` : label, () => {
             for (const [command, args] of barSteps(value)) run(command, args);

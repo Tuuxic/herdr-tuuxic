@@ -145,7 +145,7 @@ tokyo-night by default; 26 themes ship in `themes/`.
 ## Watch out
 
 - **Whistle is a separate install.** Without it the keyboard mode is gone and the rest works:
-  `tuuxic-whistle` shows "Whistle isn't installed — hide this bar in Settings → Keyboard";
+  `tuuxic-whistle` shows "Whistle isn't installed — hide whistle's bar in Settings → Keyboard";
   installed but not running, it shows whistle's problem or "Whistle isn't running". The
   whistle range is advisory: out of range, tuuxic keeps using whistle and says so only in
   Settings → Keyboard.

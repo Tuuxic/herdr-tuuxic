@@ -92,7 +92,7 @@ function entries() {
   // The whistle bar control (as in Settings → Keyboard), when the layout has tuuxic-whistle bars.
   if (barChoice(layout()) != null) {
     for (const [bar, title] of [["under", "under the terminals"], ["full", "full width"], ["hidden", "hidden"]]) {
-      list.push({ name: "layout.show", args: { bar }, steps: barSteps(bar), group: "Layout", title: `Whistle bar: ${title}`, words: "whistle bar hints status" });
+      list.push({ name: "layout.show", args: { bar }, steps: barSteps(bar), group: "Layout", title: `Whistle's bar: ${title}`, words: "whistle bar hints status" });
     }
   }
   // Anything new in the app shows up too, until it gets a better name here.
