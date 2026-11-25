@@ -1,0 +1,5 @@
+mods/tuuxic-changes/graph is forked from herdr-git-graph 0.3.0 by Rabeeh T A,
+https://github.com/rabeeh-ta/herdr-git-graph, under the MIT License. See LICENSE.
+
+Changes include the Manygit workspace view, tuuxic theming and icons, and the
+removal of the upstream update check: upstream releases are not this fork's updates.

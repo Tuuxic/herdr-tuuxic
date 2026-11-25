@@ -4,10 +4,11 @@
 import { View, div, image, svg } from "gpui-kit";
 import { v_flex, h_flex } from "gpui-base";
 import { agents, terminals, panes, focused, spaces, run, theme, shared, setShared, setAgentOrder, openOverlay, closeOverlay, props, window, layout, home, nextCommand } from "herdr";
-import { announce, isActive, entered, move, toTerminal } from "./keynav.js";
+import { announce, isActive, entered, move, declared, toTerminal, keepKeys } from "./keynav.js";
 
 // Keyboard navigation (keynav.js): while a driver such as whistle selects this list, it glows
-// and j/k move a cursor over the agents in the order shown; enter or l focuses the one under it.
+// and j/k move a cursor over the agents in the order shown; enter or l focuses the one under it
+// and types there (whistle.mode:type), space shows it and keeps the list selected.
 const MOD = "tuuxic-agents";
 // How this mod shows its keynav field: the field glows, its cursor item gets an outline.
 const glow = (t) => t.foreground + "b3";
@@ -92,7 +93,7 @@ function icon(p, size, color) {
 export default class Agents extends View {
   init(_props, cx) {
     // Only the list in the layout takes part, not this mod's sort menu (an overlay copy).
-    if (!props()?.overlay) cx.spawn(async (cx) => { for (;;) { this.keynav(move(await nextCommand())); cx.notify(); } });
+    if (!props()?.overlay) cx.spawn(async (cx) => { for (;;) { this.keynav(await nextCommand()); cx.notify(); } });
     if (props()?.sortMenu) return;
     this.folded = new Set();
     // Each agent's last state and when it changed (ms), kept across restarts.
@@ -237,18 +238,24 @@ export default class Agents extends View {
     return div().size(7).mx(3).flex_none().rounded(0).bg(a.status === "done" ? color : t.dim + "00");
   }
 
-  // A keynav move while this list is the active field.
-  keynav(m) {
-    if (!m || !isActive(this.key)) return;
+  // A keynav command (a move or a declared key) while this list is the active field.
+  keynav(c) {
+    const m = move(c), k = declared(c);
+    if ((!m && !k) || !isActive(this.key)) return;
     const live = new Set(agents().map((a) => a.address));
     const ids = (this.order ?? []).filter((a) => live.has(a));
     if (m === "down" || m === "up") this.cursor = step(ids, this.cursor, m === "down" ? 1 : -1);
-    else if ((m === "open" || m === "right") && this.cursor) { run("agent.focus", { terminal: this.cursor }); toTerminal(); }
+    // Pick goes to the agent and types there; Show (Space) shows it and keeps whistle moving.
+    else if ((m === "pick" || m === "right") && this.cursor) {
+      run("agent.focus", { terminal: this.cursor });
+      toTerminal(this.key);
+      if (shared("whistle")) run("whistle.mode:type");
+    } else if (k === "space" && this.cursor) { run("agent.focus", { terminal: this.cursor }); keepKeys(this.key); }
   }
 
   render(cx) {
     if (!props()?.overlay) {
-      this.key = announce(MOD, props(), "Agents");
+      this.key = announce(MOD, props(), "Agents", { space: "Show" });
       // Selected just now: the cursor starts on the focused agent, else the first.
       if (entered(this, this.key)) this.cursor = agents().find((a) => a.focused)?.address ?? this.order?.[0] ?? null;
       this.keyOn = isActive(this.key);

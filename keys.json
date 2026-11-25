@@ -1,15 +1,5 @@
 {
-  "global": {
-    "ctrl-space": "whistle.whistle"
-  },
-  "terminal": {
-    "ctrl-[": "whistle.enter"
-  },
-  "mod:whistle": {
-    "ctrl-space": "whistle.type"
-  },
   "layout:tuuxic": {
-    "ctrl-space": "whistle.whistle",
     "ctrl-shift-k": "mod.open:tuuxic-picker",
     "ctrl-shift-p": "mod.open:tuuxic-palette",
     "ctrl-,": "mod.open:tuuxic-settings",

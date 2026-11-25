@@ -1,6 +1,9 @@
 {
-  "place": "none",
   "title": "Agents",
+  "description": "Agents grouped by status or by priority; sub-agents fold under their parent",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
+  "place": "none",
   "cloned_from": {
     "name": "agents",
     "version": "0.1.13"
