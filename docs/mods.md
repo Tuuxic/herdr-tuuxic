@@ -75,9 +75,9 @@ The bars: the top bar's left and right parts, and whistle's bar and hints box (A
 | | |
 |---|---|
 | Helpers | none |
-| Block props | `part: "left" \| "right"` (top bar); `whistle: "under" \| "full"` (whistle's bar under the terminals or full width); `corner: true` (hints box bottom right when no whistle bar shows); hints props `hintsAlignRight`, `hintsAlignBorder`, `hintsGap` |
-| Commands | none of its own; runs `space.select`, `layout.resize`, `whistle-ui.settings` |
-| Shared keys | reads `whistle`, `whistle.hints`, `whistle.events`, `whistle.config`, `keynav` and keynav field entries, `tuuxic.whistle-hints`; reads/writes `sidebar.width`, `sidebar.collapsed` |
+| Block props | `part: "left" \| "right"` (top bar); `whistle: "under" \| "full"` (whistle's bar under the terminals or full width); `corner: true` (hints box bottom right when no whistle bar shows); hints box placement on a whistle bar `hintsAlignRight`, `hintsAlignBorder`, `hintsGap` (px, gap default 6); `part: "hints"` with `width` is the hints overlay tuuxic-bar opens itself |
+| Commands | none of its own; runs `space.select`, `layout.resize`, `whistle-ui.settings`, `mod.open` (tuuxic-palette, tuuxic-picker, tuuxic-settings), and without those mods `app.palette`, `app.settings`, `app.help` or the `picker` mod |
+| Shared keys | reads `whistle`, `whistle.hints`, `whistle.events`, `whistle.config`, `keynav` and keynav field entries, `tuuxic.whistle-hints`; reads/writes `sidebar.width`, `sidebar.collapsed`, and its own `tuuxic-bar.seen` (seq of the last whistle event handled) and `tuuxic-bar.hints-overlay` (the open hints overlay's id) |
 | Saved settings | reads `whistleHints` in `<appHome>/tuuxic.json` (the hints box switch) |
 | Keynav field | no |
 

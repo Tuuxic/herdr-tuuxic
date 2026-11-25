@@ -1,0 +1,3 @@
+# Keynav copies stay byte-equal to whistle's (LF) on every platform.
+mods/*/keynav.js text eol=lf
+tests/fixtures/whistle-2.0.0/keynav.js text eol=lf

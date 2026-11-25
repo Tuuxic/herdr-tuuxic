@@ -7,7 +7,7 @@ import { hc, run, theme, updates, telemetry, appHome, readTextFile, writeTextFil
 import { heading, row, button, toggle } from "./controls.js";
 import { DEFAULT_FONT, look } from "./look.js";
 import { readWhistle } from "./whistle.js";
-import { whistleRow } from "./whistle-row.js";
+import { whistleRow, herdrVersionOf } from "./whistle-row.js";
 import { BAR_LABELS, barChoice, barSteps, hasWhistleBlock } from "./bar-control.js";
 import { migrateKeys } from "./saved-keys.js";
 
@@ -172,6 +172,7 @@ export default class Settings extends View {
       range: this.whistleRange,
       hasBlock: this.whistleRange == null ? null : hasWhistleBlock(tree),
       hasUi: this.hasWhistleUi,
+      herdrVersion: herdrVersionOf(updates),
     });
   }
 

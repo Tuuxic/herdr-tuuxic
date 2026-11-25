@@ -1,7 +1,14 @@
 // Settings → Keyboard, the Whistle mode row's states (spec §4).
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { whistleRow } from "../mods/tuuxic-settings/whistle-row.js";
+import { whistleRow, herdrVersionOf } from "../mods/tuuxic-settings/whistle-row.js";
+
+test("herdrVersionOf: Herdr's own version from herdr.updates(), as whistle 2.0 reads it", () => {
+  assert.equal(herdrVersionOf(() => ({ app: { version: "0.1.9" }, core: { version: "1.0.0" } })), "0.1.9");
+  assert.equal(herdrVersionOf(() => ({ core: { version: "1.0.0" } })), null);
+  assert.equal(herdrVersionOf(() => { throw new Error("no updates"); }), null);
+  assert.equal(herdrVersionOf(undefined), null);
+});
 
 const RANGE = ">=2.0.0 <3.0.0";
 const W2 = { version: "2.0.0", herdr: "0.1.18" };

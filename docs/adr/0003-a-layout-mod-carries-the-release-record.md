@@ -28,3 +28,8 @@ Rejected: props on a layout block (they disappear with the block and are copied 
 clones); a root `tuuxic.json` (nothing can read it at runtime); version.js in every mod
 (17 copies that nothing imports); a `MODS` list in the release record (17 entries that can
 drift, and the mod.json files already hold the versions).
+
+**Note (2026-11-25):** the whistle range above is out of date. The later revision of the 1.0
+spec, gathered from the [Tuuxic v1.0 release](https://github.com/Tuuxic/herdr-tuuxic/issues/1)
+map, targets whistle v2.0.0: `mods/tuuxic-layout/mod.json` writes `">=2.0.0 <3.0.0"`. The
+decision itself is unchanged.

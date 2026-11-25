@@ -11,6 +11,12 @@
 
 import { inRange } from "./whistle-range.js";
 
+// This Herdr's version from herdr's updates() (pass the function): updates().app.version, the
+// same read whistle 2.0 makes for its "Herdr too old" check. null when it isn't there.
+export function herdrVersionOf(updates) {
+  try { return updates?.()?.app?.version ?? null; } catch { return null; }
+}
+
 const row = (kind, text = null, extra = {}) => ({ kind, switch: false, open: false, text, fix: null, ...extra });
 
 // "2.x" for ">=2.0.0 <3.0.0": the major of the lower bound.
