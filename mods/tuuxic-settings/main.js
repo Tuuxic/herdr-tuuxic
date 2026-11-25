@@ -24,6 +24,8 @@ const readJson = async (path) => {
 // shared(HINTS_KEY), which this mod publishes from the file, and the file itself at start.
 const HINTS_KEY = "tuuxic.whistle-hints";
 const tuuxicFile = () => `${appHome()}/tuuxic.json`;
+// Whether the layout has whistle's bar for the bar control to pick.
+const hasBarControl = () => barChoice(layout()) != null;
 
 const I = (name) => `mods/tuuxic-settings/${name}.svg`;
 
@@ -156,9 +158,9 @@ export default class Settings extends View {
   }
 
   // The sections this machine has: Keyboard on macOS, with whistle installed, or when the layout
-  // has tuuxic-whistle bars to control.
+  // has whistle's bar to control.
   sections() {
-    return SECTIONS.filter((s) => s.id !== "keyboard" || window()?.platform === "macos" || this.hasWhistle || barChoice(layout()) != null);
+    return SECTIONS.filter((s) => s.id !== "keyboard" || window()?.platform === "macos" || this.hasWhistle || hasBarControl());
   }
 
   // The Whistle mode row (whistle-row.js) from what's installed and what whistle publishes.
@@ -215,7 +217,7 @@ export default class Settings extends View {
     return v_flex()
       .w_full()
       .when(window()?.platform === "macos", (el) => el.child(this.optionKey(t)))
-      .when(Boolean(this.hasWhistle) || barChoice(layout()) != null, (el) => el.child(this.whistleSection(t)));
+      .when(Boolean(this.hasWhistle) || hasBarControl(), (el) => el.child(this.whistleSection(t)));
   }
 
   // What was just asked for until whistle reports it, then what whistle reports.

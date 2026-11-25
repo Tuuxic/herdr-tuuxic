@@ -1,4 +1,4 @@
-// tuuxic-bar's whistle blocks (props `whistle: "under" | "full"`, or `corner: true`) and its hints
+// tuuxic-bar's blocks for whistle's bar (props `whistle: "under" | "full"`, or `corner: true`) and its hints
 // overlay (props `part: "hints"`): the shell around whistlebar.js, which decides what shows. It
 // reads whistle's public keys and draws; it never runs whistle's core or claims keys.
 
