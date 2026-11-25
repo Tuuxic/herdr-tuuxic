@@ -67,10 +67,14 @@ order:
 - tuuxic-spaces and tuuxic-agents: in the keyboard mode, Enter goes to the item and switches
   to typing; Space shows it and stays in the keyboard mode.
 - tuuxic-tabs: `x` closes the selected tab in the keyboard mode.
+- tuuxic-agents, tuuxic-pane, tuuxic-picker, tuuxic-settings, tuuxic-spaces: a blocked agent
+  shows as "Blocked", not "Needs you".
+- tuuxic-picker: a finished agent shows as "done", not "finished".
+- tuuxic-tabs: the tab tooltip says "Blocked" / "blocked", not "Needs input" / "needs input".
 - Whistle mappings: `c` / `C` go to and show or hide Changes (replacing `g` / `G`); `s` / `a`
   are gone, use Alt+S / Alt+A.
 - tuuxic-settings: Settings → Keyboard says when whistle is missing, not running, from an
-  older tuuxic, out of range or not in the layout; adds a hints on/off switch and the bar
+  older tuuxic, out of range or not in the layout; adds a hints on/off switch (kept across restarts) and the bar
   position (under the terminals, full width, hidden), also in the palette; Open runs
   whistle-ui's settings.
 - tuuxic-changes: the git graph's own update check is gone.
