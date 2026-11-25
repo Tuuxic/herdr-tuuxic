@@ -57,6 +57,13 @@ function leads(world) {
   return Boolean(l) && stable(l.props) === stable(world.props ?? {});
 }
 
+// tuuxic's hints switch: the live shared value (Settings publishes it while open) wins, else
+// whistleHints in <appHome>/tuuxic.json (savedText: its text, or null), so "off" survives a restart.
+export function hintsOff(live, savedText) {
+  if (typeof live === "boolean") return !live;
+  try { return JSON.parse(savedText ?? "null")?.whistleHints === false; } catch { return false; }
+}
+
 // The hints overlay this copy should have open, or null: the lead's, while whistle runs in
 // WHISTLE with hints to show and tuuxic's hints switch is on (world.hintsOff false).
 // world also takes props (this block's), size (its drawn size) and viewport.

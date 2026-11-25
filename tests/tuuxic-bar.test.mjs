@@ -100,3 +100,13 @@ test("a new copy doesn't flash events already in the feed", () => {
   assert.equal(m.bar.label, "Terminal");
   assert.equal(m.last, 4);
 });
+
+test("hints off saved in tuuxic.json survives a restart; the live switch overrides it", async () => {
+  const { hintsOff } = await import("../mods/tuuxic-bar/whistlebar.js");
+  assert.equal(hintsOff(undefined, '{"whistleHints":false}'), true);
+  assert.equal(hintsOff(undefined, '{"whistleHints":true}'), false);
+  assert.equal(hintsOff(undefined, null), false);
+  assert.equal(hintsOff(undefined, "not json"), false);
+  assert.equal(hintsOff(true, '{"whistleHints":false}'), false);
+  assert.equal(hintsOff(false, "{}"), true);
+});

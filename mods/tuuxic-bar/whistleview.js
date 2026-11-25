@@ -5,7 +5,7 @@
 import { div } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
 import { shared, setShared, layout, focused, panes, run, openOverlay, closeOverlay, readTextFile, appHome } from "herdr";
-import { barModel, hintsSpec, isCorner } from "./whistlebar.js";
+import { barModel, hintsSpec, hintsOff, isCorner } from "./whistlebar.js";
 import { HINTS_BOX, hintsColumns, keyWidth, labelWidth, columnWidth } from "./box.js";
 
 const call = (f) => { try { return f(); } catch { return null; } };
@@ -23,7 +23,9 @@ export class WhistleBlock {
     this.size = null;
     this.installed = undefined;
     this.ui = undefined;
+    this.saved = null; // <appHome>/tuuxic.json's text: the hints switch as last saved
     cx.spawn(async (cx) => {
+      this.saved = await readTextFile(`${appHome()}/tuuxic.json`);
       this.installed = (await readTextFile(`${appHome()}/mods/whistle/mod.json`)) != null;
       this.ui = (await readTextFile(`${appHome()}/mods/whistle-ui/mod.json`)) != null;
       cx.notify();
@@ -35,7 +37,7 @@ export class WhistleBlock {
     const entry = typeof keynav?.active === "string" ? `keynav.field:${keynav.active}` : null;
     return {
       installed: this.installed, props: this.props, size: this.size, viewport: this.viewport ?? null,
-      layout: layout(), focused: focused(), panes: panes(), hintsOff: shared(HINTS_KEY) === false,
+      layout: layout(), focused: focused(), panes: panes(), hintsOff: hintsOff(shared(HINTS_KEY), this.saved),
       shared: { keynav, ...(entry ? { [entry]: shared(entry) ?? null } : {}) }, ...this.kept,
     };
   }
