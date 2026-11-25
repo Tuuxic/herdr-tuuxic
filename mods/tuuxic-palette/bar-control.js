@@ -3,6 +3,9 @@
 
 const UNDER = "tuuxic-whistle", FULL = "tuuxic-whistle-full";
 
+// The choices, as Settings and the palette name them.
+export const BAR_LABELS = [["under", "Under the terminals"], ["full", "Full width"], ["hidden", "Hidden"]];
+
 function find(node, test) {
   if (!node || typeof node !== "object") return null;
   if (test(node)) return node;

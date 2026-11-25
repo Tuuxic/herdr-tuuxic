@@ -8,7 +8,7 @@ import { heading, row, button, toggle } from "./controls.js";
 import { DEFAULT_FONT, look } from "./look.js";
 import { readWhistle } from "./whistle.js";
 import { whistleRow } from "./whistle-row.js";
-import { barChoice, barSteps, hasWhistleBlock } from "./bar-control.js";
+import { BAR_LABELS, barChoice, barSteps, hasWhistleBlock } from "./bar-control.js";
 import { migrateKeys } from "./saved-keys.js";
 
 const readJson = async (path) => {
@@ -186,7 +186,6 @@ export default class Settings extends View {
     const w = this.whistleRow();
     const choice = barChoice(layout());
     const note = (text) => div().py(6).text_size(12.5).text_color(t.dim).child(text);
-    const BARS = [["under", "Under the terminals"], ["full", "Full width"], ["hidden", "Hidden"]];
     return div().when(window()?.platform === "macos", (d) => d.pt(18))
       .child(heading(t, "Whistle"))
       .child(row(t, "Whistle mode",
@@ -206,7 +205,7 @@ export default class Settings extends View {
       .when(Boolean(this.hasWhistle), (el) => el.child(row(t, "Hints box", "The box of next keys while a whistle sequence runs.",
         toggle(t, "st-whistle-hints", this.tuuxic?.whistleHints !== false, (_e, cx) => this.setWhistleHints(this.tuuxic?.whistleHints === false, cx)))))
       .when(choice != null, (el) => el.child(row(t, "Whistle's bar", "Where tuuxic draws whistle's bar.",
-        h_flex().gap_1().children(BARS.map(([value, label]) =>
+        h_flex().gap_1().children(BAR_LABELS.map(([value, label]) =>
           button(t, `st-whistle-bar-${value}`, choice === value ? `• ${label}` : label, () => {
             for (const [command, args] of barSteps(value)) run(command, args);
           }))))));
