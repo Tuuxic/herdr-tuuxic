@@ -21,7 +21,7 @@ const readJson = async (path) => {
 };
 
 // tuuxic's own saved choices that aren't Herdr settings: { whistleHints }. tuuxic-bar reads
-// shared("tuuxic.whistleHints"), which this mod publishes from the file.
+// shared("tuuxic.whistle-hints"), which this mod publishes from the file.
 const tuuxicFile = () => `${appHome()}/tuuxic.json`;
 
 const I = (name) => `mods/tuuxic-settings/${name}.svg`;
@@ -74,7 +74,7 @@ export default class Settings extends View {
       this.hasWhistleUi = (await readTextFile(`${appHome()}/mods/whistle-ui/mod.json`)) != null;
       this.whistleRange = (await readJson(`${appHome()}/mods/tuuxic-layout/mod.json`))?.whistle ?? null;
       this.tuuxic = (await readJson(tuuxicFile())) ?? {};
-      setShared("tuuxic.whistleHints", this.tuuxic.whistleHints !== false);
+      setShared("tuuxic.whistle-hints", this.tuuxic.whistleHints !== false);
       await this.load();
       if (migrateKeys(this.person).changed) {
         this.change((next) => {
@@ -174,7 +174,7 @@ export default class Settings extends View {
 
   setWhistleHints(on, cx) {
     this.tuuxic = { ...this.tuuxic, whistleHints: on };
-    setShared("tuuxic.whistleHints", on);
+    setShared("tuuxic.whistle-hints", on);
     cx.spawn(async () => {
       try { await writeTextFile(tuuxicFile(), JSON.stringify(this.tuuxic, null, 2) + "\n"); } catch {}
     });
