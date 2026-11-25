@@ -8,8 +8,9 @@ the keyboard mode. Everything is drawn in the theme's colors, with no rounded co
 > **Agents:** install, update and uninstall tuuxic only by the [Install](#install),
 > [Single mods](#single-mods), [Update](#update) and [Uninstall](#uninstall) sections at the
 > end, never by AGENTS.md's add steps: re-adding makes a renamed second copy. If tuuxic is
-> already installed (`mods/tuuxic-layout/` exists), or a pre-1.0 tuuxic is (`layouts/tuuxic.json`
-> exists and `mods/tuuxic-layout/` doesn't), go to [Update](#update). Talk to the person as
+> already installed (`mods/tuuxic-layout/` exists), go to [Update](#update). From a pre-1.0
+> tuuxic (`layouts/tuuxic.json` without `mods/tuuxic-layout/`): follow [Uninstall](#uninstall),
+> then [Install](#install). Talk to the person as
 > [Talking to the person](#talking-to-the-person) says, in all four.
 
 ![Tuuxic](preview.png)
@@ -83,9 +84,9 @@ tokyo-night by default; 26 themes ship in `themes/`.
   `ctrl-alt-shift-t` reopens the last closed tab (its programs too, via python3).
 - **Keys** (`keys.json`, section `layout:tuuxic`, tuuxic's own keys only): `ctrl-shift-p`
   palette, `ctrl-shift-k` picker, `ctrl-,` settings, `ctrl-shift-m` mods, `super-k`
-  keybindings, `super-ctrl-t` themes, `alt-1..9` tabs, `alt-left/right` and `ctrl-h/l`
-  previous/next tab, `alt-up/down` spaces, `ctrl-arrows` panes, `alt-enter` /
-  `alt-shift-enter` split, `super-w` close pane, `super-f` zoom, `super-shift-space` top bar.
+  keybindings, `super-ctrl-t` themes, `super-shift-space` top bar, `super-return` new
+  terminal, `ctrl-alt-shift-t` reopen tab. Tabs, spaces, panes, splits and copy/paste keep
+  Herdr's own keys.
 - **Keyboard mode** (whistle, installed beside tuuxic, shipped off; Settings → Keyboard's
   Whistle mode switch runs `whistle.on` / `whistle.off`). Whistle's own keys: `ctrl-space`
   switches between TYPE and WHISTLE (`whistle.switch-mode`), `alt-s` / `alt-a` jump to the
@@ -110,11 +111,11 @@ tokyo-night by default; 26 themes ship in `themes/`.
 
   | Block | Mod | Props |
   |---|---|---|
-  | `whistle-anchor` (0 px, work column) | whistle | `enabled: false`, `mappings` |
+  | `whistle-anchor` (0 px, root column) | whistle | `enabled: false`, `mappings` |
   | `tuuxic-whistle` (under the terminals) | tuuxic-bar | `whistle: "under"`, `hintsAlignRight: 6, hintsAlignBorder: 2, hintsGap: 11` |
   | `tuuxic-whistle-full` (full width, hidden) | tuuxic-bar | `whistle: "full"`, its own hints props |
-  | `tuuxic-whistle-corner` (0 px) | tuuxic-bar | `corner: true` |
-  | `whistle-corner` (0 px) | whistle-ui | `corner: true, hints: false` (draws nothing; lets `whistle-ui.settings` open) |
+  | `tuuxic-whistle-corner` (0 px, root column) | tuuxic-bar | `corner: true` |
+  | `whistle-corner` (0 px, root column) | whistle-ui | `corner: true, hints: false` (draws nothing; lets `whistle-ui.settings` open) |
 
   `whistle-anchor` is the layout's only `"mod": "whistle"` block.
 - **Mods**: the 18 `mods/tuuxic-*`; per-mod detail in [docs/mods.md](docs/mods.md).
@@ -256,15 +257,13 @@ tuuxic-chrome and tuuxic-icons are never offered alone.
 
 ## Update
 
-For the layout, single mods and a pre-1.0 tuuxic.
+For the layout and single mods.
 
 1. **Old versions**: read the top-level `"version"` from `mods/tuuxic-layout/mod.json` and each
-   `mods/tuuxic-*/mod.json`. `cloned_from.version` is nested and isn't the mod version. A
-   `tuuxic-*` mod.json without a top-level `version` is pre-1.0; so is `layouts/tuuxic.json`
-   without `mods/tuuxic-layout/`.
+   `mods/tuuxic-*/mod.json`. `cloned_from.version` is nested and isn't the mod version.
 2. **Source and notes**: the newest `v*` release tag of this repo. Give the same Herdr warning
    as [Install](#install) step 2. Read the [CHANGELOG.md](CHANGELOG.md) entries newer than the
-   old version (pre-1.0: from v1.0.0 on) now: steps 3–7 follow them, and an Upgrading note
+   old version now: steps 3–7 follow them, and an Upgrading note
    replaces or extends the matching step below.
 3. **Mods**: unless an Upgrading note says otherwise, replace the present `tuuxic-*` folders in
    place, deleting files the release doesn't ship. Absent mods stay absent. Offer a mod that is
@@ -274,8 +273,7 @@ For the layout, single mods and a pre-1.0 tuuxic.
    `layouts/tuuxic.svg` when the release changed them, and the themes tuuxic ships (leave
    others).
    - Compare the person's `layouts/tuuxic.json` with the old release's file: `v<old version>`
-     of this repo, or for pre-1.0 the file at commit `37a7681` (the last pre-1.0 change). If it
-     differs and matches no earlier version in the repo's history, they edited it: show the
+     of this repo. If it differs and matches no earlier version in the repo's history, they edited it: show the
      diff, say so and ask first.
    - Delete `layouts/.state/tuuxic.json`, and say that sizes and shown or hidden panels reset.
    - Re-apply the removals for absent mods (the `ai-usage` block). Whistle's removals come at
@@ -293,9 +291,6 @@ For the layout, single mods and a pre-1.0 tuuxic.
 7. **CHANGELOG**: relay the entries from step 2, breaking changes first.
 8. `herdr-app check` each mod, `herdr-app status`, and a shot against [Done when](#done-when)
    if tuuxic is shown. Summarise in the person's words.
-
-A pre-1.0 tuuxic is taken to 1.0 by this section: the v1.0.0 entry's Upgrading notes in
-[CHANGELOG.md](CHANGELOG.md) carry the extra steps.
 
 ## Uninstall
 

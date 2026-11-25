@@ -33,3 +33,7 @@ drift, and the mod.json files already hold the versions).
 spec, gathered from the [Tuuxic v1.0 release](https://github.com/Tuuxic/herdr-tuuxic/issues/1)
 map, targets whistle v2.0.0: `mods/tuuxic-layout/mod.json` writes `">=2.0.0 <3.0.0"`. The
 decision itself is unchanged.
+
+**Note (2026-11-25):** a pre-1.0 tuuxic is no longer taken to 1.0. The detection above only
+routes it: RECIPE sends it to Uninstall, then Install, and the CHANGELOG's v1.0.0 Upgrading
+says the same in one line. Settings' Whistle row has no pre-1.0 state.

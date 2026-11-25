@@ -12,28 +12,8 @@ and follow each entry's **Upgrading** notes in order.
 The first versioned release. Whistle is no longer bundled: tuuxic targets whistle
 `>=2.0.0 <3.0.0`, installed from [Tuuxic/herdr-whistle](https://github.com/Tuuxic/herdr-whistle).
 
-From a pre-1.0 tuuxic (`layouts/tuuxic.json` present, `mods/tuuxic-layout/` absent), in this
-order:
-
-1. **Replace the keynav mods first** (tuuxic-agents, tuuxic-changes, tuuxic-chrome,
-   tuuxic-files, tuuxic-spaces, tuuxic-tabs), before whistle 2.0 arrives: they now carry
-   keynav v3, which whistle 2.0 requires. This answers whistle's Update note to fetch them from
-   herdr.dev; don't fetch them there.
-2. **Add `mods/tuuxic-layout/`** (breaking): it holds the release record. Replacing
-   `layouts/tuuxic.json` turns the old `statusbar-work` and `statusbar` whistle blocks into
-   `whistle-anchor`, `tuuxic-whistle`, `tuuxic-whistle-full`, `tuuxic-whistle-corner` and
-   `whistle-corner`.
-3. **keys.json** (breaking): remove `"ctrl-[": "whistle.enter"` from `terminal`, and
-   `ctrl-space` from `layout:tuuxic`. The other whistle lines are whistle's to update in the
-   next step.
-4. **Whistle** (breaking): take the bundled `mods/whistle` through whistle's Update to the
-   newest `v*` tag inside the range. If the person declines, delete `mods/whistle/`, its
-   blocks (`whistle-anchor`, `whistle-corner`; hide `tuuxic-whistle` and
-   `tuuxic-whistle-full`) and every `whistle.*` binding in keys.json.
-5. In `whistle-integration.md`, delete the clones and rows that cover tuuxic's layout or
-   mods: tuuxic's layout is already integrated.
-6. **Saved settings**: no saved key is renamed in 1.0, so nothing moves. tuuxic-settings
-   carries an empty rename step for later releases; it is removed in 2.0.0.
+From a pre-1.0 tuuxic (`layouts/tuuxic.json` without `mods/tuuxic-layout/`): follow
+[RECIPE.md](RECIPE.md)'s Uninstall, then Install.
 
 ### Mods
 
@@ -57,7 +37,7 @@ order:
 
 ### You
 
-- **Whistle is a separate install** (breaking): tuuxic no longer ships `mods/whistle`.
+- **Whistle is a separate install**: tuuxic no longer ships `mods/whistle`.
   Install offers whistle 2.x by default; without it the keyboard mode is gone and the rest
   works.
 - tuuxic-bar draws whistle's bar and hints box (the TYPE/WHISTLE badge, "Whistle off", the
@@ -73,11 +53,19 @@ order:
 - tuuxic-tabs: the tab tooltip says "Blocked" / "blocked", not "Needs input" / "needs input".
 - Whistle mappings: `c` / `C` go to and show or hide Changes (replacing `g` / `G`); `s` / `a`
   are gone, use Alt+S / Alt+A.
-- tuuxic-settings: Settings → Keyboard says when whistle is missing, not running, from an
-  older tuuxic, out of range or not in the layout; adds a hints on/off switch (kept across restarts) and the bar
+- tuuxic-settings: Settings → Keyboard says when whistle is missing, not running, out of
+  range or not in the layout; adds a hints on/off switch (kept across restarts) and the bar
   position (under the terminals, full width, hidden), also in the palette; Open runs
   whistle-ui's settings.
 - tuuxic-changes: the git graph's own update check is gone.
+- keys.json: tuuxic's `layout:tuuxic` section holds only tuuxic's own keys (palette, picker,
+  settings, mods, keys, themes, top bar, new terminal, reopen tab); tabs, spaces, panes,
+  splits and copy/paste use Herdr's own keys.
+- tuuxic-spaces and tuuxic-agents: in the keyboard mode, `j` / `k` skip the rows of a folded
+  machine or group, and Enter or Space on a space that closed or an agent that exited does
+  nothing.
+- tuuxic-settings: the Whistle mode switch goes back to whistle's state when whistle can't
+  switch, and a whistle version it can't read is named as such.
 - tuuxic-ai-usage: names every login file it reads and every endpoint it calls
   ([docs/mods.md](docs/mods.md#tuuxic-ai-usage)); no change in what it does.
 

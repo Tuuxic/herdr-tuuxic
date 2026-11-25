@@ -247,7 +247,7 @@ Herdr's settings in one dialog: Look, Keyboard, Machines, Alerts, Updates, Priva
 | Saved settings | writes Herdr's `settings.json`; stores the hints box on/off switch as `whistleHints` in `<appHome>/tuuxic.json` |
 | Keynav field | no |
 
-**Settings → Keyboard** holds the Whistle mode switch, whose row says what state whistle is in (running, out of range, inert, not running, not in this layout, a pre-1.0 copy, not installed); **Open**, which runs `whistle-ui.settings` and shows only when `mods/whistle-ui/mod.json` exists; the hints on/off switch, offered when whistle is installed; and the whistle bar control (Under the terminals / Full width / Hidden), which shows or hides the `tuuxic-whistle` / `tuuxic-whistle-full` blocks and is also offered as command palette entries. Installed alone, the row leaves out the range note, the pre-1.0 line and the layout check.
+**Settings → Keyboard** holds the Whistle mode switch, whose row says what state whistle is in (running, out of range, inert, not running, not in this layout, not installed); **Open**, which runs `whistle-ui.settings` and shows only when `mods/whistle-ui/mod.json` exists; the hints on/off switch, offered when whistle is installed; and the whistle bar control (Under the terminals / Full width / Hidden), which shows or hides the `tuuxic-whistle` / `tuuxic-whistle-full` blocks and is also offered as command palette entries. Installed alone, the row leaves out the range note and the layout check.
 
 ## tuuxic-spaces
 
