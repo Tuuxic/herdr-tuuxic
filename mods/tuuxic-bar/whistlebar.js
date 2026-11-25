@@ -20,8 +20,8 @@ export function readState(value) {
   return { mode, enabled, sequence, pane, onTerminal, field, inert };
 }
 
-export const NOT_INSTALLED = "Whistle isn't installed — hide whistle's bar in Settings → Keyboard";
-export const NOT_RUNNING = "Whistle isn't running";
+const NOT_INSTALLED = "Whistle isn't installed — hide whistle's bar in Settings → Keyboard";
+const NOT_RUNNING = "Whistle isn't running";
 
 const STOCK = { spaces: "Spaces", tabs: "Tabs", agents: "Agents" };
 

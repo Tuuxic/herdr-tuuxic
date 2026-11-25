@@ -1,7 +1,7 @@
 // Everything the manager does to files, with no dependency on the Herdr runtime: the view passes
 // `io` (exec, readText, writeText) so the same code runs under `node --test` against real git.
 
-export const MARKET_TOPIC = "herdr-mod";
+const MARKET_TOPIC = "herdr-mod";
 
 // A package is any folder of a repo that holds `mods/<name>/main.js`: the repo root, or one
 // folder per package when a repo holds several (`github-panel/mods/github/…`).
@@ -36,7 +36,7 @@ const RISKS = [
   ["writes files", /writeTextFile\s*\(|fs\.(writeFile|mkdir|rm|unlink|rename)/],
 ];
 
-export function scanRisks(sources) {
+function scanRisks(sources) {
   const found = new Map();
   for (const { path, text } of sources) {
     for (const [label, re] of RISKS) {
@@ -55,7 +55,7 @@ async function run(io, cmd, args, opts) {
   return r.stdout;
 }
 
-export function repoUrl(fullName) {
+function repoUrl(fullName) {
   return /^(https?|file|git):|^\//.test(fullName) ? fullName : `https://github.com/${fullName}.git`;
 }
 
@@ -74,7 +74,7 @@ export async function remoteSha(io, source) {
   return out.split(/\s/)[0] || null;
 }
 
-export async function readSources(io, dir, pkg) {
+async function readSources(io, dir, pkg) {
   const texts = [];
   for (const path of pkg.files.filter((f) => /\.(m?js|json)$/.test(f))) {
     texts.push({ path, text: (await io.readText(`${dir}/${path}`)) ?? "" });

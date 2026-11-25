@@ -1,4 +1,4 @@
-export const quote = (s) => `'${String(s).replace(/'/g, `'\\''`)}'`;
+const quote = (s) => `'${String(s).replace(/'/g, `'\\''`)}'`;
 
 function options(program, args) {
   const out = [];
