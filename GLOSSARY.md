@@ -74,7 +74,8 @@ _Avoid_: package version
 
 **Whistle range**:
 The whistle versions a layout version allows; whistle outside it, or missing, leaves tuuxic
-working without whistle and saying why.
+working without whistle and saying why. Only the layout has one: a mod installed alone uses
+whistle when it finds what it needs and otherwise goes without, with no range of its own.
 _Avoid_: whistle dependency, pinned whistle
 
 **Sandbox**:
