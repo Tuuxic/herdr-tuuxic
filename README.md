@@ -53,13 +53,14 @@ bar and hints.
 
 - **tuuxic-ai-usage** reads your local login files for Claude Code, Codex (ChatGPT), GitHub
   Copilot, pi and opencode to show their usage limits, and calls those providers' usage
-  endpoints with them, once a minute while it's visible:
+  endpoints with them, at most every 5 minutes per account:
   `api.anthropic.com/api/oauth/usage`, `chatgpt.com/backend-api/wham/usage` and
   `api.github.com/copilot_internal/user`. Nothing else is sent. Every file it reads:
   [docs/mods.md](docs/mods.md#tuuxic-ai-usage). Leave the mod out if you don't want that.
 - tuuxic-mod-manager calls api.github.com; the browser pane and notes talk to herdr-browser
   on 127.0.0.1.
 - Tuuxic runs git, sh or PowerShell, python3, hc, herdr-app and gh.
+- It needs Herdr TODO(minimum Herdr: set from `"herdr"` in `mods/tuuxic-layout/mod.json` before v1.0.0) or newer.
 - The terminal font is CaskaydiaMono Nerd Font; install it or change `font` in the layout.
 
 ## Docs
