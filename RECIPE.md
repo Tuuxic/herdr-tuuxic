@@ -258,27 +258,39 @@ tuuxic-chrome and tuuxic-icons are never offered alone.
 
 For the layout, single mods and a pre-1.0 tuuxic.
 
-1. **Old versions**: read `"version"` from `mods/tuuxic-layout/mod.json` and each
-   `mods/tuuxic-*/mod.json`. A `tuuxic-*` mod.json without `version` is pre-1.0; so is
-   `layouts/tuuxic.json` without `mods/tuuxic-layout/`.
-2. **Source**: the newest `v*` release tag of this repo. Give the same Herdr warning as
-   [Install](#install) step 2.
-3. **Mods**: replace the present `tuuxic-*` folders in place, deleting files the release
-   doesn't ship. Absent mods stay absent. Offer a mod that is new in the release; never add it
-   silently.
-4. **Layout**: replace `layouts/tuuxic.json` when the release changed it.
-   - If the person's file differs from the old release's file, they edited it: say so and ask
-     first.
+1. **Old versions**: read the top-level `"version"` from `mods/tuuxic-layout/mod.json` and each
+   `mods/tuuxic-*/mod.json`. `cloned_from.version` is nested and isn't the mod version. A
+   `tuuxic-*` mod.json without a top-level `version` is pre-1.0; so is `layouts/tuuxic.json`
+   without `mods/tuuxic-layout/`.
+2. **Source and notes**: the newest `v*` release tag of this repo. Give the same Herdr warning
+   as [Install](#install) step 2. Read the [CHANGELOG.md](CHANGELOG.md) entries newer than the
+   old version (pre-1.0: from v1.0.0 on) now: steps 3–7 follow them, and an Upgrading note
+   replaces or extends the matching step below.
+3. **Mods**: unless an Upgrading note says otherwise, replace the present `tuuxic-*` folders in
+   place, deleting files the release doesn't ship. Absent mods stay absent. Offer a mod that is
+   new in the release; never add it silently. `tuuxic-layout` is not offered: always add or
+   replace it, it is the layout's version record.
+4. **Layout**: unless an Upgrading note says otherwise, replace `layouts/tuuxic.json` and
+   `layouts/tuuxic.svg` when the release changed them, and the themes tuuxic ships (leave
+   others).
+   - Compare the person's `layouts/tuuxic.json` with the old release's file: `v<old version>`
+     of this repo, or for pre-1.0 the file at commit `37a7681` (the last pre-1.0 change). If it
+     differs and matches no earlier version in the repo's history, they edited it: show the
+     diff, say so and ask first.
    - Delete `layouts/.state/tuuxic.json`, and say that sizes and shown or hidden panels reset.
-   - Re-apply the removals for absent mods (the `ai-usage` block) and for a declined whistle.
-5. **keys.json**: change it only where a CHANGELOG Upgrading note says to.
-6. **CHANGELOG**: relay the entries newer than the old version, breaking changes first, and
-   follow each Upgrading note in order.
-7. **Whistle**:
+   - Re-apply the removals for absent mods (the `ai-usage` block). Whistle's removals come at
+     step 6.
+5. **keys.json**: change it only where an Upgrading note says to. Remove a section left empty.
+6. **Whistle**, once, after the Upgrading notes' other steps (a whistle note is done here):
    - missing: offer to install it ([Install](#install) step 5);
    - a newer `v*` tag inside the range: offer whistle's Update;
    - the release raised the range past the installed whistle: say so before offering its
-     Update.
+     Update;
+   - declined, now or earlier: remove its layout blocks as [Install](#install) step 5 does and
+     its `whistle.*` keys.json bindings, removing a section left empty.
+   - `whistle-integration.md` is whistle's file in the Herdr home (its Integrate writes it);
+     skip a note about it if absent.
+7. **CHANGELOG**: relay the entries from step 2, breaking changes first.
 8. `herdr-app check` each mod, `herdr-app status`, and a shot against [Done when](#done-when)
    if tuuxic is shown. Summarise in the person's words.
 
