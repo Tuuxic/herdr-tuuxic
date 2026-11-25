@@ -1,6 +1,9 @@
 {
-  "place": "none",
   "title": "Pane header",
+  "description": "The header on each framed pane",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
+  "place": "none",
   "cloned_from": {
     "name": "pane",
     "version": "0.1.9"

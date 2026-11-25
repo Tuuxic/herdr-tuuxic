@@ -1,3 +1,7 @@
 {
+  "title": "Top bar",
+  "description": "The top bar: palette, sidebar toggle, spaces, search, window buttons",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
   "place": "none"
 }

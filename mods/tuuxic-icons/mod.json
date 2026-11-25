@@ -1,1 +1,7 @@
-{ "place": "none", "title": "Tuuxic icons" }
+{
+  "title": "Tuuxic icons",
+  "description": "The icons the other mods draw (assets only)",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
+  "place": "none"
+}
