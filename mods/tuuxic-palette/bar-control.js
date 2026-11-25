@@ -1,4 +1,4 @@
-// Settings → Keyboard, the bar control (spec §3): which of tuuxic-bar's whistle bars shows, and
+// Settings → Keyboard, the bar control (spec §3): where tuuxic-bar draws whistle's bar, and
 // the layout.show / layout.hide steps that pick one. Pure: main.js passes layout() and runs steps.
 
 const UNDER = "tuuxic-whistle", FULL = "tuuxic-whistle-full";
@@ -16,7 +16,7 @@ function find(node, test) {
   return null;
 }
 
-// "under", "full" or "hidden"; null when the layout has no tuuxic-whistle blocks.
+// "under", "full" or "hidden"; null when the layout has no blocks for whistle's bar.
 export function barChoice(layout) {
   const under = find(layout, (n) => n.id === UNDER), full = find(layout, (n) => n.id === FULL);
   if (!under && !full) return null;

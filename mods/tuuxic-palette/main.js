@@ -89,7 +89,7 @@ function entries() {
     const t = { main: "Herdr", terminals: "Terminals", win98: "Herdr 98" }[l] ?? l.charAt(0).toUpperCase() + l.slice(1);
     list.push({ name: "layout.switch", args: { name: l }, group: "Layout", title: `Layout: ${t}`, words: `look ${l}` });
   }
-  // The whistle bar control (as in Settings → Keyboard), when the layout has tuuxic-whistle bars.
+  // The whistle bar control (as in Settings → Keyboard), when the layout has whistle's bar.
   if (barChoice(layout()) != null) {
     for (const [bar, label] of BAR_LABELS) {
       list.push({ name: "layout.show", args: { bar }, steps: barSteps(bar), group: "Layout", title: `Whistle's bar: ${label.toLowerCase()}`, words: "whistle bar hints status" });
