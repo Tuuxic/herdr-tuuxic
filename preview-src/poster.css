@@ -24,7 +24,7 @@ body {
   position: relative;
 }
 
-/* title band: one-line title, tagline and body, chip and URL at the right */
+/* title band: one-line title, tagline and body; chips at the right, URL right-aligned on the body's last line */
 .title {
   position: absolute; left: 96px; top: 56px;
   font-weight: 800; line-height: 0.9; letter-spacing: -2px; white-space: nowrap;
@@ -46,7 +46,7 @@ body {
 .chip { font-size: 19px; font-weight: 700; letter-spacing: 1.5px; padding: 12px 18px; border: 3px solid var(--fg); }
 .chip.solid { background: var(--fg); color: #101114; }
 
-.url { position: absolute; right: 64px; top: 262px; font-size: 16px; color: var(--muted); }
+.url { position: absolute; right: 64px; top: 368px; font-size: 16px; color: var(--muted); }
 .url b { color: var(--fg); font-weight: 700; }
 
 /* layout blocks: crops of shot.png, pulled apart, each img positioned to show its block */
