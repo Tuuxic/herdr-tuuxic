@@ -5,7 +5,28 @@ strip across the top, one framed terminal area, a side panel on the right that s
 between Files, Changes and browser notes, and whistle's one-line bar at the bottom that shows
 the keyboard mode. Everything is drawn in the theme's colors, with no rounded corners.
 
+> **Agents:** install, update and uninstall tuuxic only by the [Install](#install),
+> [Single mods](#single-mods), [Update](#update) and [Uninstall](#uninstall) sections at the
+> end, never by AGENTS.md's add steps: re-adding makes a renamed second copy. If tuuxic is
+> already installed (`mods/tuuxic-layout/` exists), go to [Update](#update). From a pre-1.0
+> tuuxic (`layouts/tuuxic.json` without `mods/tuuxic-layout/`): follow [Uninstall](#uninstall),
+> then [Install](#install). Talk to the person as
+> [Talking to the person](#talking-to-the-person) says, in all four.
+
 ![Tuuxic](preview.png)
+
+## Talking to the person
+
+For Install, Single mods, Update and Uninstall alike. This recipe uses tuuxic's, whistle's and
+Herdr's internal words ([GLOSSARY.md](GLOSSARY.md)); the person usually doesn't know them.
+
+- **Plain words**: say "the keyboard mode" for whistle, "the sidebar lists" for spaces and
+  agents, "the bar at the bottom" for whistle's bar. Name a file or command only when the
+  person has to act on it.
+- **Ask, with a default**: every question in this recipe has a default; say it ("I'll install
+  the keyboard mode too, unless you'd rather not").
+- **One summary at the end**, in the person's words: what they got, the two or three keys worth
+  knowing, and what was left out or for later.
 
 ## What you see
 
@@ -38,10 +59,13 @@ Top to bottom, left to right (sizes in logical px):
 - **Side panel** (475, hidden until opened): a stack of Files (a tree of the focused pane's
   folder with read-only previews), Changes (changed files, diff, commit message, branch; a
   git graph view) and Browser notes.
-- **Whistle's bar** (26 with its 2 px border, under the terminals): whistle. Shipped off, it shows only what has the keyboard
-  (`Terminal · <pane title>`); once turned on, a mode badge (TYPE or WHISTLE) on its left.
-  It sits under the terminals by default, so the sidebar reaches the window's bottom;
-  whistle's settings (Bar position) can make it a full-width 22 px bar instead.
+- **Whistle's bar** (26 with its 2 px border, under the terminals), drawn by tuuxic-bar from
+  whistle's public state: a mode badge (TYPE filled green, or WHISTLE) and what has the
+  keyboard (`Terminal · <pane title>`, or the field). "Whistle off" while whistle is switched
+  off. While a key sequence runs it shows the keys and the group's title; a hints box opens
+  above it. Settings → Keyboard can move it to a full-width bar or hide it; with it hidden,
+  the hints show in the bottom-right corner. Without whistle it shows one muted line (see
+  [Watch out](#watch-out)).
 
 Fonts: CaskaydiaMono Nerd Font in terminals, JetBrains Mono for the interface. Theme:
 tokyo-night by default; 26 themes ship in `themes/`.
@@ -58,17 +82,21 @@ tokyo-night by default; 26 themes ship in `themes/`.
   focus that terminal; pin one to the top with the pin on hover.
 - **Tabs**: click, double-click to rename, drag to reorder, scroll to switch;
   `ctrl-alt-shift-t` reopens the last closed tab (its programs too, via python3).
-- **Keys** (`keys.json`, section `layout:tuuxic`): `ctrl-shift-p` palette, `ctrl-shift-k`
-  picker, `ctrl-,` settings, `ctrl-shift-m` mods, `super-k` keybindings, `super-ctrl-t`
-  themes, `alt-1..9` tabs, `alt-left/right` and `ctrl-h/l` previous/next tab,
-  `alt-up/down` spaces, `ctrl-arrows` panes, `alt-enter` / `alt-shift-enter` split,
-  `super-w` close pane, `super-f` zoom, `super-shift-space` top bar, `ctrl-space` whistle.
-- **Keyboard mode** (whistle, off until the Whistle mode switch in Settings → Keyboard turns it
-  on, through `whistle.on`; that writes `"enabled": true` to `~/.config/herdr-app/whistle.json`): `ctrl-space` enters WHISTLE; `ctrl-h/j/k/l` move
-  between Spaces, Agents, the footer menu, Tabs, the terminal and the side panel (the field
-  glows, its cursor item is outlined); `j/k` and Enter act inside; `i` back to typing. The
-  layout's whistle block adds `s`/`a` (spaces, agents), `e`/`E` (files panel), `g`/`G`
-  (changes panel), `/` (picker) and p/,/?/m (palette, settings, keys, mods).
+- **Keys** (`keys.json`, section `layout:tuuxic`, tuuxic's own keys only): `ctrl-shift-p`
+  palette, `ctrl-shift-k` picker, `ctrl-,` settings, `ctrl-shift-m` mods, `super-k`
+  keybindings, `super-ctrl-t` themes, `super-shift-space` top bar, `super-return` new
+  terminal, `ctrl-alt-shift-t` reopen tab. Tabs, spaces, panes, splits and copy/paste keep
+  Herdr's own keys.
+- **Keyboard mode** (whistle, installed beside tuuxic, shipped on; Settings → Keyboard's
+  Whistle mode switch runs `whistle.on` / `whistle.off`). Whistle's own keys: `ctrl-space`
+  switches between TYPE and WHISTLE (`whistle.switch-mode`), `alt-s` / `alt-a` jump to the
+  Spaces and Agents lists, `alt-,` opens whistle-ui's settings. In WHISTLE, `ctrl-h/j/k/l`
+  move between Spaces, Agents, the footer menu, Tabs, the terminal and the side panel (the
+  field glows, its cursor item is outlined); `j/k` move inside a field. In Spaces and Agents,
+  Enter goes to the item and switches to TYPE, Space shows it and stays in WHISTLE. In Tabs,
+  `x` closes the tab. The layout's mappings on `whistle-anchor` add `c` / `C` (Changes, show
+  or hide Changes), `e` / `E` (Files, show or hide Files), `/` (picker) and `p` `,` `?` `m`
+  (palette, settings, keys, mods).
 
 ## Built from
 
@@ -79,45 +107,57 @@ tokyo-night by default; 26 themes ship in `themes/`.
   `{footer: true}`) and `work` column (`tabs` tuuxic-tabs; `work-body` row with `main` (the
   tab's panes, header tuuxic-pane) and hidden `panel` column → `panel-body` stack of `files`
   tuuxic-files, `changes` stack (`changes-view` tuuxic-changes `{graph}`, `git-graph`
-  tuuxic-changes `{view: "graph"}`), `browser-notes` tuuxic-notes; `statusbar-work`
-  whistle `{bar: "Under the terminals", hintsInset: 8, hintsBorder: 2, hintsLift: 15}`, bordered) → hidden `statusbar` whistle
-  `{bar: "Full width", enabled: false, mappings}`.
-- **Mods**: the 17 `mods/tuuxic-*` and `mods/whistle` (a copy of Tuuxic/herdr-whistle);
-  tuuxic-icons holds the shared SVGs (assets only). tuuxic-settings shows its Whistle row
-  only when `mods/whistle/main.js` exists.
+  tuuxic-changes `{view: "graph"}`), `browser-notes` tuuxic-notes). The whistle blocks:
+
+  | Block | Mod | Props |
+  |---|---|---|
+  | `whistle-anchor` (0 px, root column) | whistle | `enabled: true`, `mappings` |
+  | `tuuxic-whistle` (under the terminals) | tuuxic-bar | `whistle: "under"`, `hintsAlignRight: 6, hintsAlignBorder: 2, hintsGap: 11` |
+  | `tuuxic-whistle-full` (full width, hidden) | tuuxic-bar | `whistle: "full"`, its own hints props |
+  | `tuuxic-whistle-corner` (0 px, root column) | tuuxic-bar | `corner: true` |
+  | `whistle-corner` (0 px, root column) | whistle-ui | `corner: true, hints: false` (draws nothing; lets `whistle-ui.settings` open) |
+
+  `whistle-anchor` is the layout's only `"mod": "whistle"` block.
+- **Mods**: the 18 `mods/tuuxic-*`; per-mod detail in [docs/mods.md](docs/mods.md).
+  tuuxic-layout carries the release record in its `mod.json` (`version` the layout version,
+  `herdr` the minimum Herdr, `whistle` the whistle range `>=2.0.0 <3.0.0`) and has no block.
+  tuuxic-icons holds the shared SVGs (assets only). Whistle and whistle-ui are not in this
+  repo: they come from [Tuuxic/herdr-whistle](https://github.com/Tuuxic/herdr-whistle).
   Dialogs: tuuxic-palette, tuuxic-picker, tuuxic-settings, tuuxic-keys, tuuxic-mod-manager,
   tuuxic-themes. Herdr's own mods used: new-menu, menu, prompt, picker (fallback).
 - **Herdr API**: spaces(), agents(), panes(), terminals(), focused(), layout(), shared /
-  setShared, keys(), commands(), openOverlay; commands like space.select, tab.select,
-  agent.focus, pane.focus/go/split/zoom/close, layout.show/hide/select/resize, mod.open,
-  app.palette/settings/help.
-- **Keyboard navigation**: each keynav mod carries `keynav.js` (protocol v1), announces
-  itself in `shared("keynav.fields")` and draws its own highlight while
-  `shared("keynav").active` names it.
+  setShared, keys(), commands(), openOverlay, readTextFile; commands like space.select,
+  tab.select, agent.focus, pane.focus/go/split/zoom/close, layout.show/hide/select/resize,
+  mod.open, app.palette/settings/help.
+- **Keyboard navigation**: each of the six keynav mods (agents, changes, chrome, files,
+  spaces, tabs) carries a copy of whistle v2.0.0's `keynav.js` (keynav v3), announces itself
+  in `shared("keynav.fields")` and draws its own highlight while `shared("keynav").active`
+  names it. tuuxic-settings and tuuxic-pane carry whistle's `whistle.js` to read whistle's
+  state.
 - **Programs and network**: git (spaces, files, changes), sh or PowerShell (files listing),
   python3 (tabs' reopen), hc (spaces, settings, picker), herdr-app (bar's zoom), gh
-  (mod-manager). tuuxic-ai-usage reads your local Claude, ChatGPT and Copilot login tokens
-  and calls those providers' usage endpoints; tuuxic-mod-manager calls api.github.com; the
-  panes' browser and notes talk to herdr-browser on 127.0.0.1. The git graph's own update
-  check is off (`CHECK = false` in `graph/update.js`): it is a modified copy of
-  herdr-git-graph v0.3.0, so upstream releases aren't its updates.
+  (mod-manager). tuuxic-ai-usage reads local AI login files and calls those providers' usage
+  endpoints (the full list: [docs/mods.md](docs/mods.md#tuuxic-ai-usage));
+  tuuxic-mod-manager calls api.github.com; the panes' browser and notes talk to herdr-browser
+  on 127.0.0.1.
 - **Art**: `mods/tuuxic-icons/*.svg`, `mods/tuuxic-bar/tuuxic.svg` (the logo), the files
   panel's file-type icons, `layouts/tuuxic.svg` (the layout's preview).
 
 ## Watch out
 
-- Whistle ships switched off through the layout's `enabled: false` prop; the person's
-  `whistle.json` wins over it. Without the `mods/whistle` folder whistle's bar shows
-  "whistle did not load" and `herdr-app status` an error; the rest works. Update the copy
-  from Tuuxic/herdr-whistle, not by hand.
+- **Whistle is a separate install.** Without it the keyboard mode is gone and the rest works:
+  `tuuxic-whistle` shows "Whistle isn't installed — hide whistle's bar in Settings → Keyboard";
+  installed but not running, it shows whistle's problem or "Whistle isn't running". The
+  whistle range is advisory: out of range, tuuxic keeps using whistle and says so only in
+  Settings → Keyboard.
+- **Tuuxic's layout is already integrated with whistle.** Never run whistle's Integrate on
+  it: that would clone tuuxic-pane and edit `layouts/tuuxic.json`.
 - tuuxic-ai-usage reads credential files: tell the person before adding it.
 - Windows has no `find`/`ls` on PATH: tuuxic-mod-manager and tuuxic-changes use Git for
   Windows' tools (found through `git --exec-path`), and Changes runs them through `sh -c`.
-- The git graph view is MIT code from rabeeh-ta/herdr-git-graph (its LICENSE is in
-  `mods/tuuxic-changes/graph/`).
 - `ctrl-h` / `ctrl-l` switch tabs in this layout but move between fields while whistle has
   the keyboard (its own section wins).
-- Copies of one file must stay the same: `keynav.js` in every keynav mod and in whistle;
+- Some files are plain copies, kept by hand: `keynav.js` in the six keynav mods;
   `browser/client.js` in tuuxic-pane and `client.js` in tuuxic-notes; `opens.js` in
   tuuxic-bar, tuuxic-chrome and tuuxic-palette.
 
@@ -130,9 +170,140 @@ tokyo-night by default; 26 themes ship in `themes/`.
 - An agent without a title shows ✦ New ✦; its second line reads `1 · <space>`.
 - `ctrl-shift-p` opens the palette, `ctrl-shift-k` the picker, `super-shift-space` shows the
   top bar with the logo on its left.
-- Whistle's bar shows `Terminal` with no badge; Settings → Keyboard → Whistle has a Whistle
-  mode switch, off; turning it on brings the TYPE badge, and Whistle settings' Open shows
-  whistle's own dialog.
-- With whistle on: `ctrl-space`, then `ctrl-h` makes the Spaces list glow, `j` moves its cursor,
-  `e` opens the files panel with its first row outlined.
+- Whistle's bar shows the TYPE badge; Settings → Keyboard has a Whistle mode switch, on;
+  turning it off shows "Whistle off", and Open shows whistle-ui's settings.
+- `ctrl-space`, then `ctrl-h` makes the Spaces list glow, `j` moves its
+  cursor, `e` opens the files panel with its first row outlined.
 - With tuuxic-palette removed, the logo button opens Herdr's own palette instead.
+
+## Install
+
+Paths are relative to the person's Herdr home (`~/.config/herdr-app/`).
+
+1. **Tell the person first**, in plain words, what tuuxic uses:
+   - programs: git, sh or PowerShell, python3, hc, herdr-app, gh;
+   - network: api.github.com (mod manager), herdr-browser on 127.0.0.1 (browser pane, notes).
+
+   Then ask about **tuuxic-ai-usage** on its own, default yes: it reads the person's local AI
+   login files and calls those providers' usage endpoints (list them from
+   [docs/mods.md](docs/mods.md#tuuxic-ai-usage)). On no, skip `mods/tuuxic-ai-usage/` and drop
+   the `ai-usage` block from `layouts/tuuxic.json`.
+2. Compare `herdr-app --version` with `"herdr"` in `mods/tuuxic-layout/mod.json`. If Herdr is
+   older, say what may break and go on only on an explicit yes.
+3. Copy `layouts/tuuxic.json` (and `layouts/tuuxic.svg`), every `mods/tuuxic-*` folder and
+   `themes/`.
+4. In keys.json, add the repo's `layout:tuuxic` section. Ask before replacing a key the person
+   already uses.
+5. **Whistle**, offered and installed by default: take the newest `v*` tag of
+   [Tuuxic/herdr-whistle](https://github.com/Tuuxic/herdr-whistle) inside `"whistle"` in
+   `mods/tuuxic-layout/mod.json`, and run that tag's RECIPE Install steps 1–6 (if whistle is
+   already there, its Update instead). **Skip its steps 7 and 8**: tuuxic's layout already has
+   the blocks and is already integrated.
+   - Declined: remove the `whistle-anchor` and `whistle-corner` blocks, and hide
+     `tuuxic-whistle` and `tuuxic-whistle-full`.
+6. `herdr-app check mods/<name>` for each mod copied; each passes.
+7. Ask whether to switch to the layout now, default yes. Yes: `herdr-app do layout.switch
+   tuuxic`, then `herdr-app status` and `herdr-app shot`, checked against
+   [Done when](#done-when). No: say they can pick Tuuxic in Herdr's layouts any time.
+8. **Close with a summary** in the person's words: what's installed, `ctrl-shift-p` for the
+   palette, and anything left out. With whistle installed, add a note: the keyboard mode is
+   on, and `ctrl-space` switches into it and back to typing (the bar at the bottom shows
+   WHISTLE or TYPE); Settings → Keyboard turns it off.
+
+## Single mods
+
+For a person who wants some tuuxic mods without the layout. Only these are offered:
+tuuxic-agents, tuuxic-ai-usage, tuuxic-changes, tuuxic-files, tuuxic-keys,
+tuuxic-mod-manager, tuuxic-notes, tuuxic-palette, tuuxic-pane, tuuxic-picker,
+tuuxic-settings, tuuxic-spaces, tuuxic-tabs, tuuxic-themes. tuuxic-layout, tuuxic-bar,
+tuuxic-chrome and tuuxic-icons are never offered alone.
+
+1. Copy each chosen `mods/tuuxic-<name>/`. With agents, spaces or tabs, also copy
+   `mods/tuuxic-icons/` without asking, and say so in one line.
+2. **Outside needs** are named, not installed: herdr-browser for notes and pane. For
+   ai-usage, give the same disclosure as [Install](#install) step 1.
+3. **Block mods** (agents, ai-usage, notes, pane, spaces, tabs): offer to add the mod's block
+   to the shown layout, replacing Herdr's equivalent block where there is one (remember which,
+   for Uninstall). Snippets:
+
+   ```json
+   { "id": "spaces", "type": "block", "size": { "weight": 1 }, "min": 90, "content": { "mod": "tuuxic-spaces" } }
+   { "id": "agents", "type": "block", "size": { "weight": 1 }, "min": 90, "content": { "mod": "tuuxic-agents" } }
+   { "id": "tabs", "type": "block", "size": { "px": 36 }, "content": { "mod": "tuuxic-tabs" } }
+   { "id": "ai-usage", "type": "block", "size": { "px": 30 }, "content": { "mod": "tuuxic-ai-usage", "props": { "compact": true } } }
+   { "id": "browser-notes", "type": "block", "content": { "mod": "tuuxic-notes" } }
+   ```
+
+   tuuxic-pane is a pane header, set inside the terminal block's `pane`:
+   `"header": { "content": { "mod": "tuuxic-pane" }, "reveal": "always", "height": 30, "position": "top" }`.
+4. **Keys**: offer the mod's keys from the repo's `layout:tuuxic` section as `global` lines
+   (for example `"ctrl-shift-p": "mod.open:tuuxic-palette"`); ask before replacing a key the
+   person uses.
+5. `herdr-app check` each copied mod, then summarise as Install step 8 does.
+
+### Single mods: Update
+
+1. Replace each present `tuuxic-*` mod (tuuxic-icons included) in place from the newest
+   release tag, deleting files the release doesn't ship.
+2. Follow the [CHANGELOG](CHANGELOG.md) Upgrading notes newer than each mod's old version.
+3. Add no mods and no blocks.
+
+### Single mods: Uninstall
+
+1. Remove the chosen mods and the blocks Single mods added; put back the Herdr block each one
+   replaced.
+2. Remove the `global` keys Single mods added.
+3. Delete tuuxic-icons once no remaining mod reads it.
+4. Ask before deleting the mods' saved settings.
+
+## Update
+
+For the layout and single mods.
+
+1. **Old versions**: read the top-level `"version"` from `mods/tuuxic-layout/mod.json` and each
+   `mods/tuuxic-*/mod.json`. `cloned_from.version` is nested and isn't the mod version.
+2. **Source and notes**: the newest `v*` release tag of this repo. Give the same Herdr warning
+   as [Install](#install) step 2. Read the [CHANGELOG.md](CHANGELOG.md) entries newer than the
+   old version now: steps 3–7 follow them, and an Upgrading note
+   replaces or extends the matching step below.
+3. **Mods**: unless an Upgrading note says otherwise, replace the present `tuuxic-*` folders in
+   place, deleting files the release doesn't ship. Absent mods stay absent. Offer a mod that is
+   new in the release; never add it silently. `tuuxic-layout` is not offered: always add or
+   replace it, it is the layout's version record.
+4. **Layout**: unless an Upgrading note says otherwise, replace `layouts/tuuxic.json` and
+   `layouts/tuuxic.svg` when the release changed them, and the themes tuuxic ships (leave
+   others).
+   - Compare the person's `layouts/tuuxic.json` with the old release's file: `v<old version>`
+     of this repo. If it differs and matches no earlier version in the repo's history, they edited it: show the
+     diff, say so and ask first.
+   - Delete `layouts/.state/tuuxic.json`, and say that sizes and shown or hidden panels reset.
+   - Re-apply the removals for absent mods (the `ai-usage` block). Whistle's removals come at
+     step 6.
+5. **keys.json**: change it only where an Upgrading note says to. Remove a section left empty.
+6. **Whistle**, once, after the Upgrading notes' other steps (a whistle note is done here):
+   - missing: offer to install it ([Install](#install) step 5);
+   - a newer `v*` tag inside the range: offer whistle's Update;
+   - the release raised the range past the installed whistle: say so before offering its
+     Update;
+   - declined, now or earlier: remove its layout blocks as [Install](#install) step 5 does and
+     its `whistle.*` keys.json bindings, removing a section left empty.
+   - `whistle-integration.md` is whistle's file in the Herdr home (its Integrate writes it);
+     skip a note about it if absent.
+7. **CHANGELOG**: relay the entries from step 2, breaking changes first.
+8. `herdr-app check` each mod, `herdr-app status`, and a shot against [Done when](#done-when)
+   if tuuxic is shown. Summarise in the person's words.
+
+## Uninstall
+
+1. If tuuxic is the shown layout, ask which layout to switch to (`main` first) and switch.
+2. Delete `layouts/tuuxic.json`, `layouts/tuuxic.svg`, `layouts/.state/tuuxic.json` and
+   `mods/tuuxic-layout/`.
+3. Delete each `tuuxic-*` mod that no other layout uses. Ask about the ones another layout
+   uses.
+4. In keys.json, remove the `layout:tuuxic` section and the `global` lines Single mods added.
+5. Ask before deleting tuuxic's themes, by name; switch away from the one in use first.
+6. Ask before deleting tuuxic's saved settings, `<appHome>/tuuxic.json` (the hints box
+   switch) among them.
+7. Ask about whistle, default keep. On yes, run whistle's Uninstall: it removes
+   `whistle-anchor` and `whistle-corner` and leaves the tuuxic-whistle blocks, which go with
+   the layout anyway.

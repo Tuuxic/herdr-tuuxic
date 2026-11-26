@@ -1,0 +1,5 @@
+# Keynav copies stay byte-equal to whistle's (LF) on every platform.
+mods/*/keynav.js text eol=lf
+tests/fixtures/whistle-2.0.0/keynav.js text eol=lf
+# Shell scripts run on Linux and macOS bash, which rejects a CR at line end.
+*.sh text eol=lf

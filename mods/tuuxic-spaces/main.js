@@ -6,10 +6,11 @@
 import { View, div, svg } from "gpui-kit";
 import { v_flex, h_flex } from "gpui-base";
 import { spaces, machines, panes, agents, run, openOverlay, exec, hc, theme, shared, setShared, watchFolder, window, layout, home, props, nextCommand } from "herdr";
-import { announce, isActive, entered, move, keepKeys } from "./keynav.js";
+import { announce, isActive, entered, move, declared, keepKeys } from "./keynav.js";
 
 // Keyboard navigation (keynav.js): while a driver such as whistle selects this list, it glows
-// and j/k move a cursor over the spaces; enter or l goes to the one under it.
+// and j/k move a cursor over the spaces; enter or l goes to the one under it and types there
+// (whistle.mode:type), space shows it and keeps the list selected.
 const MOD = "tuuxic-spaces";
 // How this mod shows its keynav field: the field glows, its cursor item gets an outline.
 const glow = (t) => t.foreground + "b3";
@@ -68,7 +69,7 @@ export function tone(t, status) {
 
 export default class Spaces extends View {
   init(_props, cx) {
-    cx.spawn(async (cx) => { for (;;) { this.keynav(move(await nextCommand())); cx.notify(); } });
+    cx.spawn(async (cx) => { for (;;) { this.keynav(await nextCommand()); cx.notify(); } });
     this.git = {}; // where() -> { name, branch, ahead, behind, repo, linked }, null: not a repo
     this.checked = {}; // where() -> when it was last looked at
     this.unsure = new Set(); // where()s git couldn't answer for (a machine away)
@@ -328,7 +329,10 @@ export default class Spaces extends View {
         || spaces().some(s => (s.machine ?? null) === m && !this.shown.has(s.id));
     };
     const loadingRow = m => div().id(`machine-loading-${m ?? "local"}`).h(26).flex_none().px(8).text_size(12).text_color(t.dim).child(collapsed ? "…" : "Loading…");
-    if (!remote.length) return loading(null) && !rows.length ? [loadingRow(null)] : rows.map(draw);
+    // The keyboard cursor moves over the space rows drawn here, in this order; a folded machine's are skipped.
+    this.order = [];
+    const drawn = (rs) => { this.order.push(...rs.map((r) => r.w.id)); return rs.map(draw); };
+    if (!remote.length) return loading(null) && !rows.length ? [loadingRow(null)] : drawn(rows);
     const machineNames = [null, ...remote];
     return machineNames.flatMap((m) => {
       const mine = rows.filter((r) => (r.w.machine ?? null) === m);
@@ -363,7 +367,7 @@ export default class Spaces extends View {
         .on_click(() => run("space.new", { machine: m ?? "" }))
         .child(svg("mods/tuuxic-icons/plus.svg").size(12)).when(!collapsed, el => el.child("New space there"));
       if (!collapsed && rebuilt) return [head];
-      return [head, ...(folded ? [] : mine.length ? mine.map(draw) : [loading(m) ? loadingRow(m) : empty])];
+      return [head, ...(folded ? [] : mine.length ? drawn(mine) : [loading(m) ? loadingRow(m) : empty])];
     });
   }
 
@@ -483,18 +487,30 @@ export default class Spaces extends View {
         .when(w.status === "working", (d) => d.loop("opacity", { from: 0.35, to: 1, period: 1200 }))));
   }
 
-  // A keynav move while this list is the active field.
-  keynav(m) {
-    if (!m || !isActive(this.key)) return;
-    const ids = spaces().map((s) => s.id);
+  // A keynav command (a move or a declared key) while this list is the active field.
+  keynav(c) {
+    const m = move(c), k = declared(c);
+    if ((!m && !k) || !isActive(this.key)) return;
+    const live = new Set(spaces().map((s) => s.id));
+    const ids = (this.order ?? []).filter((id) => live.has(id));
     if (m === "down" || m === "up") this.cursor = step(ids, this.cursor, m === "down" ? 1 : -1);
-    else if ((m === "open" || m === "right") && this.cursor) { run("space.select", { id: this.cursor }); keepKeys(); }
+    // A cursor whose space closed or is folded away picks nothing.
+    else if (!ids.includes(this.cursor)) return;
+    // Pick goes to the space and types there; Show (Space) shows it and keeps whistle moving.
+    else if (m === "pick" || m === "right") {
+      run("space.select", { id: this.cursor });
+      keepKeys(this.key);
+      if (shared("whistle")) run("whistle.mode:type");
+    } else if (k === "space") { run("space.select", { id: this.cursor }); keepKeys(this.key); }
   }
 
   render() {
-    this.key = announce(MOD, props(), "Spaces");
-    // Selected just now: the cursor starts on the space you're in.
-    if (entered(this, this.key)) this.cursor = spaces().find((s) => s.active)?.id ?? null;
+    this.key = announce(MOD, props(), "Spaces", { space: "Show" });
+    // Selected just now: the cursor starts on the space you're in, else the first shown.
+    if (entered(this, this.key)) {
+      const active = spaces().find((s) => s.active)?.id;
+      this.cursor = (this.order?.includes(active) ? active : this.order?.[0]) ?? null;
+    }
     this.keyOn = isActive(this.key);
     const t = theme();
     const collapsed = narrow();

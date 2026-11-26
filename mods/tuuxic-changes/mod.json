@@ -1,1 +1,8 @@
-{"place":"right","size":368}
+{
+  "title": "Changes",
+  "description": "Git changes with diffs, commit and branch, and a git graph",
+  "version": "1.0.0",
+  "herdr": "0.1.15",
+  "place": "right",
+  "size": 368
+}

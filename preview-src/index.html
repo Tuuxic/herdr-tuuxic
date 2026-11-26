@@ -1,17 +1,38 @@
 <!doctype html><html><head><meta charset="utf-8"><title>Tuuxic preview</title>
 <link rel="stylesheet" href="poster.css">
-<style>:root{--accent:#b9a3e3;--accent-deep:#5e4b8b;--glow:rgba(185,163,227,.07)}
-.blk{position:absolute;border:3px solid var(--fg);background:#181a1e}
-.zoom{border-color:var(--accent)!important;box-shadow:12px 12px 0 #0a0b0d,0 0 40px rgba(185,163,227,.18)!important}
-</style></head><body>
-<div class="left" style="top:0;bottom:0;display:flex;flex-direction:column;justify-content:center">
-  <div class="title" style="margin-top:0"><span class="plain">TUUXIC</span><span class="box">LAYOUT</span></div>
+</head><body>
+<!-- Composition E6: title band above the real layout's blocks, pulled apart 14px, labelled, cropped to content.
+     Blocks span x 96-1536 from y 424 at about 0.91x of shot.png; re-measure the crops after a new shot. -->
+<div class="title"><span class="plain">TUUXIC</span><span class="box">LAYOUT</span></div>
+<div class="copy">
   <div class="head">A TUI look, without the <em>TUI.</em></div>
-  <div class="body" style="max-width:690px">The clean grid and <b>monospace</b> feel of a terminal app, with the comfort of a real window: mouse, popups and smooth panels where you want them.</div>
-  <div class="chips"><span class="chip solid">HERDR LAYOUT</span></div>
+  <div class="body">The clean grid and <b>monospace</b> feel of a terminal app, with the comfort of a real window: mouse, popups and smooth panels where you want them.</div>
 </div>
+<div class="chips"><span class="chip solid">HERDR LAYOUT</span><span class="chip">v1.0</span></div>
 <div class="url">github.com/<b>Tuuxic/herdr-tuuxic</b></div>
-<div class="shot" style="left:830px;top:180px;width:710px;height:382px"><img src="shot.png" style="left:0;top:0;transform:scale(.37);transform-origin:0 0"></div>
-<div class="shot zoom" style="left:826px;top:430px;width:404px;height:256px"><img src="shot.png" style="left:-10px;top:-654px;transform:scale(1.3);transform-origin:0 0"></div>
-<div class="shot zoom" style="left:1140px;top:572px;width:400px;height:268px"><img src="shot.png" style="left:-13px;top:-112px;transform:scale(1.3);transform-origin:0 0"></div>
+
+<!-- sidebar: brand, spaces, agents, footer -->
+<div class="shot" style="left:96.0px;top:424.0px;width:285.7px;height:32.8px"><img src="shot.png" style="left:-5.5px;top:-34.6px;width:1747.2px"></div>
+<div class="shot" style="left:96.0px;top:470.8px;width:285.7px;height:198.4px"><img src="shot.png" style="left:-5.5px;top:-72.8px;width:1747.2px"></div>
+<span class="tag" style="left:104px;top:457px">SPACES</span>
+<div class="shot" style="left:96.0px;top:683.1px;width:285.7px;height:154.7px"><img src="shot.png" style="left:-5.5px;top:-455.0px;width:1747.2px"></div>
+<span class="tag" style="left:104px;top:669px">AGENTS</span>
+<div class="shot" style="left:96.0px;top:851.8px;width:285.7px;height:96.5px"><img src="shot.png" style="left:-5.5px;top:-837.2px;width:1747.2px"></div>
+
+<!-- tab bar: left part, then its right end (Files/Changes buttons) joined on -->
+<div class="shot" style="left:395.7px;top:424.0px;width:1140.3px;height:32.8px"><img src="shot.png" style="left:-294.8px;top:-34.6px;width:1747.2px"><img src="shot.png" style="left:-599.7px;top:-34.6px;width:1747.2px;clip-path:inset(0 0 0 1578.9px)"></div>
+<span class="tag" style="left:404px;top:410px">TABS</span>
+
+<!-- terminal panes: agent on top, git log below -->
+<div class="shot" style="left:395.7px;top:470.8px;width:789.6px;height:136.5px"><img src="shot.png" style="left:-294.8px;top:-72.8px;width:1747.2px"></div>
+<div class="shot" style="left:395.7px;top:621.3px;width:789.6px;height:287.6px"><img src="shot.png" style="left:-294.8px;top:-491.4px;width:1747.2px"></div>
+<span class="tag" style="left:404px;top:457px">TERMINAL PANES</span>
+
+<!-- Files/Changes panel -->
+<div class="shot" style="left:1199.3px;top:470.8px;width:336.7px;height:438.1px"><img src="shot.png" style="left:-1405.0px;top:-72.8px;width:1747.2px"></div>
+<span class="tag" style="left:1207px;top:457px">FILES · CHANGES</span>
+
+<!-- whistle bar -->
+<div class="shot" style="left:395.7px;top:922.8px;width:1140.3px;height:25.5px"><img src="shot.png" style="left:-294.8px;top:-908.2px;width:1747.2px"></div>
+<span class="tag" style="left:404px;top:909px">WHISTLE BAR</span>
 </body></html>

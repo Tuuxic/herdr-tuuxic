@@ -278,7 +278,7 @@
               ]
             },
             {
-              "id": "statusbar-work",
+              "id": "tuuxic-whistle",
               "type": "block",
               "size": {
                 "px": 26
@@ -290,12 +290,12 @@
                 "color": "border"
               },
               "content": {
-                "mod": "whistle",
+                "mod": "tuuxic-bar",
                 "props": {
-                  "bar": "Under the terminals",
-                  "hintsLift": 15,
-                  "hintsInset": 8,
-                  "hintsBorder": 2
+                  "whistle": "under",
+                  "hintsAlignRight": 6,
+                  "hintsAlignBorder": 2,
+                  "hintsGap": 11
                 }
               }
             }
@@ -304,7 +304,7 @@
       ]
     },
     {
-      "id": "statusbar",
+      "id": "tuuxic-whistle-full",
       "type": "block",
       "hidden": true,
       "size": {
@@ -313,38 +313,46 @@
       "resizable": false,
       "background": "chrome",
       "content": {
+        "mod": "tuuxic-bar",
+        "props": {
+          "whistle": "full",
+          "hintsAlignRight": 6,
+          "hintsAlignBorder": 0,
+          "hintsGap": 6
+        }
+      }
+    },
+    {
+      "id": "whistle-anchor",
+      "type": "block",
+      "size": {
+        "px": 0
+      },
+      "resizable": false,
+      "content": {
         "mod": "whistle",
         "props": {
-          "bar": "Full width",
-          "enabled": false,
+          "enabled": true,
           "mappings": {
             "/": [
               "Go to tab or space",
               "mod.open:tuuxic-picker"
             ],
-            "s": [
-              "Select Spaces",
-              "whistle.field:spaces"
+            "c": [
+              "Changes",
+              "whistle.focus:changes"
             ],
-            "a": [
-              "Select Agents",
-              "whistle.field:agents"
+            "C": [
+              "Show or hide Changes",
+              "whistle.toggle:changes"
             ],
             "e": [
-              "Files panel",
+              "Files",
               "whistle.focus:files"
             ],
             "E": [
-              "Toggle files panel",
+              "Show or hide Files",
               "whistle.toggle:files"
-            ],
-            "g": [
-              "Changes panel",
-              "whistle.focus:changes"
-            ],
-            "G": [
-              "Toggle changes panel",
-              "whistle.toggle:changes"
             ],
             "p": [
               "Command palette",
@@ -363,6 +371,35 @@
               "mod.open:tuuxic-mod-manager"
             ]
           }
+        }
+      }
+    },
+    {
+      "id": "tuuxic-whistle-corner",
+      "type": "block",
+      "size": {
+        "px": 0
+      },
+      "resizable": false,
+      "content": {
+        "mod": "tuuxic-bar",
+        "props": {
+          "corner": true
+        }
+      }
+    },
+    {
+      "id": "whistle-corner",
+      "type": "block",
+      "size": {
+        "px": 0
+      },
+      "resizable": false,
+      "content": {
+        "mod": "whistle-ui",
+        "props": {
+          "corner": true,
+          "hints": false
         }
       }
     }

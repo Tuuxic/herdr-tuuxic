@@ -33,9 +33,14 @@ until opened.
 _Avoid_: right panel, drawer, inspector
 
 **Whistle's bar**:
-Whistle's strip under the terminals, showing what has the keyboard and, with whistle mode on,
-the mode badge.
+The strip under the terminals, or across the full width, showing what has the keyboard and,
+with whistle mode on, the mode badge and the keys typed so far; tuuxic draws it, not whistle.
 _Avoid_: status bar, bottom bar, the bar
+
+**Hints box**:
+The box above whistle's bar listing the keys that can come next and what each does; with the
+bar hidden it sits in the bottom-right corner.
+_Avoid_: hints popup, cheat sheet, key overlay
 
 ## Agents
 
@@ -68,13 +73,24 @@ Tuuxic's own version, the one each release is tagged and published under; a rele
 mod versions and the whistle range it ships with.
 _Avoid_: tuuxic version, release number
 
+**Layout mod**:
+The one mod that ships only with the layout, never alone; it carries the layout version, the
+whistle range and the minimum Herdr, and does what the layout needs a mod for.
+_Avoid_: core mod, release mod, manifest
+
 **Mod version**:
-One tuuxic-* mod's own version, which moves on its own because each mod can be installed alone.
+One tuuxic-* mod's own version, kept because each mod can be installed alone; it changes only
+in a layout release, and can differ from the layout version and from other mods'.
 _Avoid_: package version
 
+**Minimum Herdr**:
+The oldest Herdr that the layout and all of its mods run on; one number for all of them.
+_Avoid_: Herdr floor, required Herdr
+
 **Whistle range**:
-The whistle versions a layout version allows; whistle outside it, or missing, leaves tuuxic
-working without whistle and saying why.
+The whistle versions a layout version is tested with; outside it, tuuxic still uses whistle and
+says the version is untested. Only the layout has one: a mod installed alone uses whistle when it
+finds what it needs and otherwise goes without, with no range of its own.
 _Avoid_: whistle dependency, pinned whistle
 
 **Sandbox**:
@@ -93,3 +109,18 @@ _Avoid_: preview, preview image, screenshot
 **Layout preview**:
 The small schematic of the layout's blocks that the layout names as its own preview.
 _Avoid_: preview, thumbnail
+
+**Listing**:
+An entry in herdr.dev's gallery: one folder of the repo that can be added on its own, either the
+layout with every mod or a single mod.
+_Avoid_: entry, package, gallery item
+
+## Install
+
+**Single mod**:
+A tuuxic-* mod added on its own to a layout that isn't tuuxic, together with its helpers.
+_Avoid_: standalone mod, loose mod
+
+**Helper**:
+A tuuxic-* mod that other mods read and that comes along with them, never offered on its own.
+_Avoid_: dependency, shared mod, library mod
