@@ -9,8 +9,8 @@ the framed terminals, a side panel switches between a file browser and git chang
 graph. A command palette, a picker and a theme switcher round it off.
 
 Tuuxic works with [whistle](https://github.com/Tuuxic/herdr-whistle), a vim-inspired keyboard
-mode, installed alongside it and switched off: the bar under the terminals then only shows what
-has the keyboard. To try it, open Settings → Keyboard and turn on Whistle mode.
+mode, installed alongside it and switched on. Press `ctrl-space` to switch into it and back to
+typing; Settings → Keyboard turns it off.
 
 ![Tuuxic](preview.png)
 

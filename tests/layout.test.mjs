@@ -15,11 +15,11 @@ const find = (node, id) => node.id === id ? node : (node.children ?? []).map((c)
 const layout = json("layouts/tuuxic.json");
 const byId = (id) => find(layout, id);
 
-test("the only whistle block is a 0 px anchor in the root column, off by default", () => {
+test("the only whistle block is a 0 px anchor in the root column, on by default", () => {
   const ws = blocks(layout).filter((b) => b.content?.mod === "whistle");
   assert.deepEqual(ws.map((b) => b.id), ["whistle-anchor"]);
   assert.deepEqual(ws[0].size, { px: 0 });
-  assert.equal(ws[0].content.props.enabled, false);
+  assert.equal(ws[0].content.props.enabled, true);
   // The 0 px blocks sit in the root column, which has no gap: in the work column (gap 6) each
   // added 6 px under whistle's bar and pushed it up from where its hints box expects it.
   const root = byId("root").children.map((c) => c.id);

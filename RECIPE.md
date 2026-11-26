@@ -87,7 +87,7 @@ tokyo-night by default; 26 themes ship in `themes/`.
   keybindings, `super-ctrl-t` themes, `super-shift-space` top bar, `super-return` new
   terminal, `ctrl-alt-shift-t` reopen tab. Tabs, spaces, panes, splits and copy/paste keep
   Herdr's own keys.
-- **Keyboard mode** (whistle, installed beside tuuxic, shipped off; Settings → Keyboard's
+- **Keyboard mode** (whistle, installed beside tuuxic, shipped on; Settings → Keyboard's
   Whistle mode switch runs `whistle.on` / `whistle.off`). Whistle's own keys: `ctrl-space`
   switches between TYPE and WHISTLE (`whistle.switch-mode`), `alt-s` / `alt-a` jump to the
   Spaces and Agents lists, `alt-,` opens whistle-ui's settings. In WHISTLE, `ctrl-h/j/k/l`
@@ -111,7 +111,7 @@ tokyo-night by default; 26 themes ship in `themes/`.
 
   | Block | Mod | Props |
   |---|---|---|
-  | `whistle-anchor` (0 px, root column) | whistle | `enabled: false`, `mappings` |
+  | `whistle-anchor` (0 px, root column) | whistle | `enabled: true`, `mappings` |
   | `tuuxic-whistle` (under the terminals) | tuuxic-bar | `whistle: "under"`, `hintsAlignRight: 6, hintsAlignBorder: 2, hintsGap: 11` |
   | `tuuxic-whistle-full` (full width, hidden) | tuuxic-bar | `whistle: "full"`, its own hints props |
   | `tuuxic-whistle-corner` (0 px, root column) | tuuxic-bar | `corner: true` |
@@ -170,9 +170,9 @@ tokyo-night by default; 26 themes ship in `themes/`.
 - An agent without a title shows ✦ New ✦; its second line reads `1 · <space>`.
 - `ctrl-shift-p` opens the palette, `ctrl-shift-k` the picker, `super-shift-space` shows the
   top bar with the logo on its left.
-- Whistle's bar shows "Whistle off"; Settings → Keyboard has a Whistle mode switch, off;
-  turning it on brings the TYPE badge, and Open shows whistle-ui's settings.
-- With whistle on: `ctrl-space`, then `ctrl-h` makes the Spaces list glow, `j` moves its
+- Whistle's bar shows the TYPE badge; Settings → Keyboard has a Whistle mode switch, on;
+  turning it off shows "Whistle off", and Open shows whistle-ui's settings.
+- `ctrl-space`, then `ctrl-h` makes the Spaces list glow, `j` moves its
   cursor, `e` opens the files panel with its first row outlined.
 - With tuuxic-palette removed, the logo button opens Herdr's own palette instead.
 
@@ -206,8 +206,9 @@ Paths are relative to the person's Herdr home (`~/.config/herdr-app/`).
    tuuxic`, then `herdr-app status` and `herdr-app shot`, checked against
    [Done when](#done-when). No: say they can pick Tuuxic in Herdr's layouts any time.
 8. **Close with a summary** in the person's words: what's installed, `ctrl-shift-p` for the
-   palette, `ctrl-space` for the keyboard mode once it's on in Settings → Keyboard, and
-   anything left out.
+   palette, and anything left out. With whistle installed, add a note: the keyboard mode is
+   on, and `ctrl-space` switches into it and back to typing (the bar at the bottom shows
+   WHISTLE or TYPE); Settings → Keyboard turns it off.
 
 ## Single mods
 

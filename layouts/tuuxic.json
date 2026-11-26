@@ -332,7 +332,7 @@
       "content": {
         "mod": "whistle",
         "props": {
-          "enabled": false,
+          "enabled": true,
           "mappings": {
             "/": [
               "Go to tab or space",

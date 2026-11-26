@@ -38,8 +38,8 @@ From a pre-1.0 tuuxic (`layouts/tuuxic.json` without `mods/tuuxic-layout/`): fol
 ### You
 
 - **Whistle is a separate install**: tuuxic no longer ships `mods/whistle`.
-  Install offers whistle 2.x by default; without it the keyboard mode is gone and the rest
-  works.
+  Install offers whistle 2.x by default, switched on (`ctrl-space` goes into the keyboard
+  mode); without it the keyboard mode is gone and the rest works.
 - tuuxic-bar draws whistle's bar and hints box (the TYPE/WHISTLE badge, "Whistle off", the
   focused field, whistle's problems, the hints box and corner hints), keeping tuuxic's key
   sequence in the bar, the clickable badge and the filled green TYPE badge.
